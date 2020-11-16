@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Variable property access on \\$this\\(Setono\\\\GoogleAnalyticsMeasurementProtocol\\\\Builder\\\\Builder\\)\\.$#"
+			count: 2
+			path: src/Builder/Builder.php
+
