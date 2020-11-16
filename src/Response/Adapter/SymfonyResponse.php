@@ -33,7 +33,14 @@ final class SymfonyResponse implements ResponseInterface
             return null;
         }
 
-        // sanitize the title
-        return preg_replace('/[\s]+/', ' ', $matches[1]);
+        $title = $matches[1];
+        if (!is_string($title)) {
+            return null;
+        }
+
+        /** @var string $title */
+        $title = preg_replace('/[\s]+/', ' ', $title);
+
+        return $title;
     }
 }
