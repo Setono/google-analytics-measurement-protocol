@@ -9,7 +9,7 @@
 ## Installation
 
 ```bash
-$ composer require setono/google-analytics-measurement-protocol
+composer require setono/google-analytics-measurement-protocol
 ```
 
 ## Usage
