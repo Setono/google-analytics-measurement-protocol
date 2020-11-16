@@ -2,6 +2,9 @@ includes:
 	- 'phpstan-baseline.neon'
 
 parameters:
+	level: 'max'
+	paths:
+		- 'src/'
 	checkMissingIterableValueType: false
 
 	excludes_analyse:

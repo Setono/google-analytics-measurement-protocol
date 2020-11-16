@@ -16,6 +16,7 @@ final class SymfonyResponse implements ResponseInterface
     {
         $this->response = $response;
     }
+
     public function getTitle(): ?string
     {
         $content = $this->response->getContent();
