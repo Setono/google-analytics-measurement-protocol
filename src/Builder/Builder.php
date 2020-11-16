@@ -18,7 +18,7 @@ abstract class Builder implements BuilderInterface
     /**
      * @param array<string|int, string> $mapping
      */
-    protected function buildQuery(array $mapping, Closure $callback, string $query = ''): string
+    protected function buildQuery(array $mapping, Closure $callback, string $q = ''): string
     {
         foreach ($mapping as $parameter => $property) {
             if (!isset($this->{$property})) {
@@ -57,9 +57,9 @@ abstract class Builder implements BuilderInterface
                 throw new RuntimeException('The callback must always return a string');
             }
 
-            $query .= $res;
+            $q .= $res;
         }
 
-        return $query;
+        return $q;
     }
 }
