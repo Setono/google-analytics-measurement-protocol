@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Response\Adapter;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
-use Symfony\Component\HttpFoundation\Response;
 use function Safe\preg_match;
 use function Safe\preg_replace;
+use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 final class SymfonyResponse implements ResponseInterface
 {
