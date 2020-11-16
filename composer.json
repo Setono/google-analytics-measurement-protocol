@@ -19,7 +19,7 @@
         "symfony/http-foundation": "^4.4 || ^5.0"
     },
     "suggest": {
-        "symfony/http-foundation": "The Symfony HttpFoundation component"
+        "symfony/http-foundation": "If you want to populate hits with info from your Symfony request/response"
     },
     "config": {
         "sort-packages": true
