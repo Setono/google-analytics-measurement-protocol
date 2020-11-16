@@ -21,7 +21,7 @@ abstract class Builder implements BuilderInterface
     protected function buildQuery(array $mapping, Closure $callback, string $query = ''): string
     {
         foreach ($mapping as $parameter => $property) {
-            if (!property_exists($this, $property)) {
+            if (!isset($this->{$property})) {
                 continue;
             }
 
