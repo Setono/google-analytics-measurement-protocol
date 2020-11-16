@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Response\Adapter;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
-use Symfony\Component\HttpFoundation\Response;
 use function Safe\preg_match;
 use function Safe\preg_replace;
+use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 final class SymfonyResponse implements ResponseInterface
 {
@@ -16,6 +17,7 @@ final class SymfonyResponse implements ResponseInterface
     {
         $this->response = $response;
     }
+
     public function getTitle(): ?string
     {
         $content = $this->response->getContent();
@@ -31,7 +33,14 @@ final class SymfonyResponse implements ResponseInterface
             return null;
         }
 
-        // sanitize the title
-        return preg_replace('/[\s]+/', ' ', $matches[1]);
+        $title = $matches[1];
+        if (!is_string($title)) {
+            return null;
+        }
+
+        /** @var string $title */
+        $title = preg_replace('/[\s]+/', ' ', $title);
+
+        return $title;
     }
 }
