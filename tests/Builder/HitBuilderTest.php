@@ -46,10 +46,21 @@ final class HitBuilderTest extends TestCase
         $builder->documentPath = 'documentPath';
         $builder->documentTitle = 'documentTitle';
 
-        $enhancedEcommerce = new EnhancedEcommerceBuilder();
-        $enhancedEcommerce->transactionId = 'transaction123';
+        $builder->productAction = 'action';
+        $builder->transactionId = 'transaction123';
+        $builder->transactionAffiliation = 'google';
+        $builder->transactionRevenue = 123.12;
+        $builder->transactionShipping = 10.5;
+        $builder->transactionTax = 4.3;
+        $builder->transactionCouponCode = 'great_coupon';
+        $builder->checkoutStep = 2;
+        $builder->checkoutStepOption = 'VISA';
+        $builder->currencyCode = 'USD';
 
-        $builder->enhancedEcommerce = $enhancedEcommerce;
+        $product = new ProductBuilder(1);
+        $product->sku = 'product_sku_123';
+
+        $builder->addProduct($product);
 
         self::assertBuilder(<<<QUERY
             v=1
@@ -74,7 +85,28 @@ final class HitBuilderTest extends TestCase
             &dh=documentHostName
             &dp=documentPath
             &dt=documentTitle
+            &pa=action
             &ti=transaction123
+            &ta=google
+            &tr=123.12
+            &ts=10.5
+            &tt=4.3
+            &tcc=great_coupon
+            &cos=2
+            &col=VISA
+            &cu=USD
+            &pr1id=product_sku_123
             QUERY, $builder);
+    }
+
+    /**
+     * @test
+     */
+    public function it_creates_from_string(): void
+    {
+        /** @var HitBuilder $builder */
+        $builder = HitBuilder::createFromString('v=1&tid=UA-1234-5&aip=0');
+        self::assertSame('1', $builder->protocolVersion);
+        self::assertSame('UA-1234-5', $builder->measurementId);
     }
 }

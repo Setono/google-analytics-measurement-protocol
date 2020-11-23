@@ -7,13 +7,15 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 use function Safe\sprintf;
 
 /**
- * This product represents a product in the enhanced ecommerce section.
+ * This product builder represents a product in the enhanced ecommerce section.
  *
  * See https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_id
  */
 final class ProductBuilder extends Builder
 {
-    private int $index;
+    private static int $indexCounter = 1;
+
+    public int $index;
 
     public string $sku;
 
@@ -39,8 +41,14 @@ final class ProductBuilder extends Builder
     /** @var array<int, int> */
     private array $customMetrics = [];
 
-    public function __construct(int $index)
+    public function __construct(int $index = null)
     {
+        if (null === $index) {
+            $index = self::$indexCounter;
+        }
+
+        self::$indexCounter = $index + 1;
+
         $this->index = $index;
     }
 

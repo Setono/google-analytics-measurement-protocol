@@ -11,5 +11,5 @@ interface ResponseAwareBuilderInterface extends BuilderInterface
     /**
      * Will use the response data to populate the builder
      */
-    public function populateFromRequest(ResponseInterface $response): void;
+    public function populateFromResponse(ResponseInterface $response): void;
 }

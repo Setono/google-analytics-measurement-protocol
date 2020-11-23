@@ -4,11 +4,50 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 
-use function Safe\sprintf;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
+use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 
-final class HitBuilder extends Builder
+final class HitBuilder extends Builder implements RequestAwareBuilderInterface, ResponseAwareBuilderInterface
 {
+    /** @var array<string, string> */
+    protected const PROPERTY_MAPPING = [
+        'v' => 'protocolVersion',
+        'tid' => 'measurementId',
+        'aip' => 'anonymizeIP',
+        'ds' => 'dataSource',
+        'cid' => 'clientId',
+        'uid' => 'userId',
+        'uip' => 'ipOverride',
+        'ua' => 'userAgentOverride',
+        'dr' => 'documentReferrer',
+        'cn' => 'campaignName',
+        'cs' => 'campaignSource',
+        'cm' => 'campaignMedium',
+        'ck' => 'campaignKeyword',
+        'cc' => 'campaignContent',
+        'ci' => 'campaignId',
+        'gclid' => 'googleAdsId',
+        'dclid' => 'googleDisplayAdsId',
+        't' => 'hitType',
+        'ni' => 'nonInteractionHit',
+        'dl' => 'documentLocationUrl',
+        'dh' => 'documentHostName',
+        'dp' => 'documentPath',
+        'dt' => 'documentTitle',
+
+        // Enhanced ecommerce property mapping
+        'pa' => 'productAction',
+        'ti' => 'transactionId',
+        'ta' => 'transactionAffiliation',
+        'tr' => 'transactionRevenue',
+        'ts' => 'transactionShipping',
+        'tt' => 'transactionTax',
+        'tcc' => 'transactionCouponCode',
+        'cos' => 'checkoutStep',
+        'col' => 'checkoutStepOption',
+        'cu' => 'currencyCode',
+    ];
+
     public string $protocolVersion;
 
     public string $measurementId;
@@ -55,46 +94,41 @@ final class HitBuilder extends Builder
 
     public string $documentTitle;
 
-    public EnhancedEcommerceBuilder $enhancedEcommerce;
+    /**
+     * Enhanced ecommerce properties
+     */
+    public string $productAction;
+
+    public string $transactionId;
+
+    public string $transactionAffiliation;
+
+    public float $transactionRevenue;
+
+    public float $transactionShipping;
+
+    public float $transactionTax;
+
+    public string $transactionCouponCode;
+
+    public int $checkoutStep;
+
+    public string $checkoutStepOption;
+
+    public string $currencyCode;
+
+    /** @var ProductBuilder[] */
+    public array $products = [];
 
     public function getQuery(): string
     {
-        $mapping = [
-            'v' => 'protocolVersion',
-            'tid' => 'measurementId',
-            'aip' => 'anonymizeIP',
-            'ds' => 'dataSource',
-            'cid' => 'clientId',
-            'uid' => 'userId',
-            'uip' => 'ipOverride',
-            'ua' => 'userAgentOverride',
-            'dr' => 'documentReferrer',
-            'cn' => 'campaignName',
-            'cs' => 'campaignSource',
-            'cm' => 'campaignMedium',
-            'ck' => 'campaignKeyword',
-            'cc' => 'campaignContent',
-            'ci' => 'campaignId',
-            'gclid' => 'googleAdsId',
-            'dclid' => 'googleDisplayAdsId',
-            't' => 'hitType',
-            'ni' => 'nonInteractionHit',
-            'dl' => 'documentLocationUrl',
-            'dh' => 'documentHostName',
-            'dp' => 'documentPath',
-            'dt' => 'documentTitle',
-            'enhancedEcommerce',
-        ];
+        $q = parent::getQuery();
 
-        $q = $this->buildQuery($mapping, function (?string $parameter, string $value): string {
-            if (null === $parameter) {
-                return $value . '&';
-            }
+        foreach ($this->products as $productBuilder) {
+            $q .= '&' . $productBuilder->getQuery();
+        }
 
-            return sprintf('%s=%s&', $parameter, $value);
-        });
-
-        return rtrim($q, '&');
+        return $q;
     }
 
     public function populateFromRequest(RequestInterface $request): void
@@ -126,5 +160,18 @@ final class HitBuilder extends Builder
 
             $this->{$property} = $val;
         }
+    }
+
+    public function populateFromResponse(ResponseInterface $response): void
+    {
+        $title = $response->getTitle();
+        if (null !== $title) {
+            $this->documentTitle = $title;
+        }
+    }
+
+    public function addProduct(ProductBuilder $productBuilder): void
+    {
+        $this->products[] = $productBuilder;
     }
 }
