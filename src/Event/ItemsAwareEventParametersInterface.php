@@ -6,5 +6,5 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
 interface ItemsAwareEventParametersInterface extends EventParametersInterface
 {
-    public function addItem(ItemEventParameters $item): void;
+    public function addItem(GenericItemEventParameters $item): void;
 }

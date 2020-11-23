@@ -6,14 +6,14 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
 use PHPUnit\Framework\TestCase;
 
-final class ItemEventParametersTest extends TestCase
+final class GenericItemEventParametersTest extends TestCase
 {
     /**
      * @test
      */
     public function it_returns_array(): void
     {
-        $eventData = new ItemEventParameters();
+        $eventData = new GenericItemEventParameters();
         $eventData->itemId = 'GUCCI_BAG_123';
         $eventData->itemName = 'Gucci bag';
         $eventData->affiliation = 'Web';

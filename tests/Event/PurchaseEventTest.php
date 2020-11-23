@@ -22,7 +22,7 @@ final class PurchaseEventTest extends TestCase
         $event->parameters->tax = 9.25;
         $event->parameters->value = 123.95;
 
-        $item = new ItemEventParameters();
+        $item = new GenericItemEventParameters();
         $item->itemId = 'GUCCI_BAG_1234';
 
         $event->parameters->addItem($item);

@@ -6,10 +6,10 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
 trait ItemsAwareEventParametersTrait
 {
-    /** @var ItemEventParameters[] */
+    /** @var GenericItemEventParameters[] */
     public array $items = [];
 
-    public function addItem(ItemEventParameters $item): void
+    public function addItem(GenericItemEventParameters $item): void
     {
         $this->items[] = $item;
     }

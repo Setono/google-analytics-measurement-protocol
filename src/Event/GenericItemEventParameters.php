@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
-final class ItemEventParameters extends EventParameters
+class GenericItemEventParameters extends EventParameters
 {
     public string $itemId;
 
