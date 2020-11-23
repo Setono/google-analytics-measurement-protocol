@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 
 use function Safe\json_encode;
+use function Safe\sprintf;
 use Setono\GoogleAnalyticsMeasurementProtocol\Event\EventInterface;
 
 final class PayloadBuilder
@@ -24,12 +25,13 @@ final class PayloadBuilder
 
     public function __construct()
     {
-        $this->timestampMicros = time() . '000000';
+        $time = gettimeofday();
+        $this->timestampMicros = sprintf('%s%06d', $time['sec'], $time['usec']);
     }
 
     public function toArray(): array
     {
-        $arr = ['events' => []];
+        $arr = [];
 
         if (isset($this->clientId)) {
             $arr['client_id'] = $this->clientId;
