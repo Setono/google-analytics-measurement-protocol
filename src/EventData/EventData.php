@@ -9,9 +9,14 @@ use Symfony\Component\String\UnicodeString;
 
 abstract class EventData implements EventDataInterface
 {
+    protected string $name;
+
     public function toArray(): array
     {
-        $arr = [];
+        $arr = [
+            'name' => $this->name,
+            'params' => [],
+        ];
 
         $reflectionClass = new ReflectionClass($this);
         $properties = $reflectionClass->getProperties(ReflectionProperty::IS_PUBLIC);
@@ -19,7 +24,7 @@ abstract class EventData implements EventDataInterface
         foreach ($properties as $property) {
             $propertyName = new UnicodeString($property->getName());
 
-            $arr[(string) $propertyName->snake()] = $this->{$propertyName};
+            $arr['params'][(string) $propertyName->snake()] = $this->{$propertyName};
         }
 
         return $arr;

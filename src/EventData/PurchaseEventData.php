@@ -5,6 +5,8 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\EventData;
 
 final class PurchaseEventData extends EventData implements ItemsAwareEventDataInterface
 {
+    use ItemsAwareEventDataTrait;
+
     protected string $name = 'purchase';
 
     public string $affiliation;
@@ -14,8 +16,6 @@ final class PurchaseEventData extends EventData implements ItemsAwareEventDataIn
     public float $shipping;
     public float $tax;
     public float $value;
-
-    private array $items = [];
 
     public function toArray(): array
     {
