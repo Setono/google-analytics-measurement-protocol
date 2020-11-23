@@ -28,7 +28,7 @@ final class SymfonyResponseTest extends TestCase
 </html>
 CONTENT
 );
-        $adapter = new SymfonyResponse($response);
+        $adapter = new SymfonyResponseAdapter($response);
 
         self::assertSame('Great website!', $adapter->getTitle());
     }

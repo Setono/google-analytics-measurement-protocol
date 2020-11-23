@@ -9,7 +9,7 @@ use function Safe\preg_replace;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-final class SymfonyResponse implements ResponseInterface
+final class SymfonyResponseAdapter implements ResponseInterface
 {
     private Response $response;
 

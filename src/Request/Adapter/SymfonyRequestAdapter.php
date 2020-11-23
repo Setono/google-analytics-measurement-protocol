@@ -7,7 +7,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Adapter;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-final class SymfonyRequest implements RequestInterface
+final class SymfonyRequestAdapter implements RequestInterface
 {
     private Request $request;
 
