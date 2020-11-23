@@ -5,5 +5,5 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\EventData;
 
 interface ItemsAwareEventDataInterface extends EventDataInterface
 {
-    public function addItem(): void;
+    public function addItem(ItemEventData $item): void;
 }
