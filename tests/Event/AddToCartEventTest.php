@@ -13,7 +13,7 @@ class AddToCartEventTest extends TestCase
      */
     public function it_returns_array(): void
     {
-        $event = new AddAddToCartEvent();
+        $event = new AddToCartEvent();
         $event->parameters->currency = 'USD';
         $event->parameters->value = 123.95;
 
