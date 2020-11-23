@@ -1,18 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\EventData;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
 use PHPUnit\Framework\TestCase;
 
-final class ItemEventDataTest extends TestCase
+final class ItemEventParametersTest extends TestCase
 {
     /**
      * @test
      */
     public function it_returns_array(): void
     {
-        $eventData = new ItemEventData();
+        $eventData = new ItemEventParameters();
         $eventData->itemId = 'GUCCI_BAG_123';
         $eventData->itemName = 'Gucci bag';
         $eventData->affiliation = 'Web';

@@ -1,19 +1,30 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\EventData;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
-final class ItemEventData extends EventData
+final class ItemEventParameters extends EventParameters
 {
     public string $itemId;
+
     public string $itemName;
+
     public string $affiliation;
+
     public string $coupon;
+
     public float $discount;
+
     public string $itemBrand;
+
     public string $itemCategory;
+
     public string $itemVariant;
+
     public float $tax;
+
     public float $price;
+
     public string $currency;
 }
