@@ -15,22 +15,16 @@ final class AddToCartEventTest extends TestCase
     {
         $event = new AddToCartEvent();
         $event->parameters->currency = 'USD';
-        $event->parameters->value = 123.95;
+        $event->parameters->value = 7.77;
 
         $item = new GenericItemEventParameters();
-        $item->itemId = 'GUCCI_BAG_1234';
+        $item->itemId = 'SKU_12345';
 
         $event->parameters->addItem($item);
 
         self::assertSame([
             'name' => 'add_to_cart',
-            'params' => [
-                'currency' => 'USD',
-                'value' => 123.95,
-                'items' => [
-                    ['item_id' => 'GUCCI_BAG_1234'],
-                ],
-            ],
+            'params' => ['currency' => 'USD', 'value' => 7.77, 'items' => [['item_id' => 'SKU_12345']]],
         ], $event->toArray());
     }
 }

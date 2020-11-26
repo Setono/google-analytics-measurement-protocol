@@ -8,11 +8,31 @@ final class AddShippingInfoEventParameters extends EventParameters implements It
 {
     use ItemsAwareEventParametersTrait;
 
+    /**
+     * Coupon code used for a purchase.
+     * Required: No
+     * Example: SUMMER_FUN
+     */
     public string $coupon;
 
+    /**
+     * Currency of the purchase or items associated with the event, in 3-letter ISO 4217 format.
+     * Required: No
+     * Example: USD
+     */
     public string $currency;
 
-    public float $value;
-
+    /**
+     * The shipping tier (e.g. Ground, Air, Next-day) selected for delivery of the purchased item.
+     * Required: No
+     * Example: Ground
+     */
     public string $shippingTier;
+
+    /**
+     * The monetary value of the event.
+     * Required: No
+     * Example: 7.77
+     */
+    public float $value;
 }
