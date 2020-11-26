@@ -6,7 +6,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
 use PHPUnit\Framework\TestCase;
 
-class AddToWishlistEventTest extends TestCase
+final class AddToWishlistEventTest extends TestCase
 {
     /**
      * @test

@@ -6,7 +6,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
 use PHPUnit\Framework\TestCase;
 
-class AddShippingInfoEventTest extends TestCase
+final class AddShippingInfoEventTest extends TestCase
 {
     /**
      * @test
