@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
-final class PurchaseEventParameters extends EventParameters implements ItemsAwareEventParametersInterface
+final class RefundEventParameters extends EventParameters implements ItemsAwareEventParametersInterface
 {
     use ItemsAwareEventParametersTrait;
 

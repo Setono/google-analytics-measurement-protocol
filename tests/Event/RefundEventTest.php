@@ -6,14 +6,14 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
 
 use PHPUnit\Framework\TestCase;
 
-final class PurchaseEventTest extends TestCase
+final class RefundEventTest extends TestCase
 {
     /**
      * @test
      */
     public function it_returns_array(): void
     {
-        $event = new PurchaseEvent();
+        $event = new RefundEvent();
         $event->parameters->affiliation = 'Google Store';
         $event->parameters->coupon = 'SUMMER_FUN';
         $event->parameters->currency = 'USD';
@@ -28,7 +28,7 @@ final class PurchaseEventTest extends TestCase
         $event->parameters->addItem($item);
 
         self::assertSame([
-            'name' => 'purchase',
+            'name' => 'refund',
             'params' => [
                 'affiliation' => 'Google Store',
                 'coupon' => 'SUMMER_FUN',

@@ -25,3 +25,9 @@ See the [tests directory](tests/Builder).
 [link-packagist]: https://packagist.org/packages/setono/google-analytics-measurement-protocol
 [link-github-actions]: https://github.com/Setono/google-analytics-measurement-protocol/actions
 [link-code-coverage]: https://codecov.io/gh/Setono/google-analytics-measurement-protocol
+
+## Event class generation
+
+The script `bin/gen.php` generates event classes based on https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events.
+
+It uses https://github.com/FriendsOfPHP/Goutte for data scraping and https://github.com/nette/php-generator for code generation.

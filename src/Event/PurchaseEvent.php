@@ -9,6 +9,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Event;
  */
 final class PurchaseEvent extends Event
 {
+    /** This event signifies when one or more items is purchased by a user. */
     protected string $name = 'purchase';
 
     public function __construct()
