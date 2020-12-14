@@ -16,6 +16,7 @@
     },
     "require-dev": {
         "fabpot/goutte": "^4.0",
+        "guzzlehttp/guzzle": "^7.2",
         "nette/php-generator": "^3.5",
         "phpunit/phpunit": "^9.4",
         "setono/code-quality-pack": "^1.4",
