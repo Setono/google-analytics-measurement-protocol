@@ -7,7 +7,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Response\Adapter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-final class SymfonyResponseTest extends TestCase
+final class SymfonyResponseAdapterTest extends TestCase
 {
     /**
      * @test

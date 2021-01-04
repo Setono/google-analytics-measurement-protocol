@@ -9,7 +9,7 @@ use function Safe\preg_replace;
 
 abstract class TestCase extends BaseTestCase
 {
-    public static function assertBuilder(string $expectedQuery, BuilderInterface $builder): void
+    public static function assertBuilderQuery(string $expectedQuery, BuilderInterface $builder): void
     {
         $expectedQuery = trim(preg_replace('/[\s]+/', '', $expectedQuery));
 

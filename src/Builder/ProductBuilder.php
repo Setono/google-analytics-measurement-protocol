@@ -54,19 +54,7 @@ final class ProductBuilder extends Builder
 
     public function getQuery(): string
     {
-        $mapping = [
-            'id' => 'sku',
-            'nm' => 'name',
-            'br' => 'brand',
-            'ca' => 'category',
-            'va' => 'variant',
-            'pr' => 'price',
-            'qt' => 'quantity',
-            'cc' => 'couponCode',
-            'ps' => 'position',
-        ];
-
-        $q = $this->buildQuery($mapping, function (string $parameter, string $value): string {
+        $q = $this->buildQuery($this->getPropertyMapping(), function (string $parameter, string $value): string {
             return sprintf('pr%d%s=%s&', $this->index, $parameter, $value);
         });
 
@@ -89,5 +77,20 @@ final class ProductBuilder extends Builder
     public function setCustomMetric(int $index, int $value): void
     {
         $this->customMetrics[$index] = $value;
+    }
+
+    protected function getPropertyMapping(): array
+    {
+        return [
+            'id' => 'sku',
+            'nm' => 'name',
+            'br' => 'brand',
+            'ca' => 'category',
+            'va' => 'variant',
+            'pr' => 'price',
+            'qt' => 'quantity',
+            'cc' => 'couponCode',
+            'ps' => 'position',
+        ];
     }
 }
