@@ -13,10 +13,5 @@ interface BuilderInterface
      */
     public function getQuery(): string;
 
-    /**
-     * This method allows you to create a builder from a query string, i.e. 'v=1&tid=UA-1234-5&aip=0&ds=dataSource&cid=clientId'
-     */
-    public static function createFromString(string $q): self;
-
     public function __toString(): string;
 }

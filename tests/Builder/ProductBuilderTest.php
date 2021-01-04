@@ -34,7 +34,7 @@ final class ProductBuilderTest extends TestCase
         $builder->setCustomMetric(1, 123);
         $builder->setCustomMetric(2, 788);
 
-        self::assertBuilder(<<<QUERY
+        self::assertBuilderQuery(<<<QUERY
             pr1id=sku
             &pr1nm=name
             &pr1br=brand

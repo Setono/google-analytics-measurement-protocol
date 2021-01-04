@@ -62,7 +62,7 @@ final class HitBuilderTest extends TestCase
 
         $builder->addProduct($product);
 
-        self::assertBuilder(<<<QUERY
+        self::assertBuilderQuery(<<<QUERY
             v=1
             &tid=UA-1234-5
             &aip=0
@@ -97,16 +97,5 @@ final class HitBuilderTest extends TestCase
             &cu=USD
             &pr1id=product_sku_123
             QUERY, $builder);
-    }
-
-    /**
-     * @test
-     */
-    public function it_creates_from_string(): void
-    {
-        /** @var HitBuilder $builder */
-        $builder = HitBuilder::createFromString('v=1&tid=UA-1234-5&aip=0');
-        self::assertSame('1', $builder->protocolVersion);
-        self::assertSame('UA-1234-5', $builder->measurementId);
     }
 }

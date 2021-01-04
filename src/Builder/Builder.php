@@ -15,14 +15,7 @@ abstract class Builder implements BuilderInterface
 {
     public function getQuery(): string
     {
-        if (!defined(static::class . '::PROPERTY_MAPPING')) {
-            return '';
-        }
-
-        /** @var array<int|string, string> $propertyMapping */
-        $propertyMapping = static::PROPERTY_MAPPING;
-
-        $q = $this->buildQuery($propertyMapping, function (?string $parameter, string $value): string {
+        $q = $this->buildQuery($this->getPropertyMapping(), function (?string $parameter, string $value): string {
             if (null === $parameter) {
                 return $value . '&';
             }
@@ -31,59 +24,6 @@ abstract class Builder implements BuilderInterface
         });
 
         return rtrim($q, '&');
-    }
-
-    public static function createFromString(string $q): BuilderInterface
-    {
-        $obj = new static();
-        if ('' === $q) {
-            return $obj;
-        }
-
-        if (!defined(static::class . '::PROPERTY_MAPPING')) {
-            return $obj;
-        }
-
-        /** @var array<string, string> $propertyMapping */
-        $propertyMapping = static::PROPERTY_MAPPING;
-
-        parse_str($q, $parameters);
-
-        /**
-         * @var string $parameter
-         * @var string $value
-         */
-        foreach ($parameters as $parameter => $value) {
-            if (!isset($propertyMapping[$parameter])) {
-                continue;
-            }
-
-            /** @var string $property */
-            $property = $propertyMapping[$parameter];
-            $reflectionProperty = new \ReflectionProperty($obj, $property);
-            $reflectionType = $reflectionProperty->getType();
-            if (null !== $reflectionType) {
-                $propertyType = $reflectionType->getName();
-                switch ($propertyType) {
-                    case 'int':
-                        $value = (int) $value;
-
-                        break;
-                    case 'float':
-                        $value = (float) $value;
-
-                        break;
-                    case 'bool':
-                        $value = (bool) $value;
-
-                        break;
-                }
-            }
-
-            $obj->{$property} = $value;
-        }
-
-        return $obj;
     }
 
     public function __toString(): string
@@ -141,4 +81,9 @@ abstract class Builder implements BuilderInterface
 
         return $q;
     }
+
+    /**
+     * @return array<int|string, string>
+     */
+    abstract protected function getPropertyMapping(): array;
 }

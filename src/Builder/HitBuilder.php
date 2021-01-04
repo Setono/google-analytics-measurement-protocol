@@ -9,45 +9,6 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 
 final class HitBuilder extends Builder implements RequestAwareBuilderInterface, ResponseAwareBuilderInterface
 {
-    /** @var array<string, string> */
-    protected const PROPERTY_MAPPING = [
-        'v' => 'protocolVersion',
-        'tid' => 'measurementId',
-        'aip' => 'anonymizeIP',
-        'ds' => 'dataSource',
-        'cid' => 'clientId',
-        'uid' => 'userId',
-        'uip' => 'ipOverride',
-        'ua' => 'userAgentOverride',
-        'dr' => 'documentReferrer',
-        'cn' => 'campaignName',
-        'cs' => 'campaignSource',
-        'cm' => 'campaignMedium',
-        'ck' => 'campaignKeyword',
-        'cc' => 'campaignContent',
-        'ci' => 'campaignId',
-        'gclid' => 'googleAdsId',
-        'dclid' => 'googleDisplayAdsId',
-        't' => 'hitType',
-        'ni' => 'nonInteractionHit',
-        'dl' => 'documentLocationUrl',
-        'dh' => 'documentHostName',
-        'dp' => 'documentPath',
-        'dt' => 'documentTitle',
-
-        // Enhanced ecommerce property mapping
-        'pa' => 'productAction',
-        'ti' => 'transactionId',
-        'ta' => 'transactionAffiliation',
-        'tr' => 'transactionRevenue',
-        'ts' => 'transactionShipping',
-        'tt' => 'transactionTax',
-        'tcc' => 'transactionCouponCode',
-        'cos' => 'checkoutStep',
-        'col' => 'checkoutStepOption',
-        'cu' => 'currencyCode',
-    ];
-
     public string $protocolVersion;
 
     public string $measurementId;
@@ -173,5 +134,46 @@ final class HitBuilder extends Builder implements RequestAwareBuilderInterface, 
     public function addProduct(ProductBuilder $productBuilder): void
     {
         $this->products[] = $productBuilder;
+    }
+
+    protected function getPropertyMapping(): array
+    {
+        return [
+            'v' => 'protocolVersion',
+            'tid' => 'measurementId',
+            'aip' => 'anonymizeIP',
+            'ds' => 'dataSource',
+            'cid' => 'clientId',
+            'uid' => 'userId',
+            'uip' => 'ipOverride',
+            'ua' => 'userAgentOverride',
+            'dr' => 'documentReferrer',
+            'cn' => 'campaignName',
+            'cs' => 'campaignSource',
+            'cm' => 'campaignMedium',
+            'ck' => 'campaignKeyword',
+            'cc' => 'campaignContent',
+            'ci' => 'campaignId',
+            'gclid' => 'googleAdsId',
+            'dclid' => 'googleDisplayAdsId',
+            't' => 'hitType',
+            'ni' => 'nonInteractionHit',
+            'dl' => 'documentLocationUrl',
+            'dh' => 'documentHostName',
+            'dp' => 'documentPath',
+            'dt' => 'documentTitle',
+
+            // Enhanced ecommerce property mapping
+            'pa' => 'productAction',
+            'ti' => 'transactionId',
+            'ta' => 'transactionAffiliation',
+            'tr' => 'transactionRevenue',
+            'ts' => 'transactionShipping',
+            'tt' => 'transactionTax',
+            'tcc' => 'transactionCouponCode',
+            'cos' => 'checkoutStep',
+            'col' => 'checkoutStepOption',
+            'cu' => 'currencyCode',
+        ];
     }
 }
