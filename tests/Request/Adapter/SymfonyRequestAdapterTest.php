@@ -12,7 +12,7 @@ final class SymfonyRequestAdapterTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_title(): void
+    public function it_returns_expected_values(): void
     {
         $request = new class(['parameter' => 'value'], [], [], [], [], ['REMOTE_ADDR' => '127.0.0.1', 'HTTP_REFERER' => 'referrer', 'HTTP_USER_AGENT' => 'user agent']) extends Request {
             public function getUri(): string
