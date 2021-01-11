@@ -6,12 +6,17 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
+use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
 
-final class HitBuilder extends Builder implements RequestAwareBuilderInterface, ResponseAwareBuilderInterface
+final class HitBuilder extends Builder implements PersistableBuilderInterface, RequestAwareBuilderInterface, ResponseAwareBuilderInterface
 {
+    private StorageInterface $storage;
+
+    private string $storageKey;
+
     public string $protocolVersion;
 
-    public string $measurementId;
+    public string $propertyId;
 
     public bool $anonymizeIP;
 
@@ -78,8 +83,15 @@ final class HitBuilder extends Builder implements RequestAwareBuilderInterface, 
 
     public string $currencyCode;
 
-    /** @var ProductBuilder[] */
+    /** @var array<array-key, ProductBuilder> */
     public array $products = [];
+
+    /** @psalm-suppress ConstructorSignatureMismatch */
+    public function __construct(StorageInterface $storage, string $storageKey)
+    {
+        $this->storage = $storage;
+        $this->storageKey = $storageKey;
+    }
 
     public function getQuery(): string
     {
@@ -131,16 +143,49 @@ final class HitBuilder extends Builder implements RequestAwareBuilderInterface, 
         }
     }
 
-    public function addProduct(ProductBuilder $productBuilder): void
+    public function store(): void
     {
-        $this->products[] = $productBuilder;
+        $data = [];
+
+        $reflection = new \ReflectionClass($this);
+        foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
+            // only save properties that are actually set
+            if (!isset($this->{$property->getName()})) {
+                continue;
+            }
+
+            /** @psalm-suppress MixedAssignment */
+            $data[$property->getName()] = $property->getValue($this);
+        }
+
+        $this->storage->store($this->storageKey, serialize($data));
+    }
+
+    public function restore(): void
+    {
+        $data = $this->storage->restore($this->storageKey);
+        if (null === $data) {
+            return;
+        }
+
+        /** @var array<string, mixed> $properties */
+        $properties = unserialize($data, ['allowed_classes' => false]);
+
+        /** @psalm-suppress MixedAssignment */
+        foreach ($properties as $property => $value) {
+            if (!property_exists($this, $property)) {
+                continue;
+            }
+
+            $this->{$property} = $value;
+        }
     }
 
     protected function getPropertyMapping(): array
     {
         return [
             'v' => 'protocolVersion',
-            'tid' => 'measurementId',
+            'tid' => 'propertyId',
             'aip' => 'anonymizeIP',
             'ds' => 'dataSource',
             'cid' => 'clientId',

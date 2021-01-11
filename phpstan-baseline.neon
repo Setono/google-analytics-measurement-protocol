@@ -7,5 +7,5 @@ parameters:
 
 		-
 			message: "#^Variable property access on \\$this\\(Setono\\\\GoogleAnalyticsMeasurementProtocol\\\\Builder\\\\HitBuilder\\)\\.$#"
-			count: 1
+			count: 3
 			path: src/Builder/HitBuilder.php

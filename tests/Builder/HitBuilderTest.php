@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 
+use Setono\GoogleAnalyticsMeasurementProtocol\Storage\InMemoryStorage;
+use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
+
 final class HitBuilderTest extends TestCase
 {
     /**
@@ -11,7 +14,7 @@ final class HitBuilderTest extends TestCase
      */
     public function it_returns_query(): void
     {
-        $builder = new HitBuilder();
+        $builder = self::getHitBuilder();
         self::assertSame('', $builder->getQuery());
     }
 
@@ -21,9 +24,9 @@ final class HitBuilderTest extends TestCase
     public function it_returns_query_with_parameters(): void
     {
         // todo create more sane values below
-        $builder = new HitBuilder();
+        $builder = self::getHitBuilder();
         $builder->protocolVersion = '1';
-        $builder->measurementId = 'UA-1234-5';
+        $builder->propertyId = 'UA-1234-5';
         $builder->anonymizeIP = false;
         $builder->dataSource = 'dataSource';
         $builder->clientId = 'clientId';
@@ -60,7 +63,7 @@ final class HitBuilderTest extends TestCase
         $product = new ProductBuilder(1);
         $product->sku = 'product_sku_123';
 
-        $builder->addProduct($product);
+        $builder->products[] = $product;
 
         self::assertBuilderQuery(<<<QUERY
             v=1
@@ -97,5 +100,29 @@ final class HitBuilderTest extends TestCase
             &cu=USD
             &pr1id=product_sku_123
             QUERY, $builder);
+    }
+
+    /**
+     * @test
+     */
+    public function it_stores_and_restores(): void
+    {
+        $storage = new InMemoryStorage();
+
+        $builder = self::getHitBuilder($storage);
+        $builder->propertyId = 'UA-1234-5';
+        $builder->store();
+
+        $builder = self::getHitBuilder($storage);
+        $builder->restore();
+
+        self::assertSame('UA-1234-5', $builder->propertyId);
+    }
+
+    private static function getHitBuilder(StorageInterface $storage = null): HitBuilder
+    {
+        $storage = $storage ?? new InMemoryStorage();
+
+        return new HitBuilder($storage, 'test');
     }
 }

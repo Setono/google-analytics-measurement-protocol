@@ -8,9 +8,6 @@ use Closure;
 use RuntimeException;
 use function Safe\sprintf;
 
-/**
- * @psalm-consistent-constructor
- */
 abstract class Builder implements BuilderInterface
 {
     public function getQuery(): string
