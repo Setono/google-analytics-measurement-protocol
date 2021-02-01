@@ -16,6 +16,7 @@
     "true",
     "void",
     "Symfony\\Component\\HttpFoundation\\Request",
-    "Symfony\\Component\\HttpFoundation\\Response"
+    "Symfony\\Component\\HttpFoundation\\Response",
+    "Symfony\\Component\\HttpFoundation\\Session\\SessionInterface"
   ]
 }
