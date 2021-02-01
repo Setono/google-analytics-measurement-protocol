@@ -25,4 +25,9 @@ final class Hit
     {
         return $this->clientId;
     }
+
+    public function __toString(): string
+    {
+        return $this->getQuery();
+    }
 }
