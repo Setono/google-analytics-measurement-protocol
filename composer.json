@@ -13,9 +13,9 @@
         "php": "^7.4",
         "php-http/discovery": "^1.13",
         "psr/http-client": "^1.0",
-        "psr/http-client-implementation": "1.0.0",
+        "psr/http-client-implementation": "^1",
         "psr/http-factory": "^1.0",
-        "psr/http-factory-implementation": "1.0.0",
+        "psr/http-factory-implementation": "^1",
         "thecodingmachine/safe": "^1.3"
     },
     "require-dev": {
@@ -49,8 +49,8 @@
             "phpstan analyse",
             "psalm"
         ],
-        "check-style": "ecs check --ansi src/ tests/",
-        "fix-style": "ecs check --fix --ansi src/ tests/",
+        "check-style": "ecs check",
+        "fix-style": "ecs check --fix",
         "phpunit": "phpunit"
     }
 }
