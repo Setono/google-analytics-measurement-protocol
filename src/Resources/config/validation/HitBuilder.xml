@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<constraint-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
+    <class name="Setono\GoogleAnalyticsMeasurementProtocol\Builder\HitBuilder">
+        <property name="protocolVersion">
+            <constraint name="NotBlank">
+                <option name="message">The protocol version cannot be blank</option>
+            </constraint>
+        </property>
+        <property name="propertyId">
+            <constraint name="NotBlank">
+                <option name="message">The tracking id / property id cannot be blank</option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>
