@@ -8,90 +8,25 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Hit\Hit;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 final class HitBuilder extends QueryBuilder implements HitBuilderInterface, PersistableQueryBuilderInterface, RequestAwareQueryBuilderInterface, ResponseAwareQueryBuilderInterface
 {
+    use HitBuilderTrait;
+
     private StorageInterface $storage;
 
     private string $storageKey;
 
-    public string $protocolVersion;
-
-    public string $propertyId;
-
-    public bool $anonymizeIP;
-
-    public string $dataSource;
-
-    public string $clientId;
-
-    public string $userId;
-
-    public string $IPOverride;
-
-    public string $userAgentOverride;
-
-    public string $documentReferrer;
-
-    public string $campaignName;
-
-    public string $campaignSource;
-
-    public string $campaignMedium;
-
-    public string $campaignKeyword;
-
-    public string $campaignContent;
-
-    public string $campaignId;
-
-    public string $googleAdsId;
-
-    public string $googleDisplayAdsId;
-
-    public string $hitType;
-
-    public bool $nonInteractionHit;
-
-    public string $documentLocationUrl;
-
-    public string $documentHostName;
-
-    public string $documentPath;
-
-    public string $documentTitle;
-
-    /**
-     * Enhanced ecommerce properties
-     */
-    public string $productAction;
-
-    public string $transactionId;
-
-    public string $transactionAffiliation;
-
-    public float $transactionRevenue;
-
-    public float $transactionShipping;
-
-    public float $transactionTax;
-
-    public string $transactionCouponCode;
-
-    public int $checkoutStep;
-
-    public string $checkoutStepOption;
-
-    public string $currencyCode;
-
-    /** @var array<array-key, ProductBuilder> */
-    public array $products = [];
+    private PropertyAccessorInterface $propertyAccessor;
 
     /** @psalm-suppress ConstructorSignatureMismatch */
-    public function __construct(StorageInterface $storage, string $storageKey)
+    public function __construct(StorageInterface $storage, string $storageKey, PropertyAccessorInterface $propertyAccessor = null)
     {
         $this->storage = $storage;
         $this->storageKey = $storageKey;
+        $this->propertyAccessor = $propertyAccessor ?? PropertyAccess::createPropertyAccessor();
     }
 
     public function getHit(): Hit
@@ -154,14 +89,15 @@ final class HitBuilder extends QueryBuilder implements HitBuilderInterface, Pers
         $data = [];
 
         $reflection = new \ReflectionClass($this);
-        foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
-            // only save properties that are actually set
-            if (!isset($this->{$property->getName()})) {
+        foreach ($reflection->getProperties() as $property) {
+            $propertyName = $property->getName();
+
+            if (!$this->propertyAccessor->isReadable($this, $propertyName)) {
                 continue;
             }
 
             /** @psalm-suppress MixedAssignment */
-            $data[$property->getName()] = $property->getValue($this);
+            $data[$propertyName] = $this->propertyAccessor->getValue($this, $propertyName);
         }
 
         $this->storage->store($this->storageKey, serialize($data));
@@ -179,11 +115,11 @@ final class HitBuilder extends QueryBuilder implements HitBuilderInterface, Pers
 
         /** @psalm-suppress MixedAssignment */
         foreach ($properties as $property => $value) {
-            if (!property_exists($this, $property)) {
+            if (!$this->propertyAccessor->isWritable($this, $property)) {
                 continue;
             }
 
-            $this->{$property} = $value;
+            $this->propertyAccessor->setValue($this, $property, $value);
         }
     }
 

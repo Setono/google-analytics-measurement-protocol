@@ -25,45 +25,45 @@ final class HitBuilderTest extends TestCase
     {
         // todo create more sane values below
         $builder = self::getHitBuilder();
-        $builder->protocolVersion = '1';
-        $builder->propertyId = 'UA-1234-5';
-        $builder->anonymizeIP = false;
-        $builder->dataSource = 'dataSource';
-        $builder->clientId = 'clientId';
-        $builder->userId = 'userId';
-        $builder->IPOverride = 'IPOverride';
-        $builder->userAgentOverride = 'userAgentOverride';
-        $builder->documentReferrer = 'documentReferrer';
-        $builder->campaignName = 'campaignName';
-        $builder->campaignSource = 'campaignSource';
-        $builder->campaignMedium = 'campaignMedium';
-        $builder->campaignKeyword = 'campaignKeyword';
-        $builder->campaignContent = 'campaignContent';
-        $builder->campaignId = 'campaignId';
-        $builder->googleAdsId = 'googleAdsId';
-        $builder->googleDisplayAdsId = 'googleDisplayAdsId';
-        $builder->hitType = 'hitType';
-        $builder->nonInteractionHit = true;
-        $builder->documentLocationUrl = 'documentLocationUrl';
-        $builder->documentHostName = 'documentHostName';
-        $builder->documentPath = 'documentPath';
-        $builder->documentTitle = 'documentTitle';
+        $builder->setProtocolVersion('1');
+        $builder->setPropertyId('UA-1234-5');
+        $builder->setAnonymizeIP(false);
+        $builder->setDataSource('dataSource');
+        $builder->setClientId('clientId');
+        $builder->setUserId('userId');
+        $builder->setIPOverride('IPOverride');
+        $builder->setUserAgentOverride('userAgentOverride');
+        $builder->setDocumentReferrer('documentReferrer');
+        $builder->setCampaignName('campaignName');
+        $builder->setCampaignSource('campaignSource');
+        $builder->setCampaignMedium('campaignMedium');
+        $builder->setCampaignKeyword('campaignKeyword');
+        $builder->setCampaignContent('campaignContent');
+        $builder->setCampaignId('campaignId');
+        $builder->setGoogleAdsId('googleAdsId');
+        $builder->setGoogleDisplayAdsId('googleDisplayAdsId');
+        $builder->setHitType('hitType');
+        $builder->setNonInteractionHit(true);
+        $builder->setDocumentLocationUrl('documentLocationUrl');
+        $builder->setDocumentHostName('documentHostName');
+        $builder->setDocumentPath('documentPath');
+        $builder->setDocumentTitle('documentTitle');
 
-        $builder->productAction = 'action';
-        $builder->transactionId = 'transaction123';
-        $builder->transactionAffiliation = 'google';
-        $builder->transactionRevenue = 123.12;
-        $builder->transactionShipping = 10.5;
-        $builder->transactionTax = 4.3;
-        $builder->transactionCouponCode = 'great_coupon';
-        $builder->checkoutStep = 2;
-        $builder->checkoutStepOption = 'VISA';
-        $builder->currencyCode = 'USD';
+        $builder->setProductAction('action');
+        $builder->setTransactionId('transaction123');
+        $builder->setTransactionAffiliation('google');
+        $builder->setTransactionRevenue(123.12);
+        $builder->setTransactionShipping(10.5);
+        $builder->setTransactionTax(4.3);
+        $builder->setTransactionCouponCode('great_coupon');
+        $builder->setCheckoutStep(2);
+        $builder->setCheckoutStepOption('VISA');
+        $builder->setCurrencyCode('USD');
 
         $product = new ProductBuilder(1);
         $product->sku = 'product_sku_123';
 
-        $builder->products[] = $product;
+        $builder->addProduct($product);
 
         self::assertBuilderQuery(<<<QUERY
             v=1
@@ -110,13 +110,13 @@ final class HitBuilderTest extends TestCase
         $storage = new InMemoryStorage();
 
         $builder = self::getHitBuilder($storage);
-        $builder->propertyId = 'UA-1234-5';
+        $builder->setPropertyId('UA-1234-5');
         $builder->store();
 
         $builder = self::getHitBuilder($storage);
         $builder->restore();
 
-        self::assertSame('UA-1234-5', $builder->propertyId);
+        self::assertSame('UA-1234-5', $builder->getPropertyId());
     }
 
     private static function getHitBuilder(StorageInterface $storage = null): HitBuilder
