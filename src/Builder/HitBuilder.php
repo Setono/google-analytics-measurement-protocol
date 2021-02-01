@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\Hit;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
 
-final class HitBuilder extends Builder implements PersistableBuilderInterface, RequestAwareBuilderInterface, ResponseAwareBuilderInterface
+final class HitBuilder extends QueryBuilder implements HitBuilderInterface, PersistableQueryBuilderInterface, RequestAwareQueryBuilderInterface, ResponseAwareQueryBuilderInterface
 {
     private StorageInterface $storage;
 
@@ -91,6 +92,11 @@ final class HitBuilder extends Builder implements PersistableBuilderInterface, R
     {
         $this->storage = $storage;
         $this->storageKey = $storageKey;
+    }
+
+    public function getHit(): Hit
+    {
+        return new Hit($this->getQuery(), $this->clientId);
     }
 
     public function getQuery(): string

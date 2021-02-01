@@ -11,7 +11,7 @@ use function Safe\sprintf;
  *
  * See https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_id
  */
-final class ProductBuilder extends Builder
+final class ProductBuilder extends QueryBuilder
 {
     private static int $indexCounter = 1;
 

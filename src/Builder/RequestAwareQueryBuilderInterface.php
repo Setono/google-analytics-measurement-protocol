@@ -6,7 +6,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 
-interface RequestAwareBuilderInterface extends BuilderInterface
+interface RequestAwareQueryBuilderInterface extends QueryBuilderInterface
 {
     /**
      * Will use the request data to populate the builder

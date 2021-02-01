@@ -8,7 +8,7 @@ use Closure;
 use RuntimeException;
 use function Safe\sprintf;
 
-abstract class Builder implements BuilderInterface
+abstract class QueryBuilder implements QueryBuilderInterface
 {
     public function getQuery(): string
     {
