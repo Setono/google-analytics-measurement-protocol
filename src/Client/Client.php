@@ -18,24 +18,24 @@ final class Client implements ClientInterface
 {
     private bool $debug = false;
 
-    private string $host;
-
     private HttpClientInterface $httpClient;
 
     private RequestFactoryInterface $requestFactory;
 
     private StreamFactoryInterface $streamFactory;
 
+    private string $host;
+
     public function __construct(
-        string $host = 'www.google-analytics.com',
         HttpClientInterface $httpClient = null,
         RequestFactoryInterface $requestFactory = null,
-        StreamFactoryInterface $streamFactory = null
+        StreamFactoryInterface $streamFactory = null,
+        string $host = 'www.google-analytics.com'
     ) {
-        $this->host = $host;
         $this->httpClient = $httpClient ?? Psr18ClientDiscovery::find();
         $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
         $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
+        $this->host = $host;
     }
 
     public function sendHit(string $q): ResponseInterface
