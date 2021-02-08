@@ -12,26 +12,16 @@ final class HitBuilderTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_query(): void
-    {
-        $builder = self::getHitBuilder();
-        self::assertSame('', $builder->getQuery());
-    }
-
-    /**
-     * @test
-     */
-    public function it_returns_query_with_parameters(): void
+    public function it_generates_payload(): void
     {
         // todo create more sane values below
         $builder = self::getHitBuilder();
         $builder->setProtocolVersion('1');
-        $builder->setPropertyId('UA-1234-5');
-        $builder->setAnonymizeIP(false);
+        $builder->setAnonymizeIp(false);
         $builder->setDataSource('dataSource');
         $builder->setClientId('clientId');
         $builder->setUserId('userId');
-        $builder->setIPOverride('IPOverride');
+        $builder->setIpOverride('64.12.12.56');
         $builder->setUserAgentOverride('userAgentOverride');
         $builder->setDocumentReferrer('documentReferrer');
         $builder->setCampaignName('campaignName');
@@ -60,18 +50,20 @@ final class HitBuilderTest extends TestCase
         $builder->setCheckoutStepOption('VISA');
         $builder->setCurrencyCode('USD');
 
+        $builder->addPropertyId('UA-1234-5');
+
         $product = new ProductBuilder(1);
-        $product->sku = 'product_sku_123';
+        $product->setSku('product_sku_123');
 
         $builder->addProduct($product);
 
-        self::assertBuilderQuery(<<<QUERY
+        self::assertPayload(<<<QUERY
             v=1
-            &tid=UA-1234-5
             &aip=0
             &ds=dataSource
             &cid=clientId
             &uid=userId
+            &uip=64.12.12.56
             &ua=userAgentOverride
             &dr=documentReferrer
             &cn=campaignName
@@ -98,8 +90,9 @@ final class HitBuilderTest extends TestCase
             &cos=2
             &col=VISA
             &cu=USD
+            &tid=UA-1234-5
             &pr1id=product_sku_123
-            QUERY, $builder);
+            QUERY, $builder->getPayload('UA-1234-5'));
     }
 
     /**
@@ -110,13 +103,13 @@ final class HitBuilderTest extends TestCase
         $storage = new InMemoryStorage();
 
         $builder = self::getHitBuilder($storage);
-        $builder->setPropertyId('UA-1234-5');
+        $builder->addPropertyId('UA-1234-5');
         $builder->store();
 
         $builder = self::getHitBuilder($storage);
         $builder->restore();
 
-        self::assertSame('UA-1234-5', $builder->getPropertyId());
+        self::assertSame('UA-1234-5', $builder->getPropertyIds()[0]);
     }
 
     private static function getHitBuilder(StorageInterface $storage = null): HitBuilder
