@@ -6,19 +6,22 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
 final class Hit
 {
-    private string $query;
+    private string $propertyId;
 
     private string $clientId;
 
-    public function __construct(string $query, string $clientId)
+    private Payload $payload;
+
+    public function __construct(string $propertyId, string $clientId, Payload $payload)
     {
-        $this->query = $query;
+        $this->propertyId = $propertyId;
         $this->clientId = $clientId;
+        $this->payload = $payload;
     }
 
-    public function getQuery(): string
+    public function getPropertyId(): string
     {
-        return $this->query;
+        return $this->propertyId;
     }
 
     public function getClientId(): string
@@ -26,8 +29,8 @@ final class Hit
         return $this->clientId;
     }
 
-    public function __toString(): string
+    public function getPayload(): Payload
     {
-        return $this->getQuery();
+        return $this->payload;
     }
 }

@@ -5,55 +5,136 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\Hit;
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\Payload;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-final class HitBuilder extends QueryBuilder implements HitBuilderInterface, PersistableQueryBuilderInterface, RequestAwareQueryBuilderInterface, ResponseAwareQueryBuilderInterface
+/**
+ * @method string getProtocolVersion()
+ * @method self setProtocolVersion(string $protocolVersion)
+ * @method bool isAnonymizeIp()
+ * @method self setAnonymizeIp(bool $anonymizeIp)
+ * @method string getDataSource()
+ * @method self setDataSource(string $dataSource)
+ * @method string getClientId()
+ * @method self setClientId(string $clientId)
+ * @method string getUserId()
+ * @method self setUserId(string $userId)
+ * @method string getIpOverride()
+ * @method self setIpOverride(string $ipOverride)
+ * @method string getUserAgentOverride()
+ * @method self setUserAgentOverride(string $userAgentOverride)
+ * @method string getDocumentReferrer()
+ * @method self setDocumentReferrer(string $documentReferrer)
+ * @method string getCampaignName()
+ * @method self setCampaignName(string $campaignName)
+ * @method string getCampaignSource()
+ * @method self setCampaignSource(string $campaignSource)
+ * @method string getCampaignMedium()
+ * @method self setCampaignMedium(string $campaignMedium)
+ * @method string getCampaignKeyword()
+ * @method self setCampaignKeyword(string $campaignKeyword)
+ * @method string getCampaignContent()
+ * @method self setCampaignContent(string $campaignContent)
+ * @method string getCampaignId()
+ * @method self setCampaignId(string $campaignId)
+ * @method string getGoogleAdsId()
+ * @method self setGoogleAdsId(string $googleAdsId)
+ * @method string getGoogleDisplayAdsId()
+ * @method self setGoogleDisplayAdsId(string $googleDisplayAdsId)
+ * @method string getHitType()
+ * @method self setHitType(string $hitType)
+ * @method bool isNonInteractionHit()
+ * @method self setNonInteractionHit(bool $nonInteractionHit)
+ * @method string getDocumentLocationUrl()
+ * @method self setDocumentLocationUrl(string $documentLocationUrl)
+ * @method string getDocumentHostName()
+ * @method self setDocumentHostName(string $documentHostName)
+ * @method string getDocumentPath()
+ * @method self setDocumentPath(string $documentPath)
+ * @method string getDocumentTitle()
+ * @method self setDocumentTitle(string $documentTitle)
+ * @method string getProductAction()
+ * @method self setProductAction(string $productAction)
+ * @method string getTransactionId()
+ * @method self setTransactionId(string $transactionId)
+ * @method string getTransactionAffiliation()
+ * @method self setTransactionAffiliation(string $transactionAffiliation)
+ * @method float getTransactionRevenue()
+ * @method self setTransactionRevenue(float $transactionRevenue)
+ * @method float getTransactionShipping()
+ * @method self setTransactionShipping(float $transactionShipping)
+ * @method float getTransactionTax()
+ * @method self setTransactionTax(float $transactionTax)
+ * @method string getTransactionCouponCode()
+ * @method self setTransactionCouponCode(string $transactionCouponCode)
+ * @method int getCheckoutStep()
+ * @method self setCheckoutStep(int $checkoutStep)
+ * @method string getCheckoutStepOption()
+ * @method self setCheckoutStepOption(string $checkoutStepOption)
+ * @method string getCurrencyCode()
+ * @method self setCurrencyCode(string $currencyCode)
+ */
+final class HitBuilder extends PayloadBuilder
 {
-    use HitBuilderTrait;
+    /**
+     * Instead of having a single property we support multiple properties out of the box
+     *
+     * @var array<array-key, string>
+     */
+    private array $propertyIds = [];
+
+    /** @var array<array-key, ProductBuilder> */
+    private array $products = [];
 
     private StorageInterface $storage;
 
     private string $storageKey;
 
-    private PropertyAccessorInterface $propertyAccessor;
-
-    /** @psalm-suppress ConstructorSignatureMismatch */
-    public function __construct(StorageInterface $storage, string $storageKey, PropertyAccessorInterface $propertyAccessor = null)
+    public function __construct(StorageInterface $storage, string $storageKey)
     {
         $this->storage = $storage;
         $this->storageKey = $storageKey;
-        $this->propertyAccessor = $propertyAccessor ?? PropertyAccess::createPropertyAccessor();
     }
 
-    public function getHit(): Hit
+    /**
+     * @return array<array-key, Hit>
+     */
+    public function getHits(): array
     {
-        return new Hit($this->getQuery(), $this->clientId);
-    }
+        $hits = [];
 
-    public function getQuery(): string
-    {
-        $q = parent::getQuery();
+        foreach ($this->propertyIds as $propertyId) {
+            $payload = $this->getPayload($propertyId);
 
-        foreach ($this->products as $productBuilder) {
-            $q .= '&' . $productBuilder->getQuery();
+            $hits[] = new Hit($propertyId, $this->getClientId(), $payload);
         }
 
-        return $q;
+        return $hits;
+    }
+
+    public function getPayload(string $propertyId): Payload
+    {
+        $payload = $this->buildPayload();
+        $payload->set('tid', $propertyId);
+
+        foreach ($this->products as $productBuilder) {
+            $payload->mergePayload($productBuilder->getPayload());
+        }
+
+        return $payload;
     }
 
     public function populateFromRequest(RequestInterface $request): void
     {
-        $this->documentLocationUrl = $request->getUrl();
-        $this->userAgentOverride = $request->getUserAgent();
-        $this->IPOverride = $request->getIp();
+        $this->setDocumentLocationUrl($request->getUrl());
+        $this->setUserAgentOverride($request->getUserAgent());
+        $this->setIpOverride($request->getIp());
 
         $referrer = $request->getReferrer();
         if (null !== $referrer) {
-            $this->documentReferrer = $referrer;
+            $this->setDocumentReferrer($referrer);
         }
 
         $mapping = [
@@ -72,7 +153,7 @@ final class HitBuilder extends QueryBuilder implements HitBuilderInterface, Pers
                 continue;
             }
 
-            $this->{$property} = $val;
+            $this->{'set' . ucfirst($property)}($val);
         }
     }
 
@@ -80,47 +161,93 @@ final class HitBuilder extends QueryBuilder implements HitBuilderInterface, Pers
     {
         $title = $response->getTitle();
         if (null !== $title) {
-            $this->documentTitle = $title;
+            $this->setDocumentTitle($title);
         }
     }
 
     public function store(): void
     {
-        $data = [];
-
-        $reflection = new \ReflectionClass($this);
-        foreach ($reflection->getProperties() as $property) {
-            $propertyName = $property->getName();
-
-            if (!$this->propertyAccessor->isReadable($this, $propertyName)) {
-                continue;
-            }
-
-            /** @psalm-suppress MixedAssignment */
-            $data[$propertyName] = $this->propertyAccessor->getValue($this, $propertyName);
-        }
+        $data = [
+            'properties' => $this->data,
+            'products' => $this->products,
+            'propertyIds' => $this->propertyIds,
+        ];
 
         $this->storage->store($this->storageKey, serialize($data));
     }
 
     public function restore(): void
     {
-        $data = $this->storage->restore($this->storageKey);
-        if (null === $data) {
+        $stored = $this->storage->restore($this->storageKey);
+        if (null === $stored) {
             return;
         }
 
-        /** @var array<string, mixed> $properties */
-        $properties = unserialize($data, ['allowed_classes' => false]);
+        /** @var array{properties: array<string, scalar>, products: array<array-key, ProductBuilder>, propertyIds: array<array-key, string>} $data */
+        $data = unserialize($stored, ['allowed_classes' => false]);
 
-        /** @psalm-suppress MixedAssignment */
-        foreach ($properties as $property => $value) {
-            if (!$this->propertyAccessor->isWritable($this, $property)) {
-                continue;
-            }
+        $this->data = $data['properties'];
+        $this->products = $data['products'];
+        $this->propertyIds = $data['propertyIds'];
+    }
 
-            $this->propertyAccessor->setValue($this, $property, $value);
+    public function getPropertyIds(): array
+    {
+        return $this->propertyIds;
+    }
+
+    public function addPropertyId(string $propertyId): self
+    {
+        $this->propertyIds[] = $propertyId;
+
+        return $this;
+    }
+
+    public function removePropertyId(string $propertyId): self
+    {
+        $key = array_search($propertyId, $this->propertyIds, true);
+        if (false === $key) {
+            return $this;
         }
+
+        unset($this->propertyIds[$key]);
+
+        return $this;
+    }
+
+    /**
+     * @param array<array-key, string> $propertyIds
+     */
+    public function setPropertyIds(array $propertyIds): self
+    {
+        $this->propertyIds = $propertyIds;
+
+        return $this;
+    }
+
+    /**
+     * @return ProductBuilder[]
+     */
+    public function getProducts(): array
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param ProductBuilder[] $products
+     */
+    public function setProducts(array $products): self
+    {
+        $this->products = $products;
+
+        return $this;
+    }
+
+    public function addProduct(ProductBuilder $product): self
+    {
+        $this->products[] = $product;
+
+        return $this;
     }
 
     protected function getPropertyMapping(): array
@@ -128,7 +255,7 @@ final class HitBuilder extends QueryBuilder implements HitBuilderInterface, Pers
         return [
             'v' => 'protocolVersion',
             'tid' => 'propertyId',
-            'aip' => 'anonymizeIP',
+            'aip' => 'anonymizeIp',
             'ds' => 'dataSource',
             'cid' => 'clientId',
             'uid' => 'userId',
