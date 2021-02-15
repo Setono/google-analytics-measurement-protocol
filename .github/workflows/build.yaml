@@ -218,3 +218,5 @@ jobs:
 
             -   name: "Run infection"
                 run: "vendor/bin/infection"
+                env:
+                    STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
