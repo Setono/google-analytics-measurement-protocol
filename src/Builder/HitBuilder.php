@@ -9,71 +9,72 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Hit\Payload;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
+use Webmozart\Assert\Assert;
 
 /**
- * @method string getProtocolVersion()
+ * @method string|null getProtocolVersion()
  * @method self setProtocolVersion(string $protocolVersion)
- * @method bool isAnonymizeIp()
+ * @method bool|null isAnonymizeIp()
  * @method self setAnonymizeIp(bool $anonymizeIp)
- * @method string getDataSource()
+ * @method string|null getDataSource()
  * @method self setDataSource(string $dataSource)
- * @method string getClientId()
+ * @method string|null getClientId()
  * @method self setClientId(string $clientId)
- * @method string getUserId()
+ * @method string|null getUserId()
  * @method self setUserId(string $userId)
- * @method string getIpOverride()
+ * @method string|null getIpOverride()
  * @method self setIpOverride(string $ipOverride)
- * @method string getUserAgentOverride()
+ * @method string|null getUserAgentOverride()
  * @method self setUserAgentOverride(string $userAgentOverride)
- * @method string getDocumentReferrer()
+ * @method string|null getDocumentReferrer()
  * @method self setDocumentReferrer(string $documentReferrer)
- * @method string getCampaignName()
+ * @method string|null getCampaignName()
  * @method self setCampaignName(string $campaignName)
- * @method string getCampaignSource()
+ * @method string|null getCampaignSource()
  * @method self setCampaignSource(string $campaignSource)
- * @method string getCampaignMedium()
+ * @method string|null getCampaignMedium()
  * @method self setCampaignMedium(string $campaignMedium)
- * @method string getCampaignKeyword()
+ * @method string|null getCampaignKeyword()
  * @method self setCampaignKeyword(string $campaignKeyword)
- * @method string getCampaignContent()
+ * @method string|null getCampaignContent()
  * @method self setCampaignContent(string $campaignContent)
- * @method string getCampaignId()
+ * @method string|null getCampaignId()
  * @method self setCampaignId(string $campaignId)
- * @method string getGoogleAdsId()
+ * @method string|null getGoogleAdsId()
  * @method self setGoogleAdsId(string $googleAdsId)
- * @method string getGoogleDisplayAdsId()
+ * @method string|null getGoogleDisplayAdsId()
  * @method self setGoogleDisplayAdsId(string $googleDisplayAdsId)
- * @method string getHitType()
+ * @method string|null getHitType()
  * @method self setHitType(string $hitType)
- * @method bool isNonInteractionHit()
+ * @method bool|null isNonInteractionHit()
  * @method self setNonInteractionHit(bool $nonInteractionHit)
- * @method string getDocumentLocationUrl()
+ * @method string|null getDocumentLocationUrl()
  * @method self setDocumentLocationUrl(string $documentLocationUrl)
- * @method string getDocumentHostName()
+ * @method string|null getDocumentHostName()
  * @method self setDocumentHostName(string $documentHostName)
- * @method string getDocumentPath()
+ * @method string|null getDocumentPath()
  * @method self setDocumentPath(string $documentPath)
- * @method string getDocumentTitle()
+ * @method string|null getDocumentTitle()
  * @method self setDocumentTitle(string $documentTitle)
- * @method string getProductAction()
+ * @method string|null getProductAction()
  * @method self setProductAction(string $productAction)
- * @method string getTransactionId()
+ * @method string|null getTransactionId()
  * @method self setTransactionId(string $transactionId)
- * @method string getTransactionAffiliation()
+ * @method string|null getTransactionAffiliation()
  * @method self setTransactionAffiliation(string $transactionAffiliation)
- * @method float getTransactionRevenue()
+ * @method float|null getTransactionRevenue()
  * @method self setTransactionRevenue(float $transactionRevenue)
- * @method float getTransactionShipping()
+ * @method float|null getTransactionShipping()
  * @method self setTransactionShipping(float $transactionShipping)
- * @method float getTransactionTax()
+ * @method float|null getTransactionTax()
  * @method self setTransactionTax(float $transactionTax)
- * @method string getTransactionCouponCode()
+ * @method string|null getTransactionCouponCode()
  * @method self setTransactionCouponCode(string $transactionCouponCode)
- * @method int getCheckoutStep()
+ * @method int|null getCheckoutStep()
  * @method self setCheckoutStep(int $checkoutStep)
- * @method string getCheckoutStepOption()
+ * @method string|null getCheckoutStepOption()
  * @method self setCheckoutStepOption(string $checkoutStepOption)
- * @method string getCurrencyCode()
+ * @method string|null getCurrencyCode()
  * @method self setCurrencyCode(string $currencyCode)
  */
 final class HitBuilder extends PayloadBuilder
@@ -107,10 +108,13 @@ final class HitBuilder extends PayloadBuilder
     {
         $hits = [];
 
+        $clientId = $this->getClientId();
+        Assert::string($clientId, 'You have to set a client id to retrieve the hits');
+
         foreach ($this->properties as $propertyId) {
             $payload = $this->getPayload($propertyId);
 
-            $hits[] = new Hit($propertyId, $this->getClientId(), $payload);
+            $hits[] = new Hit($propertyId, $clientId, $payload);
         }
 
         return $hits;
