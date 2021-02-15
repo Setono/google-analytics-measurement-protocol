@@ -42,7 +42,7 @@ class SymfonySessionStorageAdapterTest extends TestCase
                 // TODO: Implement getId() method.
             }
 
-            public function setId(string $id)
+            public function setId($id)
             {
                 // TODO: Implement setId() method.
             }
@@ -52,17 +52,17 @@ class SymfonySessionStorageAdapterTest extends TestCase
                 // TODO: Implement getName() method.
             }
 
-            public function setName(string $name)
+            public function setName($name)
             {
                 // TODO: Implement setName() method.
             }
 
-            public function invalidate(int $lifetime = null)
+            public function invalidate($lifetime = null)
             {
                 // TODO: Implement invalidate() method.
             }
 
-            public function migrate(bool $destroy = false, int $lifetime = null)
+            public function migrate($destroy = false, $lifetime = null)
             {
                 // TODO: Implement migrate() method.
             }
@@ -72,17 +72,17 @@ class SymfonySessionStorageAdapterTest extends TestCase
                 // TODO: Implement save() method.
             }
 
-            public function has(string $name)
+            public function has($name)
             {
                 // TODO: Implement has() method.
             }
 
-            public function get(string $name, $default = null)
+            public function get($name, $default = null)
             {
                 return $this->data[$name] ?? $default;
             }
 
-            public function set(string $name, $value)
+            public function set($name, $value)
             {
                 $this->data[$name] = $value;
             }
@@ -97,7 +97,7 @@ class SymfonySessionStorageAdapterTest extends TestCase
                 // TODO: Implement replace() method.
             }
 
-            public function remove(string $name)
+            public function remove($name)
             {
                 // TODO: Implement remove() method.
             }
@@ -117,7 +117,7 @@ class SymfonySessionStorageAdapterTest extends TestCase
                 // TODO: Implement registerBag() method.
             }
 
-            public function getBag(string $name)
+            public function getBag($name)
             {
                 // TODO: Implement getBag() method.
             }
