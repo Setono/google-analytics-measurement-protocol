@@ -7,6 +7,9 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Client;
 use PHPUnit\Framework\TestCase;
 use Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\DebugResponse;
 
+/**
+ * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Client\Client
+ */
 final class ClientTest extends TestCase
 {
     /**

@@ -6,34 +6,35 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 
 use function Safe\sprintf;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\Payload;
+use Webmozart\Assert\Assert;
 
 /**
  * This product builder represents a product in the enhanced ecommerce section.
  *
  * See https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_id
  *
- * @method string getSku()
+ * @method string|null getSku()
  * @method self setSku(string $sku)
- * @method string getName()
+ * @method string|null getName()
  * @method self setName(string $name)
- * @method string getBrand()
+ * @method string|null getBrand()
  * @method self setBrand(string $brand)
- * @method string getCategory()
+ * @method string|null getCategory()
  * @method self setCategory(string $category)
- * @method string getVariant()
+ * @method string|null getVariant()
  * @method self setVariant(string $variant)
- * @method float getPrice()
+ * @method float|null getPrice()
  * @method self setPrice(float $price)
- * @method int getQuantity()
+ * @method int|null getQuantity()
  * @method self setQuantity(int $quantity)
- * @method string getCouponCode()
+ * @method string|null getCouponCode()
  * @method self setCouponCode(string $couponCode)
- * @method int getPosition()
+ * @method int|null getPosition()
  * @method self setPosition(int $position)
  */
 final class ProductBuilder extends PayloadBuilder
 {
-    private static int $indexCounter = 1;
+    private static int $indexCounter = 0;
 
     public int $index;
 
@@ -45,13 +46,16 @@ final class ProductBuilder extends PayloadBuilder
 
     public function __construct(int $index = null)
     {
+        ++self::$indexCounter;
+
         if (null === $index) {
             $index = self::$indexCounter;
         }
 
-        self::$indexCounter = $index + 1;
+        Assert::greaterThanEq($index, 1);
+        Assert::lessThanEq($index, 200);
 
-        $this->index = $index;
+        $this->index = self::$indexCounter = $index;
     }
 
     public function getPayload(): Payload

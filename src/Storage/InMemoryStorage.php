@@ -7,7 +7,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Storage;
 final class InMemoryStorage implements StorageInterface
 {
     /** @var array<string, string> */
-    private $data = [];
+    private array $data = [];
 
     public function store(string $key, string $data): void
     {

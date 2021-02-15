@@ -8,6 +8,7 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Webmozart\Assert\Assert;
 
 final class SymfonyResponseAdapter implements ResponseInterface
 {
@@ -29,17 +30,15 @@ final class SymfonyResponseAdapter implements ResponseInterface
             return null;
         }
 
-        if (!isset($matches[1])) {
-            return null;
-        }
+        $title = $matches[1] ?? '';
+        Assert::string($title);
 
-        $title = $matches[1];
-        if (!is_string($title)) {
-            return null;
-        }
-
-        /** @var string $title */
         $title = preg_replace('/[\s]+/', ' ', $title);
+        Assert::string($title);
+
+        if ('' === $title) {
+            return null;
+        }
 
         return $title;
     }

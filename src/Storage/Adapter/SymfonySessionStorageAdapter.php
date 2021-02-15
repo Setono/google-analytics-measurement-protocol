@@ -6,6 +6,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Storage\Adapter;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Webmozart\Assert\Assert;
 
 final class SymfonySessionStorageAdapter implements StorageInterface
 {
@@ -26,8 +27,8 @@ final class SymfonySessionStorageAdapter implements StorageInterface
 
     public function restore(string $key): ?string
     {
-        /** @var string|null $data */
         $data = $this->session->get($this->resolveKey($key));
+        Assert::nullOrString($data);
 
         return $data;
     }

@@ -60,15 +60,16 @@ abstract class PayloadBuilder
             case 'get':
                 return $this->data[$property] ?? null;
             default:
-                throw new \BadMethodCallException();
+                throw new \BadMethodCallException(sprintf(
+                    'The method "%s" is not implemented. Use either set%s or get%s',
+                    $method, ucfirst($property), ucfirst($property))
+                );
         }
     }
 
     protected function assertPayloadPropertyExists(string $property): void
     {
-        $properties = array_values($this->getPropertyMapping());
-
-        if (!in_array($property, $properties, true)) {
+        if (!in_array($property, $this->getPropertyMapping(), true)) {
             throw new \InvalidArgumentException(sprintf('The property "%s" does not exist on this payload builder', $property));
         }
     }

@@ -99,6 +99,8 @@ final class HitBuilder extends PayloadBuilder
     public function __construct(array $properties)
     {
         $this->properties = $properties;
+
+        $this->setProtocolVersion('1');
     }
 
     /**
@@ -193,15 +195,27 @@ final class HitBuilder extends PayloadBuilder
         }
 
         $stored = $this->storage->restore($this->storageKey);
-        if (null === $stored) {
+        if (null === $stored || '' === $stored) {
             return;
         }
 
-        /** @var array{data: array<string, scalar>, products: array<array-key, ProductBuilder>, properties: array<array-key, string>} $data */
         $data = unserialize($stored, ['allowed_classes' => false]);
+        Assert::isArray($data);
 
-        $this->data = $data['data'];
+        Assert::isArray($data['data']);
+        foreach ($data['data'] as $key => $val) {
+            Assert::string($key);
+            Assert::scalar($val);
+
+            $this->{'set' . ucfirst($key)}($val);
+        }
+
+        Assert::isArray($data['products']);
+        Assert::allIsInstanceOf($data['products'], ProductBuilder::class);
         $this->products = $data['products'];
+
+        Assert::isArray($data['properties']);
+        Assert::allString($data['properties']);
         $this->properties = $data['properties'];
     }
 
