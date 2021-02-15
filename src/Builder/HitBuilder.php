@@ -111,10 +111,10 @@ final class HitBuilder extends PayloadBuilder
         $clientId = $this->getClientId();
         Assert::string($clientId, 'You have to set a client id to retrieve the hits');
 
-        foreach ($this->properties as $propertyId) {
-            $payload = $this->getPayload($propertyId);
+        foreach ($this->properties as $property) {
+            $payload = $this->getPayload($property);
 
-            $hits[] = new Hit($propertyId, $clientId, $payload);
+            $hits[] = new Hit($property, $clientId, $payload);
         }
 
         return $hits;
@@ -178,9 +178,9 @@ final class HitBuilder extends PayloadBuilder
         }
 
         $data = [
-            'properties' => $this->data,
+            'data' => $this->data,
             'products' => $this->products,
-            'propertyIds' => $this->properties,
+            'properties' => $this->properties,
         ];
 
         $this->storage->store($this->storageKey, serialize($data));
@@ -197,12 +197,12 @@ final class HitBuilder extends PayloadBuilder
             return;
         }
 
-        /** @var array{properties: array<string, scalar>, products: array<array-key, ProductBuilder>, propertyIds: array<array-key, string>} $data */
+        /** @var array{data: array<string, scalar>, products: array<array-key, ProductBuilder>, properties: array<array-key, string>} $data */
         $data = unserialize($stored, ['allowed_classes' => false]);
 
-        $this->data = $data['properties'];
+        $this->data = $data['data'];
         $this->products = $data['products'];
-        $this->properties = $data['propertyIds'];
+        $this->properties = $data['properties'];
     }
 
     public function setStorage(StorageInterface $storage, string $storageKey): void
@@ -229,7 +229,9 @@ final class HitBuilder extends PayloadBuilder
      */
     public function setProducts(array $products): self
     {
-        $this->products = $products;
+        foreach ($products as $product) {
+            $this->addProduct($product);
+        }
 
         return $this;
     }
