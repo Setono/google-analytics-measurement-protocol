@@ -50,8 +50,6 @@ final class HitBuilderTest extends TestCase
         $builder->setCheckoutStepOption('VISA');
         $builder->setCurrencyCode('USD');
 
-        $builder->addPropertyId('UA-1234-5');
-
         $product = new ProductBuilder(1);
         $product->setSku('product_sku_123');
 
@@ -103,19 +101,21 @@ final class HitBuilderTest extends TestCase
         $storage = new InMemoryStorage();
 
         $builder = self::getHitBuilder($storage);
-        $builder->addPropertyId('UA-1234-5');
         $builder->store();
 
         $builder = self::getHitBuilder($storage);
         $builder->restore();
 
-        self::assertSame('UA-1234-5', $builder->getPropertyIds()[0]);
+        self::assertSame('UA-1234-5', $builder->getProperties()[0]);
     }
 
     private static function getHitBuilder(StorageInterface $storage = null): HitBuilder
     {
         $storage = $storage ?? new InMemoryStorage();
 
-        return new HitBuilder($storage, 'test');
+        $hitBuilder = new HitBuilder(['UA-1234-5']);
+        $hitBuilder->setStorage($storage, 'test');
+
+        return $hitBuilder;
     }
 }

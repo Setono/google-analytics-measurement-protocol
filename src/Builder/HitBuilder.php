@@ -83,19 +83,21 @@ final class HitBuilder extends PayloadBuilder
      *
      * @var array<array-key, string>
      */
-    private array $propertyIds = [];
+    private array $properties = [];
 
     /** @var array<array-key, ProductBuilder> */
     private array $products = [];
 
-    private StorageInterface $storage;
+    private ?StorageInterface $storage = null;
 
-    private string $storageKey;
+    private ?string $storageKey = null;
 
-    public function __construct(StorageInterface $storage, string $storageKey)
+    /**
+     * @param array<array-key, string> $properties
+     */
+    public function __construct(array $properties)
     {
-        $this->storage = $storage;
-        $this->storageKey = $storageKey;
+        $this->properties = $properties;
     }
 
     /**
@@ -105,7 +107,7 @@ final class HitBuilder extends PayloadBuilder
     {
         $hits = [];
 
-        foreach ($this->propertyIds as $propertyId) {
+        foreach ($this->properties as $propertyId) {
             $payload = $this->getPayload($propertyId);
 
             $hits[] = new Hit($propertyId, $this->getClientId(), $payload);
@@ -167,10 +169,14 @@ final class HitBuilder extends PayloadBuilder
 
     public function store(): void
     {
+        if (null === $this->storage || null === $this->storageKey) {
+            return;
+        }
+
         $data = [
             'properties' => $this->data,
             'products' => $this->products,
-            'propertyIds' => $this->propertyIds,
+            'propertyIds' => $this->properties,
         ];
 
         $this->storage->store($this->storageKey, serialize($data));
@@ -178,6 +184,10 @@ final class HitBuilder extends PayloadBuilder
 
     public function restore(): void
     {
+        if (null === $this->storage || null === $this->storageKey) {
+            return;
+        }
+
         $stored = $this->storage->restore($this->storageKey);
         if (null === $stored) {
             return;
@@ -188,41 +198,18 @@ final class HitBuilder extends PayloadBuilder
 
         $this->data = $data['properties'];
         $this->products = $data['products'];
-        $this->propertyIds = $data['propertyIds'];
+        $this->properties = $data['propertyIds'];
     }
 
-    public function getPropertyIds(): array
+    public function setStorage(StorageInterface $storage, string $storageKey): void
     {
-        return $this->propertyIds;
+        $this->storage = $storage;
+        $this->storageKey = $storageKey;
     }
 
-    public function addPropertyId(string $propertyId): self
+    public function getProperties(): array
     {
-        $this->propertyIds[] = $propertyId;
-
-        return $this;
-    }
-
-    public function removePropertyId(string $propertyId): self
-    {
-        $key = array_search($propertyId, $this->propertyIds, true);
-        if (false === $key) {
-            return $this;
-        }
-
-        unset($this->propertyIds[$key]);
-
-        return $this;
-    }
-
-    /**
-     * @param array<array-key, string> $propertyIds
-     */
-    public function setPropertyIds(array $propertyIds): self
-    {
-        $this->propertyIds = $propertyIds;
-
-        return $this;
+        return $this->properties;
     }
 
     /**
