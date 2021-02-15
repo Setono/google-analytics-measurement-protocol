@@ -27,6 +27,37 @@ class SymfonySessionStorageAdapterTest extends TestCase
         self::assertSame('value2', $storage->restore('key2'));
     }
 
+    /**
+     * @test
+     */
+    public function it_uses_prefix(): void
+    {
+        $session = self::getSession();
+
+        $storage = new SymfonySessionStorageAdapter($session);
+
+        $storage->store('key1', 'value1');
+        $storage->store('key2', 'value2');
+
+        self::assertSame('value1', $session->get('sgamp_key1'));
+        self::assertSame('value2', $session->get('sgamp_key2'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_exception_if_stored_data_is_wrong(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $session = self::getSession();
+        $session->set('sgamp_key', ['mystical array']);
+
+        $storage = new SymfonySessionStorageAdapter($session);
+
+        $storage->restore('key');
+    }
+
     private static function getSession(): SessionInterface
     {
         return new class() implements SessionInterface {

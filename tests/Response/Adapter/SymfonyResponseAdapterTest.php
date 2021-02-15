@@ -39,6 +39,57 @@ CONTENT
     /**
      * @test
      */
+    public function it_returns_multiline_title(): void
+    {
+        $response = new Response(<<<CONTENT
+<!doctype html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>
+      Great website!
+
+      </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+      <p>Hello world! This is HTML5 Boilerplate.</p>
+    </body>
+</html>
+CONTENT
+        );
+        $adapter = new SymfonyResponseAdapter($response);
+
+        self::assertSame('Great website!', $adapter->getTitle());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_cased_title(): void
+    {
+        $response = new Response(<<<CONTENT
+<!doctype html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <TITLE>Great website!</TITLE>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+      <p>Hello world! This is HTML5 Boilerplate.</p>
+    </body>
+</html>
+CONTENT
+        );
+        $adapter = new SymfonyResponseAdapter($response);
+
+        self::assertSame('Great website!', $adapter->getTitle());
+    }
+
+    /**
+     * @test
+     */
     public function it_checks_for_false(): void
     {
         $response = new class() extends Response {

@@ -7,6 +7,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
 use Closure;
 use function Safe\sprintf;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\Payload;
+use Webmozart\Assert\Assert;
 
 abstract class PayloadBuilder
 {
@@ -48,16 +49,15 @@ abstract class PayloadBuilder
      */
     public function __call(string $method, array $arguments)
     {
-        $accessorType = mb_substr($method, 0, 3);
-        $property = lcfirst(mb_substr($method, 3));
-        $this->assertPayloadPropertyExists($property);
+        $accessorType = substr($method, 0, 3);
+        $property = lcfirst(substr($method, 3));
 
         switch ($accessorType) {
             case 'set':
-                $this->data[$property] = $arguments[0];
-
-                return $this;
+                return $this->set($property, $arguments[0]);
             case 'get':
+                $this->assertPayloadPropertyExists($property);
+
                 return $this->data[$property] ?? null;
             default:
                 throw new \BadMethodCallException(sprintf(
@@ -67,7 +67,20 @@ abstract class PayloadBuilder
         }
     }
 
-    protected function assertPayloadPropertyExists(string $property): void
+    /**
+     * @param mixed $value
+     */
+    protected function set(string $property, $value): self
+    {
+        $this->assertPayloadPropertyExists($property);
+        Assert::scalar($value);
+
+        $this->data[$property] = $value;
+
+        return $this;
+    }
+
+    private function assertPayloadPropertyExists(string $property): void
     {
         if (!in_array($property, $this->getPropertyMapping(), true)) {
             throw new \InvalidArgumentException(sprintf('The property "%s" does not exist on this payload builder', $property));

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Response\Adapter;
 
-use function Safe\preg_match;
-use function Safe\preg_replace;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Webmozart\Assert\Assert;
 
 final class SymfonyResponseAdapter implements ResponseInterface
 {
@@ -26,15 +23,11 @@ final class SymfonyResponseAdapter implements ResponseInterface
             return null;
         }
 
-        if (preg_match('#<title>(.*?)</title>#is', $content, $matches) === 0) {
+        if (preg_match('#<title>(.*?)</title>#is', $content, $matches) !== 1) {
             return null;
         }
 
-        $title = $matches[1] ?? '';
-        Assert::string($title);
-
-        $title = preg_replace('/[\s]+/', ' ', $title);
-        Assert::string($title);
+        $title = trim(preg_replace('/[\s]+/', ' ', $matches[1]));
 
         if ('' === $title) {
             return null;

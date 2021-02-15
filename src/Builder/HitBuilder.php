@@ -98,7 +98,9 @@ final class HitBuilder extends PayloadBuilder
      */
     public function __construct(array $properties)
     {
-        $this->properties = $properties;
+        foreach ($properties as $property) {
+            $this->addProperty($property);
+        }
 
         $this->setProtocolVersion('1');
     }
@@ -161,7 +163,7 @@ final class HitBuilder extends PayloadBuilder
                 continue;
             }
 
-            $this->{'set' . ucfirst($property)}($val);
+            $this->set($property, $val);
         }
     }
 
@@ -199,24 +201,23 @@ final class HitBuilder extends PayloadBuilder
             return;
         }
 
+        /** @var array{data: array<string, scalar>, products: array<array-key, ProductBuilder>, properties: array<array-key, string>} $data */
         $data = unserialize($stored, ['allowed_classes' => false]);
-        Assert::isArray($data);
 
-        Assert::isArray($data['data']);
+        /**
+         * @var string $key
+         * @var scalar $val
+         */
         foreach ($data['data'] as $key => $val) {
-            Assert::string($key);
-            Assert::scalar($val);
-
-            $this->{'set' . ucfirst($key)}($val);
+            $this->set($key, $val);
         }
 
-        Assert::isArray($data['products']);
-        Assert::allIsInstanceOf($data['products'], ProductBuilder::class);
-        $this->products = $data['products'];
+        $this->setProducts($data['products']);
 
-        Assert::isArray($data['properties']);
-        Assert::allString($data['properties']);
-        $this->properties = $data['properties'];
+        /** @var string $property */
+        foreach ($data['properties'] as $property) {
+            $this->addProperty($property);
+        }
     }
 
     public function setStorage(StorageInterface $storage, string $storageKey): void
@@ -228,6 +229,11 @@ final class HitBuilder extends PayloadBuilder
     public function getProperties(): array
     {
         return $this->properties;
+    }
+
+    private function addProperty(string $property): void
+    {
+        $this->properties[] = $property;
     }
 
     /**

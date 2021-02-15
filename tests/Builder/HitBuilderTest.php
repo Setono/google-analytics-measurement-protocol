@@ -95,9 +95,9 @@ final class HitBuilderTest extends TestCase
             &cos=2
             &col=VISA
             &cu=USD
-            &tid=UA-1234-5
+            &tid=UA-1234-1
             &pr1id=product_sku_123
-            QUERY, $builder->getPayload('UA-1234-5'));
+            QUERY, $builder->getPayload('UA-1234-1'));
     }
 
     /**
@@ -106,7 +106,10 @@ final class HitBuilderTest extends TestCase
     public function it_gets_and_sets(): void
     {
         $builder = self::getHitBuilder();
-        $builder->setClientId('clientId');
+        $builder
+            ->setClientId('clientId')
+            ->setDocumentTitle('Sweet Sugar')
+        ;
 
         $product1 = new ProductBuilder(1);
         $product1->setSku('product_sku_1');
@@ -117,26 +120,32 @@ final class HitBuilderTest extends TestCase
         $builder->setProducts([$product1, $product2]);
 
         self::assertSame('clientId', $builder->getClientId());
+        self::assertSame('Sweet Sugar', $builder->getDocumentTitle());
         self::assertSame([$product1, $product2], $builder->getProducts());
-        self::assertSame(['UA-1234-5'], $builder->getProperties());
+        self::assertSame(['UA-1234-1'], $builder->getProperties());
     }
 
     /**
      * @test
      */
-    public function it_gets_hits(): void
+    public function it_returns_hits(): void
     {
-        $builder = self::getHitBuilder();
+        $builder = self::getHitBuilder(null, 10);
         $builder->setClientId('clientId');
 
         $hits = $builder->getHits();
+        self::assertCount(10, $hits);
+
+        $i = 1;
         foreach ($hits as $hit) {
             self::assertInstanceOf(Hit::class, $hit);
-            self::assertSame('UA-1234-5', $hit->getPropertyId());
+            self::assertSame('UA-1234-' . $i, $hit->getPropertyId());
             self::assertSame('clientId', $hit->getClientId());
 
             $payload = $hit->getPayload();
-            self::assertSame('v=1&cid=clientId&tid=UA-1234-5', $payload->getValue());
+            self::assertSame('v=1&cid=clientId&tid=UA-1234-' . $i, $payload->getValue());
+
+            ++$i;
         }
     }
 
@@ -163,7 +172,7 @@ final class HitBuilderTest extends TestCase
 
             public function getQueryValue(string $parameter): ?string
             {
-                if ('dclid' === $parameter) {
+                if ('utm_term' === $parameter) {
                     return null;
                 }
 
@@ -186,12 +195,12 @@ final class HitBuilderTest extends TestCase
             &cn=utm_campaign
             &cs=utm_source
             &cm=utm_medium
-            &ck=utm_term
             &cc=utm_content
             &gclid=gclid
+            &dclid=dclid
             &dl=https://example.com
-            &tid=UA-1234-5
-            QUERY, $builder->getPayload('UA-1234-5'));
+            &tid=UA-1234-1
+            QUERY, $builder->getPayload('UA-1234-1'));
     }
 
     /**
@@ -208,7 +217,7 @@ final class HitBuilderTest extends TestCase
         $builder = self::getHitBuilder();
         $builder->populateFromResponse($response);
 
-        self::assertPayload('v=1&dt=Homepage&tid=UA-1234-5', $builder->getPayload('UA-1234-5'));
+        self::assertPayload('v=1&dt=Homepage&tid=UA-1234-1', $builder->getPayload('UA-1234-1'));
     }
 
     /**
@@ -295,9 +304,14 @@ final class HitBuilderTest extends TestCase
         self::assertSame('10.11.12.13', $builder->getIpOverride());
     }
 
-    private static function getHitBuilder(StorageInterface $storage = null): HitBuilder
+    private static function getHitBuilder(StorageInterface $storage = null, int $numberOfProperties = 1): HitBuilder
     {
-        $hitBuilder = new HitBuilder(['UA-1234-5']);
+        $properties = [];
+        for ($i = 1; $i <= $numberOfProperties; ++$i) {
+            $properties[] = 'UA-1234-' . $i;
+        }
+
+        $hitBuilder = new HitBuilder($properties);
 
         if (null !== $storage) {
             $hitBuilder->setStorage($storage, 'test');
