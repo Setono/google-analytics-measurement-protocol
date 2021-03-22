@@ -13,10 +13,15 @@
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
-        <PropertyNotSetInConstructor>
+        <InvalidReturnStatement>
             <errorLevel type="suppress">
-                <directory name="src/Builder"/>
+                <file name="src/Hit/HitBuilder.php"/>
             </errorLevel>
-        </PropertyNotSetInConstructor>
+        </InvalidReturnStatement>
+        <InvalidReturnType>
+            <errorLevel type="suppress">
+                <file name="src/Hit/HitBuilder.php"/>
+            </errorLevel>
+        </InvalidReturnType>
     </issueHandlers>
 </psalm>

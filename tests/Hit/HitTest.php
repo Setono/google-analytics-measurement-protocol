@@ -16,7 +16,8 @@ class HitTest extends TestCase
      */
     public function it_returns_correct_values(): void
     {
-        $payload = new Payload();
+        $payload = 'v=1';
+
         $obj = new Hit('property_id', 'client_id', $payload);
         self::assertSame('property_id', $obj->getPropertyId());
         self::assertSame('client_id', $obj->getClientId());
