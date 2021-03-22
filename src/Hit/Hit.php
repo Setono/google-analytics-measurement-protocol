@@ -10,9 +10,9 @@ final class Hit
 
     private string $clientId;
 
-    private Payload $payload;
+    private string $payload;
 
-    public function __construct(string $propertyId, string $clientId, Payload $payload)
+    public function __construct(string $propertyId, string $clientId, string $payload)
     {
         $this->propertyId = $propertyId;
         $this->clientId = $clientId;
@@ -29,8 +29,13 @@ final class Hit
         return $this->clientId;
     }
 
-    public function getPayload(): Payload
+    public function getPayload(): string
     {
         return $this->payload;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getPayload();
     }
 }

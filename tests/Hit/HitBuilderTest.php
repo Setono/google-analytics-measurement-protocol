@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Builder;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Hit\Hit;
+use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Product;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\InMemoryStorage;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
 
 /**
- * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Builder\HitBuilder
- * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Builder\PayloadBuilder
+ * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder
  */
 final class HitBuilderTest extends TestCase
 {
@@ -23,7 +22,6 @@ final class HitBuilderTest extends TestCase
     {
         // todo create more sane values below
         $builder = self::getHitBuilder();
-        $builder->setProtocolVersion('1');
         $builder->setAnonymizeIp(false);
         $builder->setDataSource('dataSource');
         $builder->setClientId('clientId');
@@ -57,12 +55,11 @@ final class HitBuilderTest extends TestCase
         $builder->setCheckoutStepOption('VISA');
         $builder->setCurrencyCode('USD');
 
-        $product = new ProductBuilder(1);
-        $product->setSku('product_sku_123');
+        $product = new Product('product_sku_123', 'Product 123');
 
         $builder->addProduct($product);
 
-        self::assertPayload(<<<QUERY
+        self::assertHit(<<<QUERY
             v=1
             &aip=0
             &ds=dataSource
@@ -95,9 +92,10 @@ final class HitBuilderTest extends TestCase
             &cos=2
             &col=VISA
             &cu=USD
-            &tid=UA-1234-1
             &pr1id=product_sku_123
-            QUERY, $builder->getPayload('UA-1234-1'));
+            &pr1nm=Product 123
+            &tid=UA-1234-1
+            QUERY, $builder->getHit('UA-1234-1'));
     }
 
     /**
@@ -105,47 +103,73 @@ final class HitBuilderTest extends TestCase
      */
     public function it_gets_and_sets(): void
     {
+        $reflectionClass = new \ReflectionClass(HitBuilder::class);
         $builder = self::getHitBuilder();
-        $builder
-            ->setClientId('clientId')
-            ->setDocumentTitle('Sweet Sugar')
-        ;
 
-        $product1 = new ProductBuilder(1);
-        $product1->setSku('product_sku_1');
+        $properties = [
+            'anonymizeIp',
+            'dataSource',
+            'clientId',
+            'userId',
+            'ipOverride',
+            'userAgentOverride',
+            'documentReferrer',
+            'campaignName',
+            'campaignSource',
+            'campaignMedium',
+            'campaignKeyword',
+            'campaignContent',
+            'campaignId',
+            'googleAdsId',
+            'googleDisplayAdsId',
+            'hitType',
+            'nonInteractionHit',
+            'documentLocationUrl',
+            'documentHostName',
+            'documentPath',
+            'documentTitle',
+            'productAction',
+            'transactionId',
+            'transactionAffiliation',
+            'transactionRevenue',
+            'transactionShipping',
+            'transactionTax',
+            'transactionCouponCode',
+            'checkoutStep',
+            'checkoutStepOption',
+            'currencyCode',
+        ];
 
-        $product2 = new ProductBuilder(1);
-        $product2->setSku('product_sku_2');
+        $typeMapping = [
+            'string' => 'yeah string',
+            'bool' => false,
+            'int' => 123,
+            'float' => 123.45,
+        ];
 
-        $builder->setProducts([$product1, $product2]);
+        foreach ($properties as $property) {
+            $setMethodName = 'set' . ucfirst($property);
+            self::assertTrue($reflectionClass->hasMethod($setMethodName));
 
-        self::assertSame('clientId', $builder->getClientId());
-        self::assertSame('Sweet Sugar', $builder->getDocumentTitle());
-        self::assertSame([$product1, $product2], $builder->getProducts());
-        self::assertSame(['UA-1234-1'], $builder->getProperties());
-    }
+            $getMethodName = 'get' . ucfirst($property);
+            if (!$reflectionClass->hasMethod($getMethodName)) {
+                $getMethodName = 'is' . ucfirst($property);
+            }
+            self::assertTrue($reflectionClass->hasMethod($getMethodName));
+            self::assertNull($builder->{$getMethodName}());
 
-    /**
-     * @test
-     */
-    public function it_returns_hits(): void
-    {
-        $builder = self::getHitBuilder(null, 10);
-        $builder->setClientId('clientId');
+            $reflectionMethod = $reflectionClass->getMethod($setMethodName);
+            $parameters = $reflectionMethod->getParameters();
+            self::assertCount(1, $parameters);
 
-        $hits = $builder->getHits();
-        self::assertCount(10, $hits);
+            $type = $parameters[0]->getType()->getName();
 
-        $i = 1;
-        foreach ($hits as $hit) {
-            self::assertInstanceOf(Hit::class, $hit);
-            self::assertSame('UA-1234-' . $i, $hit->getPropertyId());
-            self::assertSame('clientId', $hit->getClientId());
+            self::assertArrayHasKey($type, $typeMapping);
 
-            $payload = $hit->getPayload();
-            self::assertSame('v=1&cid=clientId&tid=UA-1234-' . $i, $payload->getValue());
+            $val = $typeMapping[$type];
 
-            ++$i;
+            $builder->{$setMethodName}($val);
+            self::assertSame($val, $builder->{$getMethodName}());
         }
     }
 
@@ -185,22 +209,24 @@ final class HitBuilderTest extends TestCase
             }
         };
         $builder = self::getHitBuilder();
+        $builder->setClientId('client_id');
         $builder->populateFromRequest($request);
 
-        self::assertPayload(<<<QUERY
+        self::assertHit(<<<QUERY
             v=1
-            &uip=10.11.12.13
+            &cid=client_id
+            &dl=https://example.com
             &ua=Chrome
+            &uip=10.11.12.13
             &dr=https://www.google.com
             &cn=utm_campaign
-            &cs=utm_source
-            &cm=utm_medium
             &cc=utm_content
+            &cm=utm_medium
+            &cs=utm_source
             &gclid=gclid
             &dclid=dclid
-            &dl=https://example.com
             &tid=UA-1234-1
-            QUERY, $builder->getPayload('UA-1234-1'));
+            QUERY, $builder->getHit('UA-1234-1'));
     }
 
     /**
@@ -215,9 +241,10 @@ final class HitBuilderTest extends TestCase
             }
         };
         $builder = self::getHitBuilder();
+        $builder->setClientId('client_id');
         $builder->populateFromResponse($response);
 
-        self::assertPayload('v=1&dt=Homepage&tid=UA-1234-1', $builder->getPayload('UA-1234-1'));
+        self::assertHit('v=1&cid=client_id&dt=Homepage&tid=UA-1234-1', $builder->getHit('UA-1234-1'));
     }
 
     /**
@@ -226,33 +253,9 @@ final class HitBuilderTest extends TestCase
     public function it_throws_exception_if_client_id_is_not_set(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('You have to set a client id to retrieve the hits');
+        $this->expectExceptionMessage('The client id is mandatory when generating a hit');
 
-        self::getHitBuilder()->getHits();
-    }
-
-    /**
-     * @test
-     */
-    public function it_throws_exception_if_the_property_is_not_valid(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The property "nonExistingProperty" does not exist on this payload builder');
-
-        $builder = self::getHitBuilder();
-        $builder->setNonExistingProperty('test');
-    }
-
-    /**
-     * @test
-     */
-    public function it_throws_exception_if_accessor_method_does_not_match(): void
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('The method "hasClientId" is not implemented. Use either setClientId or getClientId');
-
-        $builder = self::getHitBuilder();
-        $builder->hasClientId();
+        self::getHitBuilder()->getHit('UA-1234-1');
     }
 
     /**
@@ -304,14 +307,9 @@ final class HitBuilderTest extends TestCase
         self::assertSame('10.11.12.13', $builder->getIpOverride());
     }
 
-    private static function getHitBuilder(StorageInterface $storage = null, int $numberOfProperties = 1): HitBuilder
+    private static function getHitBuilder(StorageInterface $storage = null): HitBuilder
     {
-        $properties = [];
-        for ($i = 1; $i <= $numberOfProperties; ++$i) {
-            $properties[] = 'UA-1234-' . $i;
-        }
-
-        $hitBuilder = new HitBuilder($properties);
+        $hitBuilder = new HitBuilder();
 
         if (null !== $storage) {
             $hitBuilder->setStorage($storage, 'test');
