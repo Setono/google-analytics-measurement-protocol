@@ -52,6 +52,7 @@ final class PurchaseEventDataTest extends TestCase
 
         self::assertHit(<<<QUERY
             v=1
+            &t=pageview
             &cid=client_id
             &pa=purchase
             &ti=trans_1234
@@ -61,7 +62,7 @@ final class PurchaseEventDataTest extends TestCase
             &tt=12.12
             &ts=1.34
             &pr1id=product_123
-            &pr1nm=Product 123
+            &pr1nm=Product%20123
             &tid=UA-1234-1
             QUERY, $hitBuilder->getHit('UA-1234-1'));
     }

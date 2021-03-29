@@ -49,15 +49,16 @@ class ProductDataTest extends TestCase
 
         self::assertHit(<<<QUERY
             v=1
+            &t=pageview
             &cid=client_id
             &pr1id=product_id_123
-            &pr1nm=Product 123
-            &pr1br=Cool brand
+            &pr1nm=Product%20123
+            &pr1br=Cool%20brand
             &pr1ca=Jeans
             &pr1va=Black
             &pr1pr=213.12
             &pr1qt=2
-            &pr1cc=10% off
+            &pr1cc=10%25%20off
             &pr1ps=12
             &pr1cd1=VIP
             &pr1cm1=89
@@ -89,14 +90,15 @@ class ProductDataTest extends TestCase
 
         self::assertHit(<<<QUERY
             v=1
+            &t=pageview
             &cid=client_id
             &il2pr1id=product_id_123
-            &il2pr1nm=Product 123
-            &il2pr1br=Cool brand
+            &il2pr1nm=Product%20123
+            &il2pr1br=Cool%20brand
             &il2pr1ca=Jeans
             &il2pr1va=Black
             &il2pr1pr=213.12
-            &il2pr1cc=10% off
+            &il2pr1cc=10%25%20off
             &il2pr1ps=12
             &il2pr1cd1=VIP
             &il2pr1cm1=89

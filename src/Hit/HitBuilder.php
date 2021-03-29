@@ -11,6 +11,22 @@ use Webmozart\Assert\Assert;
 
 final class HitBuilder
 {
+    public const HIT_TYPE_PAGEVIEW = 'pageview';
+
+    public const HIT_TYPE_SCREENVIEW = 'screenview';
+
+    public const HIT_TYPE_EVENT = 'event';
+
+    public const HIT_TYPE_TRANSACTION = 'transaction';
+
+    public const HIT_TYPE_ITEM = 'item';
+
+    public const HIT_TYPE_SOCIAL = 'social';
+
+    public const HIT_TYPE_EXCEPTION = 'exception';
+
+    public const HIT_TYPE_TIMING = 'timing';
+
     /** @var array<string, scalar> */
     private array $data = [];
 
@@ -21,6 +37,7 @@ final class HitBuilder
     public function __construct()
     {
         $this->data['v'] = 1;
+        $this->setHitType(self::HIT_TYPE_PAGEVIEW);
     }
 
     /**
@@ -33,8 +50,7 @@ final class HitBuilder
 
     public function getHit(string $propertyId): Hit
     {
-        $clientId = $this->getClientId();
-        Assert::notNull($clientId, 'The client id is mandatory when generating a hit');
+        $this->validate();
 
         $data = $this->data;
         $data['tid'] = $propertyId;
@@ -47,12 +63,26 @@ final class HitBuilder
                 $value = '0';
             }
 
-            $str .= $key . '=' . $value . '&';
+            $str .= $key . '=' . rawurlencode((string) $value) . '&';
         }
 
         $str = rtrim($str, '&');
 
-        return new Hit($propertyId, $clientId, $str);
+        return new Hit($propertyId, (string) $this->getClientId(), $str);
+    }
+
+    /**
+     * @throws \InvalidArgumentException if any required properties are not set or are invalid
+     */
+    public function validate(): void
+    {
+        Assert::notNull($this->getClientId(), 'The client id is mandatory when generating a hit');
+        Assert::notNull($this->getHitType(), 'The hit type is mandatory when generating a hit');
+
+        if ($this->getHitType() === self::HIT_TYPE_EVENT) {
+            Assert::notNull($this->getEventCategory(), 'If the hit type is an event, the event category is mandatory');
+            Assert::notNull($this->getEventAction(), 'If the hit type is an event, the event action is mandatory');
+        }
     }
 
     public function populateFromRequest(RequestInterface $request): void
@@ -310,16 +340,32 @@ final class HitBuilder
         return $this;
     }
 
-    public function getHitType(): ?string
+    public function getHitType(): string
     {
-        return $this->data['t'] ?? null;
+        return $this->data['t'];
     }
 
     public function setHitType(string $hitType): self
     {
+        Assert::oneOf($hitType, self::getHitTypes());
+
         $this->data['t'] = $hitType;
 
         return $this;
+    }
+
+    public static function getHitTypes(): array
+    {
+        return [
+            self::HIT_TYPE_EVENT,
+            self::HIT_TYPE_EXCEPTION,
+            self::HIT_TYPE_ITEM,
+            self::HIT_TYPE_PAGEVIEW,
+            self::HIT_TYPE_SCREENVIEW,
+            self::HIT_TYPE_SOCIAL,
+            self::HIT_TYPE_TIMING,
+            self::HIT_TYPE_TRANSACTION,
+        ];
     }
 
     public function isNonInteractionHit(): ?bool
@@ -378,6 +424,54 @@ final class HitBuilder
     public function setDocumentTitle(string $documentTitle): self
     {
         $this->data['dt'] = $documentTitle;
+
+        return $this;
+    }
+
+    public function getEventCategory(): ?string
+    {
+        return $this->data['ec'] ?? null;
+    }
+
+    public function setEventCategory(string $eventCategory): self
+    {
+        $this->data['ec'] = $eventCategory;
+
+        return $this;
+    }
+
+    public function getEventAction(): ?string
+    {
+        return $this->data['ea'] ?? null;
+    }
+
+    public function setEventAction(string $eventAction): self
+    {
+        $this->data['ea'] = $eventAction;
+
+        return $this;
+    }
+
+    public function getEventLabel(): ?string
+    {
+        return $this->data['el'] ?? null;
+    }
+
+    public function setEventLabel(string $eventLabel): self
+    {
+        $this->data['el'] = $eventLabel;
+
+        return $this;
+    }
+
+    public function getEventValue(): ?int
+    {
+        return $this->data['ev'] ?? null;
+    }
+
+    public function setEventValue(int $eventValue): self
+    {
+        $this->data['ev'] = $eventValue;
 
         return $this;
     }
