@@ -41,7 +41,7 @@ final class HitBuilderTest extends TestCase
         $builder->setCampaignId('campaignId');
         $builder->setGoogleAdsId('googleAdsId');
         $builder->setGoogleDisplayAdsId('googleDisplayAdsId');
-        $builder->setHitType('hitType');
+        $builder->setHitType(HitBuilder::HIT_TYPE_PAGEVIEW);
         $builder->setNonInteractionHit(true);
         $builder->setDocumentLocationUrl('documentLocationUrl');
         $builder->setDocumentHostName('documentHostName');
@@ -64,6 +64,7 @@ final class HitBuilderTest extends TestCase
 
         self::assertHit(<<<QUERY
             v=1
+            &t=pageview
             &aip=0
             &ds=dataSource
             &cid=clientId
@@ -79,7 +80,6 @@ final class HitBuilderTest extends TestCase
             &ci=campaignId
             &gclid=googleAdsId
             &dclid=googleDisplayAdsId
-            &t=hitType
             &ni=1
             &dl=documentLocationUrl
             &dh=documentHostName
@@ -96,9 +96,18 @@ final class HitBuilderTest extends TestCase
             &col=VISA
             &cu=USD
             &pr1id=product_sku_123
-            &pr1nm=Product 123
+            &pr1nm=Product%20123
             &tid=UA-1234-1
             QUERY, $builder->getHit('UA-1234-1'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_hit_type_to_pageview_by_default(): void
+    {
+        $builder = self::getHitBuilder();
+        self::assertSame(HitBuilder::HIT_TYPE_PAGEVIEW, $builder->getHitType());
     }
 
     /**
@@ -125,7 +134,6 @@ final class HitBuilderTest extends TestCase
             'campaignId',
             'googleAdsId',
             'googleDisplayAdsId',
-            'hitType',
             'nonInteractionHit',
             'documentLocationUrl',
             'documentHostName',
@@ -278,11 +286,12 @@ final class HitBuilderTest extends TestCase
 
         self::assertHit(<<<QUERY
             v=1
+            &t=pageview
             &cid=client_id
-            &dl=https://example.com
+            &dl=https%3A%2F%2Fexample.com
             &ua=Chrome
             &uip=10.11.12.13
-            &dr=https://www.google.com
+            &dr=https%3A%2F%2Fwww.google.com
             &cn=utm_campaign
             &cc=utm_content
             &cm=utm_medium
@@ -308,7 +317,7 @@ final class HitBuilderTest extends TestCase
         $builder->setClientId('client_id');
         $builder->populateFromResponse($response);
 
-        self::assertHit('v=1&cid=client_id&dt=Homepage&tid=UA-1234-1', $builder->getHit('UA-1234-1'));
+        self::assertHit('v=1&t=pageview&cid=client_id&dt=Homepage&tid=UA-1234-1', $builder->getHit('UA-1234-1'));
     }
 
     /**
