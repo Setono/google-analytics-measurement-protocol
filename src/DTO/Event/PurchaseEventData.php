@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\DTO\DTOInterface;
-use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Product;
+use Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
 
-final class PurchaseEvent implements DTOInterface
+final class PurchaseEventData implements DTOInterface
 {
     public string $transactionId;
 
@@ -22,11 +22,11 @@ final class PurchaseEvent implements DTOInterface
 
     public float $shipping;
 
-    /** @var array<array-key, Product> */
+    /** @var array<array-key, ProductData> */
     public array $products;
 
     /**
-     * @param array<array-key, Product> $products
+     * @param array<array-key, ProductData> $products
      */
     public function __construct(
         string $transactionId,

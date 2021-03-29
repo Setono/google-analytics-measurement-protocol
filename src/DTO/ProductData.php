@@ -7,7 +7,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\DTO;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
 use Webmozart\Assert\Assert;
 
-final class Product implements DTOInterface
+final class ProductData implements DTOInterface
 {
     public const TYPE_PRODUCT = 'product';
 

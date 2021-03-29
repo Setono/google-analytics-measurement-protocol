@@ -8,17 +8,17 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
 use Setono\GoogleAnalyticsMeasurementProtocol\TestCase;
 
 /**
- * @covers \Setono\GoogleAnalyticsMeasurementProtocol\DTO\Product
+ * @covers \Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData
  * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder
  */
-class ProductTest extends TestCase
+class ProductDataTest extends TestCase
 {
     /**
      * @test
      */
     public function it_sets_id_and_name(): void
     {
-        $product = Product::createAsProductType('product_id_123', 'Product 123');
+        $product = ProductData::createAsProductType('product_id_123', 'Product 123');
 
         self::assertSame('product_id_123', $product->id);
         self::assertSame('Product 123', $product->name);
@@ -30,7 +30,7 @@ class ProductTest extends TestCase
      */
     public function it_applies_product_properties(): void
     {
-        $product = Product::createAsProductType('product_id_123', 'Product 123');
+        $product = ProductData::createAsProductType('product_id_123', 'Product 123');
         $product->brand = 'Cool brand';
         $product->variant = 'Black';
         $product->position = 12;
@@ -71,7 +71,7 @@ class ProductTest extends TestCase
      */
     public function it_applies_product_impression_properties(): void
     {
-        $product = Product::createAsProductImpressionType('product_id_123', 'Product 123', 2);
+        $product = ProductData::createAsProductImpressionType('product_id_123', 'Product 123', 2);
         $product->brand = 'Cool brand';
         $product->variant = 'Black';
         $product->position = 12;
@@ -110,7 +110,7 @@ class ProductTest extends TestCase
     public function it_throws_if_input_is_out_of_lower_bounds_for_dimension(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $product = Product::createAsProductType('product_id_123', 'Product 123');
+        $product = ProductData::createAsProductType('product_id_123', 'Product 123');
         $product->setCustomDimension(0, 'VIP');
     }
 
@@ -120,7 +120,7 @@ class ProductTest extends TestCase
     public function it_throws_if_input_is_out_of_upper_bounds_for_dimension(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $product = Product::createAsProductType('product_id_123', 'Product 123');
+        $product = ProductData::createAsProductType('product_id_123', 'Product 123');
         $product->setCustomDimension(201, 'VIP');
     }
 
@@ -130,7 +130,7 @@ class ProductTest extends TestCase
     public function it_throws_if_input_is_out_of_lower_bounds_for_metric(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $product = Product::createAsProductType('product_id_123', 'Product 123');
+        $product = ProductData::createAsProductType('product_id_123', 'Product 123');
         $product->setCustomMetric(0, 123);
     }
 
@@ -140,7 +140,7 @@ class ProductTest extends TestCase
     public function it_throws_if_input_is_out_of_upper_bounds_for_metric(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $product = Product::createAsProductType('product_id_123', 'Product 123');
+        $product = ProductData::createAsProductType('product_id_123', 'Product 123');
         $product->setCustomMetric(201, 123);
     }
 }

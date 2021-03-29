@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\DebugResponse;
-use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event\PurchaseEvent;
+use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event\PurchaseEventData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
 
 /**
@@ -51,7 +51,7 @@ final class ClientTest extends TestCase
         $hitBuilder->setClientId('123');
         $hitBuilder->setDocumentPath('/');
 
-        $purchaseEvent = new PurchaseEvent('order-678', 'example.com', 489.96, 'USD', 5.45, 9.87);
+        $purchaseEvent = new PurchaseEventData('order-678', 'example.com', 489.96, 'USD', 5.45, 9.87);
         $purchaseEvent->applyTo($hitBuilder);
 
         /** @var DebugResponse $response */

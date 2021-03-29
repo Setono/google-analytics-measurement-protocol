@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Product;
+use Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\InMemoryStorage;
@@ -59,7 +59,7 @@ final class HitBuilderTest extends TestCase
         $builder->setCheckoutStepOption('VISA');
         $builder->setCurrencyCode('USD');
 
-        $product = Product::createAsProductType('product_sku_123', 'Product 123');
+        $product = ProductData::createAsProductType('product_sku_123', 'Product 123');
         $product->applyTo($builder);
 
         self::assertHit(<<<QUERY

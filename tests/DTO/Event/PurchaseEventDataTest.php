@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Product;
+use Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
 use Setono\GoogleAnalyticsMeasurementProtocol\TestCase;
 
 /**
- * @covers \Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event\PurchaseEvent
+ * @covers \Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event\PurchaseEventData
  */
-final class PurchaseEventTest extends TestCase
+final class PurchaseEventDataTest extends TestCase
 {
     /**
      * @test
      */
     public function it_sets_initial_values(): void
     {
-        $event = new PurchaseEvent('trans_1234', 'Example.com', 123.45, 'USD', 12.12, 1.34);
+        $event = new PurchaseEventData('trans_1234', 'Example.com', 123.45, 'USD', 12.12, 1.34);
 
         self::assertSame('trans_1234', $event->transactionId);
         self::assertSame('Example.com', $event->affiliation);
@@ -35,14 +35,14 @@ final class PurchaseEventTest extends TestCase
      */
     public function it_applies(): void
     {
-        $event = new PurchaseEvent(
+        $event = new PurchaseEventData(
             'trans_1234',
             'Example.com',
             123.45,
             'USD',
             12.12,
             1.34,
-            [Product::createAsProductType('product_123', 'Product 123')]
+            [ProductData::createAsProductType('product_123', 'Product 123')]
         );
 
         $hitBuilder = new HitBuilder();
