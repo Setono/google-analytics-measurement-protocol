@@ -464,12 +464,12 @@ final class HitBuilder
         return $this;
     }
 
-    public function getEventValue(): ?string
+    public function getEventValue(): ?int
     {
         return $this->data['ev'] ?? null;
     }
 
-    public function setEventValue(string $eventValue): self
+    public function setEventValue(int $eventValue): self
     {
         $this->data['ev'] = $eventValue;
 
