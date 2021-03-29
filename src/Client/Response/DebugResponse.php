@@ -5,21 +5,29 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Client\Response;
 
 use function Safe\json_decode;
+use Webmozart\Assert\Assert;
 
 final class DebugResponse implements ResponseInterface
 {
     private ResponseInterface $decorated;
 
-    private array $parsingResult;
+    /** @var array<array-key, HitParsingResult> */
+    private array $hitParsingResults = [];
 
     public function __construct(ResponseInterface $response)
     {
         $this->decorated = $response;
 
-        /** @var array<array-key, array> $data */
-        $data = json_decode($response->getBody(), true)['hitParsingResult'] ?? [];
+        $data = json_decode($response->getBody(), true);
+        Assert::isArray($data, 'The response could not be decoded to an array');
+        Assert::keyExists($data, 'hitParsingResult', 'The key "hitParsingResult" does not exist on the response array');
+        Assert::isArray($data['hitParsingResult'], 'The key "hitParsingResult" is not an array');
 
-        $this->parsingResult = $data;
+        foreach ($data['hitParsingResult'] as $idx => $datum) {
+            Assert::isArray($datum, sprintf('The item on index %d is not an array', $idx));
+
+            $this->hitParsingResults[] = HitParsingResult::createFromArray($datum);
+        }
     }
 
     public function getStatusCode(): int
@@ -32,8 +40,35 @@ final class DebugResponse implements ResponseInterface
         return $this->decorated->getBody();
     }
 
-    public function getParsingResult(): array
+    /**
+     * @return array<array-key, HitParsingResult>
+     */
+    public function getHitParsingResults(): array
     {
-        return $this->parsingResult;
+        return $this->hitParsingResults;
+    }
+
+    /**
+     * Returns true if all hits were valid
+     */
+    public function wasValid(): bool
+    {
+        foreach ($this->getHitParsingResults() as $hitParsingResult) {
+            if (!$hitParsingResult->valid) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function getErrors(): array
+    {
+        $errors = [];
+        foreach ($this->getHitParsingResults() as $hitParsingResult) {
+            $errors = array_merge($errors, $hitParsingResult->errors);
+        }
+
+        return $errors;
     }
 }

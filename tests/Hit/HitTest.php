@@ -22,5 +22,6 @@ class HitTest extends TestCase
         self::assertSame('property_id', $obj->getPropertyId());
         self::assertSame('client_id', $obj->getClientId());
         self::assertSame($payload, $obj->getPayload());
+        self::assertSame($payload, (string) $obj);
     }
 }

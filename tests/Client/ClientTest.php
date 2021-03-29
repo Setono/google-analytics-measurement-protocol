@@ -13,9 +13,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\DebugResponse;
+use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event\PurchaseEvent;
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
 
 /**
  * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Client\Client
+ * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\DebugResponse
+ * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\HitParsingResult
  */
 final class ClientTest extends TestCase
 {
@@ -31,7 +35,29 @@ final class ClientTest extends TestCase
         $response = $client->sendHit('v=1&tid=UA-23901888-1&cid=555&t=pageview&dp=/home');
 
         self::assertInstanceOf(DebugResponse::class, $response);
+        self::assertTrue($response->wasValid());
         self::assertSame(200, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_sends_purchase_event(): void
+    {
+        $client = new Client();
+        $client->setDebug(true);
+
+        $hitBuilder = new HitBuilder();
+        $hitBuilder->setClientId('123');
+        $hitBuilder->setDocumentPath('/');
+
+        $purchaseEvent = new PurchaseEvent('order-678', 'example.com', 489.96, 'USD', 5.45, 9.87);
+        $purchaseEvent->applyTo($hitBuilder);
+
+        /** @var DebugResponse $response */
+        $response = $client->sendHit($hitBuilder->getHit('UA-123414-5')->getPayload());
+
+        self::assertTrue($response->wasValid(), implode("\n", $response->getErrors()));
     }
 
     /**
