@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Product;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
@@ -15,8 +14,6 @@ final class HitBuilder
     /** @var array<string, scalar> */
     private array $data = [];
 
-    private int $productIndex = 0;
-
     private ?StorageInterface $storage = null;
 
     private ?string $storageKey = null;
@@ -24,6 +21,14 @@ final class HitBuilder
     public function __construct()
     {
         $this->data['v'] = 1;
+    }
+
+    /**
+     * @return array<string, scalar>
+     */
+    public function getData(): array
+    {
+        return $this->data;
     }
 
     public function getHit(string $propertyId): Hit
@@ -123,15 +128,6 @@ final class HitBuilder
     {
         $this->storage = $storage;
         $this->storageKey = $storageKey;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        ++$this->productIndex;
-
-        $this->data = array_merge($this->data, $product->generateData('pr' . $this->productIndex));
-
-        return $this;
     }
 
     public function isAnonymizeIp(): ?bool
@@ -502,6 +498,205 @@ final class HitBuilder
     public function setCurrencyCode(string $currencyCode): self
     {
         $this->data['cu'] = $currencyCode;
+
+        return $this;
+    }
+
+    /**
+     * Product specific setters
+     */
+    public function setProductSku(?string $sku, int $index): self
+    {
+        return $this->setProductProperty('id', $sku, $index);
+    }
+
+    public function setProductName(?string $name, int $index): self
+    {
+        return $this->setProductProperty('nm', $name, $index);
+    }
+
+    public function setProductBrand(?string $brand, int $index): self
+    {
+        return $this->setProductProperty('br', $brand, $index);
+    }
+
+    public function setProductCategory(?string $category, int $index): self
+    {
+        return $this->setProductProperty('ca', $category, $index);
+    }
+
+    public function setProductVariant(?string $variant, int $index): self
+    {
+        return $this->setProductProperty('va', $variant, $index);
+    }
+
+    public function setProductPrice(?float $price, int $index): self
+    {
+        return $this->setProductProperty('pr', $price, $index);
+    }
+
+    public function setProductQuantity(?int $quantity, int $index): self
+    {
+        return $this->setProductProperty('qt', $quantity, $index);
+    }
+
+    public function setProductCouponCode(?string $couponCode, int $index): self
+    {
+        return $this->setProductProperty('cc', $couponCode, $index);
+    }
+
+    public function setProductPosition(?int $position, int $index): self
+    {
+        return $this->setProductProperty('ps', $position, $index);
+    }
+
+    public function setProductCustomDimension(?string $dimension, int $dimensionIndex, int $productIndex): self
+    {
+        $key = sprintf('pr%dcd%d', $productIndex, $dimensionIndex);
+        if (null === $dimension) {
+            unset($this->data[$key]);
+
+            return $this;
+        }
+
+        $this->data[$key] = $dimension;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $metric
+     */
+    public function setProductCustomMetric($metric, int $metricIndex, int $productIndex): self
+    {
+        $key = sprintf('pr%dcm%d', $productIndex, $metricIndex);
+        if (null === $metric) {
+            unset($this->data[$key]);
+
+            return $this;
+        }
+
+        if (!is_int($metric) && !is_float($metric)) {
+            throw new \InvalidArgumentException('The metric must be either float or int');
+        }
+
+        $this->data[$key] = $metric;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function setProductProperty(string $key, $value, int $index): self
+    {
+        $key = sprintf('pr%d%s', $index, $key);
+        if (null === $value) {
+            unset($this->data[$key]);
+
+            return $this;
+        }
+
+        Assert::scalar($value);
+
+        $this->data[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Product impression specific setters
+     */
+    public function setProductImpressionSku(?string $sku, int $index, int $impressionListIndex): self
+    {
+        return $this->setProductImpressionProperty('id', $sku, $index, $impressionListIndex);
+    }
+
+    public function setProductImpressionName(?string $name, int $index, int $impressionListIndex): self
+    {
+        return $this->setProductImpressionProperty('nm', $name, $index, $impressionListIndex);
+    }
+
+    public function setProductImpressionBrand(?string $brand, int $index, int $impressionListIndex): self
+    {
+        return $this->setProductImpressionProperty('br', $brand, $index, $impressionListIndex);
+    }
+
+    public function setProductImpressionCategory(?string $category, int $index, int $impressionListIndex): self
+    {
+        return $this->setProductImpressionProperty('ca', $category, $index, $impressionListIndex);
+    }
+
+    public function setProductImpressionVariant(?string $variant, int $index, int $impressionListIndex): self
+    {
+        return $this->setProductImpressionProperty('va', $variant, $index, $impressionListIndex);
+    }
+
+    public function setProductImpressionPrice(?float $price, int $index, int $impressionListIndex): self
+    {
+        return $this->setProductImpressionProperty('pr', $price, $index, $impressionListIndex);
+    }
+
+    public function setProductImpressionCouponCode(?string $couponCode, int $index, int $impressionListIndex): self
+    {
+        return $this->setProductImpressionProperty('cc', $couponCode, $index, $impressionListIndex);
+    }
+
+    public function setProductImpressionPosition(?int $position, int $index, int $impressionListIndex): self
+    {
+        return $this->setProductImpressionProperty('ps', $position, $index, $impressionListIndex);
+    }
+
+    public function setProductImpressionCustomDimension(?string $dimension, int $dimensionIndex, int $productIndex, int $impressionListIndex): self
+    {
+        $key = sprintf('il%dpr%dcd%d', $impressionListIndex, $productIndex, $dimensionIndex);
+        if (null === $dimension) {
+            unset($this->data[$key]);
+
+            return $this;
+        }
+
+        $this->data[$key] = $dimension;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $metric
+     */
+    public function setProductImpressionCustomMetric($metric, int $metricIndex, int $productIndex, int $impressionListIndex): self
+    {
+        $key = sprintf('il%dpr%dcm%d', $impressionListIndex, $productIndex, $metricIndex);
+        if (null === $metric) {
+            unset($this->data[$key]);
+
+            return $this;
+        }
+
+        if (!is_int($metric) && !is_float($metric)) {
+            throw new \InvalidArgumentException('The metric must be either float or int');
+        }
+
+        $this->data[$key] = $metric;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function setProductImpressionProperty(string $key, $value, int $productIndex, int $impressionListIndex): self
+    {
+        $key = sprintf('il%dpr%d%s', $impressionListIndex, $productIndex, $key);
+        if (null === $value) {
+            unset($this->data[$key]);
+
+            return $this;
+        }
+
+        Assert::scalar($value);
+
+        $this->data[$key] = $value;
 
         return $this;
     }

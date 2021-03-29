@@ -9,6 +9,7 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\InMemoryStorage;
 use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
+use Setono\GoogleAnalyticsMeasurementProtocol\TestCase;
 
 /**
  * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder
@@ -17,6 +18,9 @@ final class HitBuilderTest extends TestCase
 {
     /**
      * @test
+     * @runInSeparateProcess
+     *
+     * The reason we need to run in a separate process is that the Product DTO has a static index variable
      */
     public function it_generates_payload(): void
     {
@@ -55,9 +59,8 @@ final class HitBuilderTest extends TestCase
         $builder->setCheckoutStepOption('VISA');
         $builder->setCurrencyCode('USD');
 
-        $product = new Product('product_sku_123', 'Product 123');
-
-        $builder->addProduct($product);
+        $product = Product::createAsProductType('product_sku_123', 'Product 123');
+        $product->applyTo($builder);
 
         self::assertHit(<<<QUERY
             v=1
@@ -171,6 +174,67 @@ final class HitBuilderTest extends TestCase
             $builder->{$setMethodName}($val);
             self::assertSame($val, $builder->{$getMethodName}());
         }
+    }
+
+    /**
+     * @test
+     */
+    public function it_unsets_properties_for_null_input(): void
+    {
+        $hitBuilder = self::getHitBuilder();
+        $hitBuilder->setProductName('Product 123', 3);
+        self::assertArrayHasKey('pr3nm', $hitBuilder->getData());
+
+        $hitBuilder->setProductImpressionName('Product 123', 3, 4);
+        self::assertArrayHasKey('il4pr3nm', $hitBuilder->getData());
+
+        $hitBuilder->setProductCustomMetric(123.45, 2, 3);
+        self::assertArrayHasKey('pr3cm2', $hitBuilder->getData());
+
+        $hitBuilder->setProductCustomDimension('VIP', 2, 3);
+        self::assertArrayHasKey('pr3cd2', $hitBuilder->getData());
+
+        $hitBuilder->setProductImpressionCustomMetric(123.45, 2, 3, 4);
+        self::assertArrayHasKey('il4pr3cm2', $hitBuilder->getData());
+
+        $hitBuilder->setProductImpressionCustomDimension('Importante', 2, 3, 4);
+        self::assertArrayHasKey('il4pr3cd2', $hitBuilder->getData());
+
+        $hitBuilder->setProductName(null, 3);
+        $hitBuilder->setProductImpressionName(null, 3, 4);
+        $hitBuilder->setProductCustomMetric(null, 2, 3);
+        $hitBuilder->setProductCustomDimension(null, 2, 3);
+        $hitBuilder->setProductImpressionCustomMetric(null, 2, 3, 4);
+        $hitBuilder->setProductImpressionCustomDimension(null, 2, 3, 4);
+
+        self::assertArrayNotHasKey('pr3nm', $hitBuilder->getData());
+        self::assertArrayNotHasKey('il4pr3nm', $hitBuilder->getData());
+        self::assertArrayNotHasKey('pr3cm2', $hitBuilder->getData());
+        self::assertArrayNotHasKey('pr3cd2', $hitBuilder->getData());
+        self::assertArrayNotHasKey('il4pr3cm2', $hitBuilder->getData());
+        self::assertArrayNotHasKey('il4pr3cd2', $hitBuilder->getData());
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_if_product_custom_metric_does_not_get_right_input(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $hitBuilder = self::getHitBuilder();
+        $hitBuilder->setProductCustomMetric('string', 1, 1);
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_if_product_impression_custom_metric_does_not_get_right_input(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $hitBuilder = self::getHitBuilder();
+        $hitBuilder->setProductImpressionCustomMetric('string', 1, 1, 1);
     }
 
     /**
