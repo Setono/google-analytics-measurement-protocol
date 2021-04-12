@@ -7,8 +7,6 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 use Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
-use Setono\GoogleAnalyticsMeasurementProtocol\Storage\InMemoryStorage;
-use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\TestCase;
 
 /**
@@ -335,63 +333,8 @@ final class HitBuilderTest extends TestCase
         self::getHitBuilder()->getHit('UA-1234-1');
     }
 
-    /**
-     * @test
-     */
-    public function it_stores_and_restores(): void
+    private static function getHitBuilder(): HitBuilder
     {
-        $storage = new InMemoryStorage();
-
-        $builder = self::getHitBuilder($storage);
-        $builder->setIpOverride('10.11.12.13');
-        $builder->store();
-
-        $builder = self::getHitBuilder($storage);
-        $builder->restore();
-
-        self::assertSame('10.11.12.13', $builder->getIpOverride());
-    }
-
-    /**
-     * @test
-     */
-    public function it_does_not_store_if_storage_service_is_null(): void
-    {
-        $builder = self::getHitBuilder();
-        $builder->setIpOverride('10.11.12.13');
-        $builder->store();
-
-        $builder = self::getHitBuilder();
-        $builder->restore();
-
-        self::assertNull($builder->getIpOverride());
-    }
-
-    /**
-     * @test
-     */
-    public function it_does_not_restore_if_data_is_empty(): void
-    {
-        $storage = new InMemoryStorage();
-        $builder = self::getHitBuilder($storage);
-        $builder->setIpOverride('10.11.12.13');
-        $builder->store();
-
-        $storage->store('test', '');
-
-        $builder->restore();
-
-        self::assertSame('10.11.12.13', $builder->getIpOverride());
-    }
-
-    private static function getHitBuilder(StorageInterface $storage = null): HitBuilder
-    {
-        $hitBuilder = new HitBuilder();
-
-        if (null !== $storage) {
-            $hitBuilder->setStorage($storage, 'test');
-        }
-
-        return $hitBuilder;
+        return new HitBuilder();
     }
 }

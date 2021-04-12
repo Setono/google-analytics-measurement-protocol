@@ -6,7 +6,6 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
-use Setono\GoogleAnalyticsMeasurementProtocol\Storage\StorageInterface;
 use Webmozart\Assert\Assert;
 
 final class HitBuilder
@@ -29,10 +28,6 @@ final class HitBuilder
 
     /** @var array<string, scalar> */
     private array $data = [];
-
-    private ?StorageInterface $storage = null;
-
-    private ?string $storageKey = null;
 
     public function __construct()
     {
@@ -122,42 +117,6 @@ final class HitBuilder
         if (null !== $title) {
             $this->setDocumentTitle($title);
         }
-    }
-
-    public function store(): void
-    {
-        if (null === $this->storage || null === $this->storageKey) {
-            return;
-        }
-
-        $this->storage->store($this->storageKey, serialize($this->data));
-    }
-
-    public function restore(): void
-    {
-        if (null === $this->storage || null === $this->storageKey) {
-            return;
-        }
-
-        $stored = $this->storage->restore($this->storageKey);
-        if (null === $stored || '' === $stored) {
-            return;
-        }
-
-        $data = unserialize($stored, ['allowed_classes' => false]);
-        Assert::isArray($data);
-        foreach ($data as $key => $val) {
-            Assert::string($key);
-            Assert::scalar($val);
-
-            $this->data[$key] = $val;
-        }
-    }
-
-    public function setStorage(StorageInterface $storage, string $storageKey): void
-    {
-        $this->storage = $storage;
-        $this->storageKey = $storageKey;
     }
 
     public function isAnonymizeIp(): ?bool
