@@ -335,6 +335,6 @@ final class HitBuilderTest extends TestCase
 
     private static function getHitBuilder(): HitBuilder
     {
-        return new HitBuilder();
+        return new HitBuilder(HitBuilder::HIT_TYPE_PAGEVIEW);
     }
 }

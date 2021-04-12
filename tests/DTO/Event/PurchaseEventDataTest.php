@@ -45,7 +45,7 @@ final class PurchaseEventDataTest extends TestCase
             [ProductData::createAsProductType('product_123', 'Product 123')]
         );
 
-        $hitBuilder = new HitBuilder();
+        $hitBuilder = new HitBuilder(HitBuilder::HIT_TYPE_PAGEVIEW);
         $hitBuilder->setClientId('client_id');
 
         $event->applyTo($hitBuilder);

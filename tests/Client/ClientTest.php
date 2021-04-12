@@ -47,7 +47,7 @@ final class ClientTest extends TestCase
         $client = new Client();
         $client->setDebug(true);
 
-        $hitBuilder = new HitBuilder();
+        $hitBuilder = new HitBuilder(HitBuilder::HIT_TYPE_PAGEVIEW);
         $hitBuilder->setClientId('123');
         $hitBuilder->setDocumentPath('/');
 

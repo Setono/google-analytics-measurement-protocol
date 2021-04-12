@@ -29,10 +29,10 @@ final class HitBuilder
     /** @var array<string, scalar> */
     private array $data = [];
 
-    public function __construct()
+    public function __construct(string $hitType)
     {
         $this->data['v'] = 1;
-        $this->setHitType(self::HIT_TYPE_PAGEVIEW);
+        $this->setHitType($hitType);
     }
 
     /**
