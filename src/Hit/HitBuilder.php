@@ -71,8 +71,7 @@ final class HitBuilder
      */
     public function validate(): void
     {
-        Assert::notNull($this->getClientId(), 'The client id is mandatory when generating a hit');
-        Assert::notNull($this->getHitType(), 'The hit type is mandatory when generating a hit');
+        Assert::notNull($this->getClientId(), 'The client id is mandatory when generating a hit'); // todo it really isn't. EITHER the user OR the client is mandatory. Refactor to support this
 
         if ($this->getHitType() === self::HIT_TYPE_EVENT) {
             Assert::notNull($this->getEventCategory(), 'If the hit type is an event, the event category is mandatory');
