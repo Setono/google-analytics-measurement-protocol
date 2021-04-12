@@ -6,7 +6,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\DTO\DTOInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData;
-use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilderInterface;
 
 final class PurchaseEventData implements DTOInterface
 {
@@ -46,7 +46,7 @@ final class PurchaseEventData implements DTOInterface
         $this->products = $products;
     }
 
-    public function applyTo(HitBuilder $hitBuilder): void
+    public function applyTo(HitBuilderInterface $hitBuilder): void
     {
         $hitBuilder
             ->setProductAction('purchase')

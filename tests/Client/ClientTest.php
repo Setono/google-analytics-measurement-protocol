@@ -15,6 +15,7 @@ use Psr\Http\Message\StreamInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\DebugResponse;
 use Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event\PurchaseEventData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilderInterface;
 
 /**
  * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Client\Client
@@ -47,7 +48,7 @@ final class ClientTest extends TestCase
         $client = new Client();
         $client->setDebug(true);
 
-        $hitBuilder = new HitBuilder(HitBuilder::HIT_TYPE_PAGEVIEW);
+        $hitBuilder = new HitBuilder(HitBuilderInterface::HIT_TYPE_PAGEVIEW);
         $hitBuilder->setClientId('123');
         $hitBuilder->setDocumentPath('/');
 

@@ -39,7 +39,7 @@ final class HitBuilderTest extends TestCase
         $builder->setCampaignId('campaignId');
         $builder->setGoogleAdsId('googleAdsId');
         $builder->setGoogleDisplayAdsId('googleDisplayAdsId');
-        $builder->setHitType(HitBuilder::HIT_TYPE_PAGEVIEW);
+        $builder->setHitType(HitBuilderInterface::HIT_TYPE_PAGEVIEW);
         $builder->setNonInteractionHit(true);
         $builder->setDocumentLocationUrl('documentLocationUrl');
         $builder->setDocumentHostName('documentHostName');
@@ -105,7 +105,7 @@ final class HitBuilderTest extends TestCase
     public function it_sets_hit_type_to_pageview_by_default(): void
     {
         $builder = self::getHitBuilder();
-        self::assertSame(HitBuilder::HIT_TYPE_PAGEVIEW, $builder->getHitType());
+        self::assertSame(HitBuilderInterface::HIT_TYPE_PAGEVIEW, $builder->getHitType());
     }
 
     /**
@@ -333,8 +333,8 @@ final class HitBuilderTest extends TestCase
         self::getHitBuilder()->getHit('UA-1234-1');
     }
 
-    private static function getHitBuilder(): HitBuilder
+    private static function getHitBuilder(): HitBuilderInterface
     {
-        return new HitBuilder(HitBuilder::HIT_TYPE_PAGEVIEW);
+        return new HitBuilder(HitBuilderInterface::HIT_TYPE_PAGEVIEW);
     }
 }

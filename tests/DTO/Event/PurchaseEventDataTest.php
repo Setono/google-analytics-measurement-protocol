@@ -6,6 +6,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilderInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\TestCase;
 
 /**
@@ -45,7 +46,7 @@ final class PurchaseEventDataTest extends TestCase
             [ProductData::createAsProductType('product_123', 'Product 123')]
         );
 
-        $hitBuilder = new HitBuilder(HitBuilder::HIT_TYPE_PAGEVIEW);
+        $hitBuilder = new HitBuilder(HitBuilderInterface::HIT_TYPE_PAGEVIEW);
         $hitBuilder->setClientId('client_id');
 
         $event->applyTo($hitBuilder);

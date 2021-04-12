@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\DTO;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilderInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\TestCase;
 
 /**
@@ -42,7 +43,7 @@ class ProductDataTest extends TestCase
         $product->setCustomDimension(1, 'VIP');
         $product->setCustomMetric(1, 89);
 
-        $hitBuilder = new HitBuilder(HitBuilder::HIT_TYPE_PAGEVIEW);
+        $hitBuilder = new HitBuilder(HitBuilderInterface::HIT_TYPE_PAGEVIEW);
         $hitBuilder->setClientId('client_id');
 
         $product->applyTo($hitBuilder);
@@ -83,7 +84,7 @@ class ProductDataTest extends TestCase
         $product->setCustomDimension(1, 'VIP');
         $product->setCustomMetric(1, 89);
 
-        $hitBuilder = new HitBuilder(HitBuilder::HIT_TYPE_PAGEVIEW);
+        $hitBuilder = new HitBuilder(HitBuilderInterface::HIT_TYPE_PAGEVIEW);
         $hitBuilder->setClientId('client_id');
 
         $product->applyTo($hitBuilder);

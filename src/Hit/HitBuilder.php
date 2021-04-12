@@ -8,24 +8,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 use Webmozart\Assert\Assert;
 
-final class HitBuilder
+final class HitBuilder implements HitBuilderInterface
 {
-    public const HIT_TYPE_PAGEVIEW = 'pageview';
-
-    public const HIT_TYPE_SCREENVIEW = 'screenview';
-
-    public const HIT_TYPE_EVENT = 'event';
-
-    public const HIT_TYPE_TRANSACTION = 'transaction';
-
-    public const HIT_TYPE_ITEM = 'item';
-
-    public const HIT_TYPE_SOCIAL = 'social';
-
-    public const HIT_TYPE_EXCEPTION = 'exception';
-
-    public const HIT_TYPE_TIMING = 'timing';
-
     /** @var array<string, scalar> */
     private array $data = [];
 

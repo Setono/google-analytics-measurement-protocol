@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\DTO;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilderInterface;
 use Webmozart\Assert\Assert;
 
 final class ProductData implements DTOInterface
@@ -84,7 +84,7 @@ final class ProductData implements DTOInterface
         $this->customMetrics[$index] = $value;
     }
 
-    public function applyTo(HitBuilder $hitBuilder): void
+    public function applyTo(HitBuilderInterface $hitBuilder): void
     {
         switch ($this->type) {
             case self::TYPE_PRODUCT:

@@ -6,10 +6,10 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
 interface HitBuilderStackInterface
 {
-    public function push(HitBuilder $hitBuilder): void;
+    public function push(HitBuilderInterface $hitBuilder): void;
 
     /**
-     * @return array<array-key, HitBuilder>
+     * @return array<array-key, HitBuilderInterface>
      */
     public function all(): array;
 }
