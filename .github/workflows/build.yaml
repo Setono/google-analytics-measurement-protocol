@@ -26,7 +26,7 @@ jobs:
                 uses: "actions/checkout@v2"
 
             -   name: "Setup PHP, with composer and extensions"
-                uses: "shivammathur/setup-php@v2"
+                uses: "shivammathur/setup-php@2.11.0"
                 with:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -64,7 +64,7 @@ jobs:
                 uses: "actions/checkout@v2"
 
             -   name: "Setup PHP, with composer and extensions"
-                uses: "shivammathur/setup-php@v2"
+                uses: "shivammathur/setup-php@2.11.0"
                 with:
                     coverage: "none"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -100,7 +100,7 @@ jobs:
                 uses: "actions/checkout@v2"
 
             -   name: "Setup PHP, with composer and extensions"
-                uses: "shivammathur/setup-php@v2"
+                uses: "shivammathur/setup-php@2.11.0"
                 with:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -133,7 +133,7 @@ jobs:
                 uses: "actions/checkout@v2"
 
             -   name: "Setup PHP, with composer and extensions"
-                uses: "shivammathur/setup-php@v2"
+                uses: "shivammathur/setup-php@2.11.0"
                 with:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -165,7 +165,7 @@ jobs:
                 uses: "actions/checkout@v2"
 
             -   name: "Setup PHP, with composer and extensions"
-                uses: "shivammathur/setup-php@v2"
+                uses: "shivammathur/setup-php@2.11.0"
                 with:
                     coverage: "pcov"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -205,7 +205,7 @@ jobs:
                 uses: "actions/checkout@v2"
 
             -   name: "Setup PHP, with composer and extensions"
-                uses: "shivammathur/setup-php@v2"
+                uses: "shivammathur/setup-php@2.11.0"
                 with:
                     coverage: "pcov"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
