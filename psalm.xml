@@ -24,4 +24,7 @@
             </errorLevel>
         </InvalidReturnType>
     </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+    </plugins>
 </psalm>

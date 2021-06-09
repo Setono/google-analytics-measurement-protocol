@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Client\Response;
 
-use function Safe\json_decode;
 use Webmozart\Assert\Assert;
 
 final class DebugResponse implements ResponseInterface
@@ -18,7 +17,7 @@ final class DebugResponse implements ResponseInterface
     {
         $this->decorated = $response;
 
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody(), true, 512, \JSON_THROW_ON_ERROR);
         Assert::isArray($data, 'The response could not be decoded to an array');
         Assert::keyExists($data, 'hitParsingResult', 'The key "hitParsingResult" does not exist on the response array');
         Assert::isArray($data['hitParsingResult'], 'The key "hitParsingResult" is not an array');

@@ -9,7 +9,6 @@ use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use function Safe\sprintf;
 use Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\DebugResponse;
 use Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\Response;
 use Setono\GoogleAnalyticsMeasurementProtocol\Client\Response\ResponseInterface;

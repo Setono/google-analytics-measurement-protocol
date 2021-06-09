@@ -17,7 +17,8 @@ final class SymfonyResponseAdapterTest extends TestCase
      */
     public function it_returns_title(): void
     {
-        $response = new Response(<<<CONTENT
+        $response = new Response(
+            <<<CONTENT
 <!doctype html>
 <html lang="en">
     <head>
@@ -30,7 +31,7 @@ final class SymfonyResponseAdapterTest extends TestCase
     </body>
 </html>
 CONTENT
-);
+        );
         $adapter = new SymfonyResponseAdapter($response);
 
         self::assertSame('Great website!', $adapter->getTitle());
@@ -41,7 +42,8 @@ CONTENT
      */
     public function it_returns_multiline_title(): void
     {
-        $response = new Response(<<<CONTENT
+        $response = new Response(
+            <<<CONTENT
 <!doctype html>
 <html lang="en">
     <head>
@@ -68,7 +70,8 @@ CONTENT
      */
     public function it_returns_cased_title(): void
     {
-        $response = new Response(<<<CONTENT
+        $response = new Response(
+            <<<CONTENT
 <!doctype html>
 <html lang="en">
     <head>
@@ -108,7 +111,8 @@ CONTENT
      */
     public function it_checks_for_no_title(): void
     {
-        $response = new Response(<<<CONTENT
+        $response = new Response(
+            <<<CONTENT
 <!doctype html>
 <html lang="en">
     <head>
@@ -131,7 +135,8 @@ CONTENT
      */
     public function it_checks_for_empty_title(): void
     {
-        $response = new Response(<<<CONTENT
+        $response = new Response(
+            <<<CONTENT
 <!doctype html>
 <html lang="en">
     <head>
