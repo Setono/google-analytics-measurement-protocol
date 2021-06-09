@@ -15,7 +15,7 @@ $ composer require setono/google-analytics-measurement-protocol
 
 ## Usage
 
-See the [tests directory](tests/Builder).
+See the [tests directory](tests).
 
 [ico-version]: https://poser.pugx.org/setono/google-analytics-measurement-protocol/v/stable
 [ico-unstable-version]: https://poser.pugx.org/setono/google-analytics-measurement-protocol/v/unstable
