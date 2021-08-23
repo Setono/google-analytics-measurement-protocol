@@ -6,6 +6,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Adapter;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Webmozart\Assert\Assert;
 
 final class SymfonyRequestAdapter implements RequestInterface
 {
@@ -33,7 +34,10 @@ final class SymfonyRequestAdapter implements RequestInterface
 
     public function getQueryValue(string $parameter): ?string
     {
-        return $this->request->query->get($parameter);
+        $val = $this->request->query->get($parameter);
+        Assert::nullOrString($val);
+
+        return $val;
     }
 
     public function getReferrer(): ?string
