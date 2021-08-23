@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.9.3@4c262932602b9bbab5020863d1eb22d49de0dbf4">
+  <file src="src/Hit/HitBuilderStack.php">
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$filter</code>
+    </MixedArgumentTypeCoercion>
+  </file>
+</files>
