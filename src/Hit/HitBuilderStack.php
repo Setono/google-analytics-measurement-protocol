@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
-final class HitBuilderStack implements HitBuilderStackInterface
+final class HitBuilderStack implements HitBuilderStackInterface, \IteratorAggregate
 {
     /** @var array<array-key, HitBuilderInterface> */
     private array $hitBuilders = [];
@@ -17,5 +17,10 @@ final class HitBuilderStack implements HitBuilderStackInterface
     public function all(): array
     {
         return $this->hitBuilders;
+    }
+
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->hitBuilders);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
-interface HitBuilderStackInterface
+interface HitBuilderStackInterface extends \Traversable
 {
     public function push(HitBuilderInterface $hitBuilder): void;
 
