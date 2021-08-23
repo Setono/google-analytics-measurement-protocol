@@ -14,9 +14,13 @@ final class HitBuilderStack implements HitBuilderStackInterface, \IteratorAggreg
         $this->hitBuilders[] = $hitBuilder;
     }
 
-    public function all(): array
+    public function all(callable $filter = null): array
     {
-        return $this->hitBuilders;
+        if (null === $filter) {
+            return $this->hitBuilders;
+        }
+
+        return array_filter($this->hitBuilders, $filter);
     }
 
     public function pageviews(): array
