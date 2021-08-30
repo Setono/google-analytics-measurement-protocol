@@ -25,16 +25,14 @@ final class HitBuilderStack implements HitBuilderStackInterface, \IteratorAggreg
 
     public function pageviews(): array
     {
-        return array_filter(
-            $this->hitBuilders,
+        return $this->all(
             static fn (HitBuilderInterface $hitBuilder) => $hitBuilder->getHitType() === HitBuilderInterface::HIT_TYPE_PAGEVIEW
         );
     }
 
     public function events(): array
     {
-        return array_filter(
-            $this->hitBuilders,
+        return $this->all(
             static fn (HitBuilderInterface $hitBuilder) => $hitBuilder->getHitType() === HitBuilderInterface::HIT_TYPE_EVENT
         );
     }
