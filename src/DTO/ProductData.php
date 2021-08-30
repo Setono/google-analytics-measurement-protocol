@@ -13,7 +13,7 @@ final class ProductData implements DTOInterface
 
     public const TYPE_PRODUCT_IMPRESSION = 'product_impression';
 
-    private static int $productCounter = 0;
+    private static int $indexCount = 0;
 
     private string $type;
 
@@ -52,7 +52,7 @@ final class ProductData implements DTOInterface
         $this->id = $id;
         $this->name = $name;
         $this->type = $type;
-        $this->index = ++self::$productCounter;
+        $this->index = ++self::$indexCount;
     }
 
     public static function createAsProductType(string $id, string $name): self
