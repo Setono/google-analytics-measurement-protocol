@@ -46,7 +46,7 @@ final class HitBuilderTest extends TestCase
         $builder->setDocumentPath('documentPath');
         $builder->setDocumentTitle('documentTitle');
 
-        $builder->setProductAction('action');
+        $builder->setProductAction('detail');
         $builder->setTransactionId('transaction123');
         $builder->setTransactionAffiliation('google');
         $builder->setTransactionRevenue(123.12);
@@ -83,7 +83,7 @@ final class HitBuilderTest extends TestCase
             &dh=documentHostName
             &dp=documentPath
             &dt=documentTitle
-            &pa=action
+            &pa=detail
             &ti=transaction123
             &ta=google
             &tr=123.12
@@ -154,7 +154,7 @@ final class HitBuilderTest extends TestCase
         ];
 
         $typeMapping = [
-            'string' => 'yeah string',
+            'string' => 'detail',
             'bool' => false,
             'int' => 123,
             'float' => 123.45,
