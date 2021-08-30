@@ -48,6 +48,13 @@ final class PurchaseEventData implements DTOInterface
 
     public function applyTo(HitBuilderInterface $hitBuilder): void
     {
+        if (HitBuilderInterface::HIT_TYPE_EVENT === $hitBuilder->getHitType()) {
+            $hitBuilder
+                ->setEventCategory('ecommerce')
+                ->setEventAction('purchase')
+            ;
+        }
+
         $hitBuilder
             ->setProductAction('purchase')
             ->setTransactionId($this->transactionId)
