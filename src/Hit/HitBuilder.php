@@ -425,6 +425,11 @@ final class HitBuilder implements HitBuilderInterface
 
     public function setProductAction(string $productAction): self
     {
+        Assert::oneOf(
+            $productAction,
+            ['detail', 'click', 'add', 'remove', 'checkout', 'checkout_option', 'purchase', 'refund']
+        );
+
         $this->data['pa'] = $productAction;
 
         return $this;
