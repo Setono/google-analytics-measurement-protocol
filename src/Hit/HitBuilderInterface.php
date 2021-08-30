@@ -143,6 +143,9 @@ interface HitBuilderInterface
 
     public function getProductAction(): ?string;
 
+    /**
+     * See https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pa
+     */
     public function setProductAction(string $productAction): self;
 
     public function getTransactionId(): ?string;
