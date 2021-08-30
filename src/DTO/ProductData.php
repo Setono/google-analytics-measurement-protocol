@@ -15,8 +15,6 @@ final class ProductData implements DTOInterface
 
     private static int $indexCount = 0;
 
-    private string $type;
-
     public int $index;
 
     public ?int $impressionListIndex = null;
@@ -24,6 +22,8 @@ final class ProductData implements DTOInterface
     public string $id;
 
     public string $name;
+
+    private string $type;
 
     public ?string $variant = null;
 
