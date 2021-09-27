@@ -27,7 +27,7 @@ final class SymfonyResponseAdapter implements ResponseInterface
             return null;
         }
 
-        $title = trim(preg_replace('/[\s]+/', ' ', $matches[1]));
+        $title = trim(html_entity_decode(preg_replace('/[\s]+/', ' ', $matches[1])));
 
         if ('' === $title) {
             return null;
