@@ -4,36 +4,38 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
+use Webmozart\Assert\Assert;
+
 final class Hit
 {
-    private string $propertyId;
-
-    private string $clientId;
-
     /** @var array<string, scalar> */
     private array $data;
 
-    private \DateTimeInterface $createdAt;
+    private \DateTimeInterface $timestamp;
 
     /**
      * @param array<string, scalar> $data
+     * @param \DateTimeInterface|null $timestamp if you want to set the time when the hit happened, use this argument
      */
-    public function __construct(string $propertyId, string $clientId, array $data, \DateTimeInterface $createdAt = null)
+    public function __construct(array $data, \DateTimeInterface $timestamp = null)
     {
-        $this->propertyId = $propertyId;
-        $this->clientId = $clientId;
+        Assert::keyExists($data, HitBuilderInterface::PARAMETER_CLIENT_ID);
+        Assert::string($data[HitBuilderInterface::PARAMETER_CLIENT_ID]);
+        Assert::keyExists($data, HitBuilderInterface::PARAMETER_PROPERTY_ID);
+        Assert::string($data[HitBuilderInterface::PARAMETER_PROPERTY_ID]);
+
         $this->data = $data;
-        $this->createdAt = $createdAt ?? new \DateTimeImmutable();
+        $this->timestamp = $timestamp ?? new \DateTimeImmutable();
     }
 
     public function getPropertyId(): string
     {
-        return $this->propertyId;
+        return $this->data[HitBuilderInterface::PARAMETER_PROPERTY_ID];
     }
 
     public function getClientId(): string
     {
-        return $this->clientId;
+        return $this->data[HitBuilderInterface::PARAMETER_CLIENT_ID];
     }
 
     /**
@@ -47,9 +49,9 @@ final class Hit
     /**
      * Returns the time when this Hit happened
      */
-    public function getCreatedAt(): \DateTimeInterface
+    public function getTimestamp(): \DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->timestamp;
     }
 
     /**
@@ -66,7 +68,7 @@ final class Hit
         $data = $this->getData();
 
         $qt = self::calculateQueueTime(
-            $this->getCreatedAt(),
+            $this->getTimestamp(),
             $now ?? new \DateTimeImmutable()
         );
 
