@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
+use PHPUnit\Framework\TestCase;
 use Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
-use Setono\GoogleAnalyticsMeasurementProtocol\TestCase;
 
 /**
  * @covers \Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder
@@ -60,43 +60,45 @@ final class HitBuilderTest extends TestCase
         $product = ProductData::createAsProductType('product_sku_123', 'Product 123');
         $product->applyTo($builder);
 
-        self::assertHit(<<<QUERY
-            v=1
-            &t=pageview
-            &aip=0
-            &ds=dataSource
-            &cid=clientId
-            &uid=userId
-            &uip=64.12.12.56
-            &ua=userAgentOverride
-            &dr=documentReferrer
-            &cn=campaignName
-            &cs=campaignSource
-            &cm=campaignMedium
-            &ck=campaignKeyword
-            &cc=campaignContent
-            &ci=campaignId
-            &gclid=googleAdsId
-            &dclid=googleDisplayAdsId
-            &ni=1
-            &dl=documentLocationUrl
-            &dh=documentHostName
-            &dp=documentPath
-            &dt=documentTitle
-            &pa=detail
-            &ti=transaction123
-            &ta=google
-            &tr=123.12
-            &ts=10.5
-            &tt=4.3
-            &tcc=great_coupon
-            &cos=2
-            &col=VISA
-            &cu=USD
-            &pr1id=product_sku_123
-            &pr1nm=Product%20123
-            &tid=UA-1234-1
-            QUERY, $builder->getHit('UA-1234-1'));
+        $expectedData = [
+            'v' => '1',
+            't' => 'pageview',
+            'aip' => false,
+            'ds' => 'dataSource',
+            'cid' => 'clientId',
+            'uid' => 'userId',
+            'uip' => '64.12.12.56',
+            'ua' => 'userAgentOverride',
+            'dr' => 'documentReferrer',
+            'cn' => 'campaignName',
+            'cs' => 'campaignSource',
+            'cm' => 'campaignMedium',
+            'ck' => 'campaignKeyword',
+            'cc' => 'campaignContent',
+            'ci' => 'campaignId',
+            'gclid' => 'googleAdsId',
+            'dclid' => 'googleDisplayAdsId',
+            'ni' => true,
+            'dl' => 'documentLocationUrl',
+            'dh' => 'documentHostName',
+            'dp' => 'documentPath',
+            'dt' => 'documentTitle',
+            'pa' => 'detail',
+            'ti' => 'transaction123',
+            'ta' => 'google',
+            'tr' => 123.12,
+            'ts' => 10.5,
+            'tt' => 4.3,
+            'tcc' => 'great_coupon',
+            'cos' => 2,
+            'col' => 'VISA',
+            'cu' => 'USD',
+            'pr1id' => 'product_sku_123',
+            'pr1nm' => 'Product 123',
+            'tid' => 'UA-1234-1',
+        ];
+
+        self::assertEquals($expectedData, $builder->getHit('UA-1234-1')->getData());
     }
 
     /**
@@ -286,22 +288,24 @@ final class HitBuilderTest extends TestCase
         $builder->setClientId('client_id');
         $builder->populateFromRequest($request);
 
-        self::assertHit(<<<QUERY
-            v=1
-            &t=pageview
-            &cid=client_id
-            &dl=https%3A%2F%2Fexample.com
-            &ua=Chrome
-            &uip=10.11.12.13
-            &dr=https%3A%2F%2Fwww.google.com
-            &cn=utm_campaign
-            &cc=utm_content
-            &cm=utm_medium
-            &cs=utm_source
-            &gclid=gclid
-            &dclid=dclid
-            &tid=UA-1234-1
-            QUERY, $builder->getHit('UA-1234-1'));
+        $expectedData = [
+            'v' => '1',
+            't' => 'pageview',
+            'cid' => 'client_id',
+            'dl' => 'https://example.com',
+            'ua' => 'Chrome',
+            'uip' => '10.11.12.13',
+            'dr' => 'https://www.google.com',
+            'cn' => 'utm_campaign',
+            'cc' => 'utm_content',
+            'cm' => 'utm_medium',
+            'cs' => 'utm_source',
+            'gclid' => 'gclid',
+            'dclid' => 'dclid',
+            'tid' => 'UA-1234-1',
+        ];
+
+        self::assertEquals($expectedData, $builder->getHit('UA-1234-1')->getData());
     }
 
     /**
@@ -319,7 +323,15 @@ final class HitBuilderTest extends TestCase
         $builder->setClientId('client_id');
         $builder->populateFromResponse($response);
 
-        self::assertHit('v=1&t=pageview&cid=client_id&dt=Homepage&tid=UA-1234-1', $builder->getHit('UA-1234-1'));
+        $expectedData = [
+            'v' => '1',
+            't' => 'pageview',
+            'cid' => 'client_id',
+            'dt' => 'Homepage',
+            'tid' => 'UA-1234-1',
+        ];
+
+        self::assertEquals($expectedData, $builder->getHit('UA-1234-1')->getData());
     }
 
     /**
