@@ -24,4 +24,19 @@ class HitTest extends TestCase
         self::assertSame($data, $obj->getData());
         self::assertSame('v=1', (string) $obj);
     }
+
+    /**
+     * @test
+     */
+    public function it_calculates_queue_time(): void
+    {
+        $data = ['v' => '1'];
+
+        $then = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', '2021-09-25 12:03:40.123456');
+        $now = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', '2021-09-27 14:05:41.456789');
+        $qt = 180_121_334; // calculated manually from the two timestamps above
+
+        $obj = new Hit('property_id', 'client_id', $data, $then);
+        self::assertSame('v=1&qt=' . $qt, $obj->getPayload($now));
+    }
 }
