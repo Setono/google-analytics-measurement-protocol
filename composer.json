@@ -1,7 +1,7 @@
 {
     "name": "setono/google-analytics-measurement-protocol",
     "type": "library",
-    "description": "A library that eases the generation of measurement protocol urls",
+    "description": "A library that eases the generation of measurement protocol payloads",
     "license": "MIT",
     "authors": [
         {

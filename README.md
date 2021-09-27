@@ -7,6 +7,8 @@
 [![Code Coverage][ico-code-coverage]][link-code-coverage]
 [![Mutation testing][ico-infection]][link-infection]
 
+Easily build payloads for the [Google Analytics measurement protocol](https://developers.google.com/analytics/devguides/collection/protocol/v1).
+
 ## Installation
 
 ```bash
@@ -15,7 +17,29 @@ $ composer require setono/google-analytics-measurement-protocol
 
 ## Usage
 
-See the [tests directory](tests).
+Build your `Hit` using the `HitBuilder`:
+
+```php
+<?php
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
+use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilderInterface;
+
+$hitBuilder = new HitBuilder(HitBuilderInterface::HIT_TYPE_PAGEVIEW);
+$hitBuilder->setClientId('CLIENT_ID');
+$hit = $hitBuilder->getHit('UA-1234-1');
+
+echo $hit; // outputs v=1&t=pageview&cid=CLIENT_ID&tid=UA-1234-1
+```
+
+then use the `Client` to send the hit:
+
+```php
+<?php
+use Setono\GoogleAnalyticsMeasurementProtocol\Client\Client;
+
+$client = new Client();
+$client->sendHit($hit);
+```
 
 [ico-version]: https://poser.pugx.org/setono/google-analytics-measurement-protocol/v/stable
 [ico-unstable-version]: https://poser.pugx.org/setono/google-analytics-measurement-protocol/v/unstable
