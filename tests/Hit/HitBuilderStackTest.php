@@ -70,7 +70,7 @@ final class HitBuilderStackTest extends TestCase
 
         $i = 0;
         foreach ($stack as $item) {
-            $i++;
+            ++$i;
         }
 
         self::assertSame(3, $i);
