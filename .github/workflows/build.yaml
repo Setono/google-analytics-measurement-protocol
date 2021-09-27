@@ -15,7 +15,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.4"
+                    - "8.0"
 
                 dependencies:
                     - "highest"
@@ -157,7 +157,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.4"
+                    - "8.0"
 
                 dependencies:
                     - "highest"
@@ -197,7 +197,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "7.4"
+                    - "8.0"
 
                 dependencies:
                     - "highest"
@@ -221,4 +221,4 @@ jobs:
             -   name: "Run infection"
                 run: "vendor/bin/infection"
                 env:
-                    STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+                    STRYKER_DASHBOARD_API_KEY: "${{ secrets.STRYKER_DASHBOARD_API_KEY }}"
