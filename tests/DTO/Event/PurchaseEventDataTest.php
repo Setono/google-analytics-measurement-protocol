@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event;
 
+use PHPUnit\Framework\TestCase;
 use Setono\GoogleAnalyticsMeasurementProtocol\DTO\ProductData;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilder;
 use Setono\GoogleAnalyticsMeasurementProtocol\Hit\HitBuilderInterface;
-use Setono\GoogleAnalyticsMeasurementProtocol\TestCase;
 
 /**
  * @covers \Setono\GoogleAnalyticsMeasurementProtocol\DTO\Event\PurchaseEventData
@@ -51,20 +51,22 @@ final class PurchaseEventDataTest extends TestCase
 
         $event->applyTo($hitBuilder);
 
-        self::assertHit(<<<QUERY
-            v=1
-            &t=pageview
-            &cid=client_id
-            &pa=purchase
-            &ti=trans_1234
-            &ta=Example.com
-            &tr=123.45
-            &cu=USD
-            &tt=12.12
-            &ts=1.34
-            &pr1id=product_123
-            &pr1nm=Product%20123
-            &tid=UA-1234-1
-            QUERY, $hitBuilder->getHit('UA-1234-1'));
+        $expectedData = [
+            'v' => 1,
+            't' => 'pageview',
+            'cid' => 'client_id',
+            'pa' => 'purchase',
+            'ti' => 'trans_1234',
+            'ta' => 'Example.com',
+            'tr' => 123.45,
+            'cu' => 'USD',
+            'tt' => 12.12,
+            'ts' => 1.34,
+            'pr1id' => 'product_123',
+            'pr1nm' => 'Product 123',
+            'tid' => 'UA-1234-1',
+        ];
+
+        self::assertEquals($expectedData, $hitBuilder->getHit('UA-1234-1')->getData());
     }
 }
