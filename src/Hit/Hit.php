@@ -45,7 +45,7 @@ final class Hit
     }
 
     /**
-     * Returns the time when this Hit was instantiated
+     * Returns the time when this Hit happened
      */
     public function getCreatedAt(): \DateTimeInterface
     {
