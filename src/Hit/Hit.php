@@ -10,13 +10,17 @@ final class Hit
 
     private string $clientId;
 
-    private string $payload;
+    /** @var array<string, scalar> */
+    private array $data;
 
-    public function __construct(string $propertyId, string $clientId, string $payload)
+    /**
+     * @param array<string, scalar> $data
+     */
+    public function __construct(string $propertyId, string $clientId, array $data)
     {
         $this->propertyId = $propertyId;
         $this->clientId = $clientId;
-        $this->payload = $payload;
+        $this->data = $data;
     }
 
     public function getPropertyId(): string
@@ -29,9 +33,31 @@ final class Hit
         return $this->clientId;
     }
 
+    /**
+     * @return array<string, scalar>
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * The payload is the string representation of the hit which is what you send to Google Analytics
+     */
     public function getPayload(): string
     {
-        return $this->payload;
+        $str = '';
+
+        foreach ($this->getData() as $key => $value) {
+            // if you cast false to string it returns '' (empty string) and not '0'
+            if (is_bool($value)) {
+                $value = (int) $value;
+            }
+
+            $str .= $key . '=' . rawurlencode((string) $value) . '&';
+        }
+
+        return rtrim($str, '&');
     }
 
     public function __toString(): string

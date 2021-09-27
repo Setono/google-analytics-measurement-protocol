@@ -56,7 +56,7 @@ final class ClientTest extends TestCase
         $purchaseEvent->applyTo($hitBuilder);
 
         /** @var DebugResponse $response */
-        $response = $client->sendHit($hitBuilder->getHit('UA-123414-5')->getPayload());
+        $response = $client->sendHit((string) $hitBuilder->getHit('UA-123414-5'));
 
         self::assertTrue($response->wasValid(), implode("\n", $response->getErrors()));
     }
