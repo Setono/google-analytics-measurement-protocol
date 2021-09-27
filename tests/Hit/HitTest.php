@@ -16,12 +16,12 @@ class HitTest extends TestCase
      */
     public function it_returns_correct_values(): void
     {
-        $payload = 'v=1';
+        $data = ['v' => '1'];
 
-        $obj = new Hit('property_id', 'client_id', $payload);
+        $obj = new Hit('property_id', 'client_id', $data);
         self::assertSame('property_id', $obj->getPropertyId());
         self::assertSame('client_id', $obj->getClientId());
-        self::assertSame($payload, $obj->getPayload());
-        self::assertSame($payload, (string) $obj);
+        self::assertSame($data, $obj->getData());
+        self::assertSame('v=1', (string) $obj);
     }
 }

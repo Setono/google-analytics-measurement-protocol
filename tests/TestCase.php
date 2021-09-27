@@ -13,6 +13,6 @@ abstract class TestCase extends BaseTestCase
     {
         $expectedQuery = trim(preg_replace('/[\t\n]+/', '', $expectedQuery));
 
-        self::assertSame($expectedQuery, $hit->getPayload());
+        self::assertSame($expectedQuery, (string) $hit);
     }
 }

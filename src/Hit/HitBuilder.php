@@ -34,20 +34,7 @@ final class HitBuilder implements HitBuilderInterface
         $data = $this->data;
         $data['tid'] = $propertyId;
 
-        $str = '';
-
-        foreach ($data as $key => $value) {
-            // if you cast false to string it returns '' (empty string) and not '0'
-            if (is_bool($value) && false === $value) {
-                $value = '0';
-            }
-
-            $str .= $key . '=' . rawurlencode((string) $value) . '&';
-        }
-
-        $str = rtrim($str, '&');
-
-        return new Hit($propertyId, (string) $this->getClientId(), $str);
+        return new Hit($propertyId, (string) $this->getClientId(), $data);
     }
 
     /**
