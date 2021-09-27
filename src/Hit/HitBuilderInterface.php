@@ -9,6 +9,10 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Response\ResponseInterface;
 
 interface HitBuilderInterface
 {
+    public const PARAMETER_CLIENT_ID = 'cid';
+
+    public const PARAMETER_PROPERTY_ID = 'tid';
+
     public const PARAMETER_QUEUE_TIME = 'qt';
 
     public const HIT_TYPE_PAGEVIEW = 'pageview';

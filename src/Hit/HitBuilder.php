@@ -34,7 +34,7 @@ final class HitBuilder implements HitBuilderInterface
         $data = $this->data;
         $data['tid'] = $propertyId;
 
-        return new Hit($propertyId, (string) $this->getClientId(), $data);
+        return new Hit($data);
     }
 
     /**
