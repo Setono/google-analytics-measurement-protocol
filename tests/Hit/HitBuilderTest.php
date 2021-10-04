@@ -283,6 +283,11 @@ final class HitBuilderTest extends TestCase
             {
                 return 'https://www.google.com';
             }
+
+            public function getLanguage(): ?string
+            {
+                return 'en';
+            }
         };
         $builder = self::getHitBuilder();
         $builder->setClientId('client_id');
@@ -303,6 +308,7 @@ final class HitBuilderTest extends TestCase
             'gclid' => 'gclid',
             'dclid' => 'dclid',
             'tid' => 'UA-1234-1',
+            'ul' => 'en',
         ];
 
         self::assertEquals($expectedData, $builder->getHit('UA-1234-1')->getData());

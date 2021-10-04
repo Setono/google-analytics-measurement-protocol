@@ -61,6 +61,11 @@ final class HitBuilder implements HitBuilderInterface
             $this->setDocumentReferrer($referrer);
         }
 
+        $language = $request->getLanguage();
+        if (null !== $language) {
+            $this->setUserLanguage($language);
+        }
+
         $mapping = [
             'utm_campaign' => 'campaignName',
             'utm_content' => 'campaignContent',

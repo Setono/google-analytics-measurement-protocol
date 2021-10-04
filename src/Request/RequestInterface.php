@@ -24,4 +24,9 @@ interface RequestInterface
      * Returns null if no referrer information is present
      */
     public function getReferrer(): ?string;
+
+    /**
+     * Returns the preferred language from the 'accept-language' header or null if not parseable
+     */
+    public function getLanguage(): ?string;
 }
