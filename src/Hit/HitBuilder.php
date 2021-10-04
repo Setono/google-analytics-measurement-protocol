@@ -269,6 +269,18 @@ final class HitBuilder implements HitBuilderInterface
         return $this;
     }
 
+    public function getUserLanguage(): ?string
+    {
+        return $this->data['ul'] ?? null;
+    }
+
+    public function setUserLanguage(string $userLanguage): self
+    {
+        $this->data['ul'] = $userLanguage;
+
+        return $this;
+    }
+
     public function getHitType(): string
     {
         return $this->data['t'];

@@ -107,6 +107,10 @@ interface HitBuilderInterface
 
     public function setGoogleDisplayAdsId(string $googleDisplayAdsId): self;
 
+    public function getUserLanguage(): ?string;
+
+    public function setUserLanguage(string $userLanguage): self;
+
     public function getHitType(): string;
 
     public function setHitType(string $hitType): self;
