@@ -274,6 +274,42 @@ final class HitBuilder implements HitBuilderInterface
         return $this;
     }
 
+    public function getScreenResolution(): ?string
+    {
+        return $this->data['sr'] ?? null;
+    }
+
+    public function setScreenResolution(string $screenResolution): self
+    {
+        $this->data['sr'] = $screenResolution;
+
+        return $this;
+    }
+
+    public function getViewportSize(): ?string
+    {
+        return $this->data['vp'] ?? null;
+    }
+
+    public function setViewportSize(string $viewportSize): self
+    {
+        $this->data['vp'] = $viewportSize;
+
+        return $this;
+    }
+
+    public function getScreenColors(): ?string
+    {
+        return $this->data['sd'] ?? null;
+    }
+
+    public function setScreenColors(string $screenColors): self
+    {
+        $this->data['sd'] = $screenColors;
+
+        return $this;
+    }
+
     public function getUserLanguage(): ?string
     {
         return $this->data['ul'] ?? null;

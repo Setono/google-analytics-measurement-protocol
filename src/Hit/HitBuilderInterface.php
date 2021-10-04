@@ -107,6 +107,18 @@ interface HitBuilderInterface
 
     public function setGoogleDisplayAdsId(string $googleDisplayAdsId): self;
 
+    public function getScreenResolution(): ?string;
+
+    public function setScreenResolution(string $screenResolution): self;
+
+    public function getViewportSize(): ?string;
+
+    public function setViewportSize(string $viewportSize): self;
+
+    public function getScreenColors(): ?string;
+
+    public function setScreenColors(string $screenColors): self;
+
     public function getUserLanguage(): ?string;
 
     public function setUserLanguage(string $userLanguage): self;
