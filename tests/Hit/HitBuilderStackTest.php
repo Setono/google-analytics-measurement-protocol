@@ -23,7 +23,7 @@ final class HitBuilderStackTest extends TestCase
 
         $actual = $stack->all();
         self::assertCount(1, $actual);
-        self::assertSame($hitBuilder, $actual[0]);
+        self::assertSame($hitBuilder, array_pop($actual));
     }
 
     /**
