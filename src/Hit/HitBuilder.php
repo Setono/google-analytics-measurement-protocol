@@ -279,9 +279,9 @@ final class HitBuilder implements HitBuilderInterface
         return $this->data['exp'] ?? null;
     }
 
-    public function addExperiment(string $experiment, string $variant): self
+    public function addExperiment(string $experiment, int $variant): self
     {
-        $this->data['exp'] = isset($this->data['exp']) ? sprintf('%s!%s.%s', (string) $this->data['exp'], $experiment, $variant) : sprintf('%s.%s', $experiment, $variant);
+        $this->data['exp'] = isset($this->data['exp']) ? sprintf('%s!%s.%d', (string) $this->data['exp'], $experiment, $variant) : sprintf('%s.%d', $experiment, $variant);
 
         return $this;
     }
