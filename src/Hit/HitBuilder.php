@@ -274,6 +274,18 @@ final class HitBuilder implements HitBuilderInterface
         return $this;
     }
 
+    public function getExperiments(): ?string
+    {
+        return $this->data['exp'] ?? null;
+    }
+
+    public function addExperiment(string $experiment, string $variant): self
+    {
+        $this->data['exp'] = isset($this->data['exp']) ? sprintf('%s!%s.%s', (string) $this->data['exp'], $experiment, $variant) : sprintf('%s.%s', $experiment, $variant);
+
+        return $this;
+    }
+
     public function getScreenResolution(): ?string
     {
         return $this->data['sr'] ?? null;

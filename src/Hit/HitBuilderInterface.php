@@ -107,6 +107,13 @@ interface HitBuilderInterface
 
     public function setGoogleDisplayAdsId(string $googleDisplayAdsId): self;
 
+    /**
+     * Returns Google Optimize experiments string
+     */
+    public function getExperiments(): ?string;
+
+    public function addExperiment(string $experiment, string $variant): self;
+
     public function getScreenResolution(): ?string;
 
     public function setScreenResolution(string $screenResolution): self;
