@@ -6,12 +6,17 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Hit;
 
 final class HitBuilderStack implements HitBuilderStackInterface, \IteratorAggregate
 {
-    /** @var array<array-key, HitBuilderInterface> */
+    /** @var array<string, HitBuilderInterface> */
     private array $hitBuilders = [];
 
     public function push(HitBuilderInterface $hitBuilder): void
     {
-        $this->hitBuilders[] = $hitBuilder;
+        $hash = spl_object_hash($hitBuilder);
+        if (isset($this->hitBuilders[$hash])) {
+            return;
+        }
+
+        $this->hitBuilders[$hash] = $hitBuilder;
     }
 
     public function all(callable $filter = null): array
