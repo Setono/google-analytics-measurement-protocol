@@ -112,7 +112,7 @@ interface HitBuilderInterface
      */
     public function getExperiments(): ?string;
 
-    public function addExperiment(string $experiment, string $variant): self;
+    public function addExperiment(string $experiment, int $variant): self;
 
     public function getScreenResolution(): ?string;
 
