@@ -39,6 +39,8 @@ final class HitBuilderTest extends TestCase
         $builder->setCampaignId('campaignId');
         $builder->setGoogleAdsId('googleAdsId');
         $builder->setGoogleDisplayAdsId('googleDisplayAdsId');
+        $builder->addExperiment('product_page', 'variant1');
+        $builder->addExperiment('checkout', 'variant2');
         $builder->setHitType(HitBuilderInterface::HIT_TYPE_PAGEVIEW);
         $builder->setNonInteractionHit(true);
         $builder->setDocumentLocationUrl('documentLocationUrl');
@@ -78,6 +80,7 @@ final class HitBuilderTest extends TestCase
             'ci' => 'campaignId',
             'gclid' => 'googleAdsId',
             'dclid' => 'googleDisplayAdsId',
+            'exp' => 'product_page.variant1!checkout.variant2',
             'ni' => true,
             'dl' => 'documentLocationUrl',
             'dh' => 'documentHostName',
