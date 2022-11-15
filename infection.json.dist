@@ -7,7 +7,7 @@
     "logs": {
         "text": "php://stderr",
         "stryker": {
-            "badge": "master"
+            "badge": "1.x"
         }
     },
     "minMsi": 69.23,
