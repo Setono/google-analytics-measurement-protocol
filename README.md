@@ -20,6 +20,12 @@ $ composer require setono/google-analytics-measurement-protocol
 
 TODO
 
+## References
+
+- https://developers.google.com/analytics/devguides/collection/protocol/ga4
+- https://support.google.com/analytics/answer/9234069
+- https://support.google.com/analytics/answer/9216061
+
 [ico-version]: https://poser.pugx.org/setono/google-analytics-measurement-protocol/v/stable
 [ico-license]: https://poser.pugx.org/setono/google-analytics-measurement-protocol/license
 [ico-github-actions]: https://github.com/Setono/google-analytics-measurement-protocol/workflows/build/badge.svg
