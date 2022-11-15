@@ -28,4 +28,25 @@ final class BodyTest extends TestCase
             json_encode($body),
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_handles_microtime(): void
+    {
+        $body = Body::create('CLIENT_ID', 'USER_ID');
+
+        self::assertSame(
+            '{"client_id":"CLIENT_ID","user_id":"USER_ID","timestamp_micros":1668509674013800}',
+            json_encode($body),
+        );
+    }
+}
+
+/**
+ * This effectively overrides the 'microtime' function in PHP if the function is not namespaced like \microtime when used
+ */
+function microtime(): float
+{
+    return 1668509674.0138;
 }
