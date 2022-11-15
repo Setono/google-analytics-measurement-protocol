@@ -33,16 +33,7 @@ final class ClientTest extends TestCase
     public function it_sends_request(): void
     {
         $client = new Client();
-        $httpClient = new class() implements HttpClientInterface {
-            public ?RequestInterface $lastRequest = null;
-
-            public function sendRequest(RequestInterface $request): ResponseInterface
-            {
-                $this->lastRequest = $request;
-
-                return new Response(204);
-            }
-        };
+        $httpClient = new MockHttpClient();
         $client->setHttpClient($httpClient);
 
         $request = Request::create(
@@ -87,7 +78,61 @@ final class ClientTest extends TestCase
 
         $client->sendRequest($request);
 
+        self::assertNotNull($client->getLastResponse());
         self::assertSame($client->getLastResponse()->getStatusCode(), 204);
+    }
+
+    /**
+     * @test
+     */
+    public function it_sends_live_debug_request(): void
+    {
+        $client = new Client();
+        $client->setDebug();
+
+        $request = Request::create(
+            'YOUR_SECRET',
+            'G-12341234',
+            Body::create('CLIENT_ID')
+                ->withEvent(
+                    AddToCartEvent::create('USD', 123.45)
+                        ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
+                ),
+        );
+
+        $client->sendRequest($request);
+
+        $lastResponse = $client->getLastResponse();
+
+        self::assertNotNull($lastResponse);
+        self::assertSame($lastResponse->getStatusCode(), 200);
+
+        $validation = json_decode((string) $lastResponse->getBody(), true, 512, \JSON_THROW_ON_ERROR);
+
+        self::assertIsArray($validation);
+        self::assertArrayHasKey('validationMessages', $validation);
+        self::assertIsArray($validation['validationMessages']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_sends_request_to_other_host(): void
+    {
+        $client = new Client();
+        $client->setHost('www.example.com');
+
+        $httpClient = new MockHttpClient();
+        $client->setHttpClient($httpClient);
+
+        $request = Request::create('YOUR_SECRET', 'G-12341234', Body::create('CLIENT_ID'));
+
+        $client->sendRequest($request);
+        self::assertNotNull($httpClient->lastRequest);
+        self::assertSame(
+            'https://www.example.com/mp/collect?measurement_id=G-12341234&api_secret=YOUR_SECRET',
+            (string) $httpClient->lastRequest->getUri(),
+        );
     }
 
     /**
@@ -124,5 +169,17 @@ final class ClientTest extends TestCase
         );
 
         $client->sendRequest($request);
+    }
+}
+
+final class MockHttpClient implements HttpClientInterface
+{
+    public ?RequestInterface $lastRequest = null;
+
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        $this->lastRequest = $request;
+
+        return new Response(204);
     }
 }
