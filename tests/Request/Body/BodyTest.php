@@ -19,6 +19,7 @@ final class BodyTest extends TestCase
     {
         $body = Body::create('CLIENT_ID', 'USER_ID')
             ->withEvent(AddToCartEvent::create('USD', 123.45))
+            ->withTimestamp(1_668_509_674_013_800)
             ->withPersonalizedAds(true)
         ;
 
@@ -27,12 +28,4 @@ final class BodyTest extends TestCase
             json_encode($body),
         );
     }
-}
-
-/**
- * This will override the PHP function microtime for test purposes (as long as we don't use backslash when using microtime in our code
- */
-function microtime(): float
-{
-    return 1668509674.0138;
 }

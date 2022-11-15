@@ -44,7 +44,7 @@ final class ClientTest extends TestCase
                 ->withEvent(
                     AddToCartEvent::create('USD', 123.45)
                         ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
-                ),
+                )->withTimestamp(1668509674013800),
         );
 
         $client->sendRequest($request);
@@ -154,12 +154,4 @@ final class ClientTest extends TestCase
     //    $client->sendHit('v=1&tid=UA-23901888-1&cid=555');
     //    self::assertTrue($streamFactory->used);
     //}
-}
-
-/**
- * This will override the PHP function microtime for test purposes (as long as we don't use backslash when using microtime in our code
- */
-function microtime(): float
-{
-    return 1668509674.0138;
 }

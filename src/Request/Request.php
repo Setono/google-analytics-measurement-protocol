@@ -8,6 +8,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
 
 final class Request
 {
+    use HasWithers;
+
     /**
      * To create a new secret, navigate in the Google Analytics UI to:
      * Admin > Data Streams > choose your stream > Measurement Protocol > Create
@@ -39,13 +41,28 @@ final class Request
         return $this->apiSecret;
     }
 
+    public function withApiSecret(string $apiSecret): self
+    {
+        return $this->with('apiSecret', $apiSecret);
+    }
+
     public function getMeasurementId(): string
     {
         return $this->measurementId;
     }
 
+    public function withMeasurementId(string $measurementId): self
+    {
+        return $this->with('measurementId', $measurementId);
+    }
+
     public function getBody(): Body
     {
         return $this->body;
+    }
+
+    public function withBody(Body $body): self
+    {
+        return $this->with('body', $body);
     }
 }
