@@ -14,11 +14,12 @@ trait HasItems
     /** @var list<Item> */
     private array $items = [];
 
-    public function addItem(Item $item): self
+    public function withItem(Item $item): self
     {
-        $this->items[] = $item;
+        $clone = clone $this;
+        $clone->items[] = $item;
 
-        return $this;
+        return $clone;
     }
 
     /**

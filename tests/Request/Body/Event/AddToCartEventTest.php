@@ -18,7 +18,7 @@ final class AddToCartEventTest extends TestCase
     public function it_serializes(): void
     {
         $event = AddToCartEvent::create('USD', 123.45)
-            ->addItem(Item::create('SKU1234', 'Blue t-shirt'))
+            ->withItem(Item::create('SKU1234', 'Blue t-shirt'))
         ;
 
         self::assertSame(

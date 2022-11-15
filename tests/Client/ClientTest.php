@@ -43,7 +43,7 @@ final class ClientTest extends TestCase
             Body::create('CLIENT_ID')
                 ->withEvent(
                     AddToCartEvent::create('USD', 123.45)
-                        ->addItem(Item::create('SKU1234', 'Blue T-shirt')),
+                        ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
                 ),
         );
 
@@ -73,7 +73,7 @@ final class ClientTest extends TestCase
             Body::create('CLIENT_ID')
                 ->withEvent(
                     AddToCartEvent::create('USD', 123.45)
-                        ->addItem(Item::create('SKU1234', 'Blue T-shirt')),
+                        ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
                 ),
         );
 
