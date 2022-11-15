@@ -23,6 +23,7 @@
         "infection/infection": "^0.26",
         "kriswallsmith/buzz": "^1.2",
         "nyholm/psr7": "^1.5",
+        "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
         "setono/code-quality-pack": "^2.2",
         "symfony/http-foundation": "^5.4 || ^6.0"

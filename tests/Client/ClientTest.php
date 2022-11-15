@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Client;
 
+use Nyholm\Psr7\Request as PsrRequest;
 use Nyholm\Psr7\Response;
+use Nyholm\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\AddToCartEvent;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
@@ -19,6 +25,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
  */
 final class ClientTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @test
      */
@@ -82,76 +90,39 @@ final class ClientTest extends TestCase
         self::assertSame($client->getLastResponse()->getStatusCode(), 204);
     }
 
-    //
-    ///**
-    // * @test
-    // */
-    //public function it_uses_custom_request_factory(): void
-    //{
-    //    $requestFactory = new class(new Psr17Factory()) implements RequestFactoryInterface {
-    //        public bool $used = false;
-    //
-    //        private RequestFactoryInterface $requestFactory;
-    //
-    //        public function __construct(RequestFactoryInterface $requestFactory)
-    //        {
-    //            $this->requestFactory = $requestFactory;
-    //        }
-    //
-    //        public function createRequest(string $method, $uri): RequestInterface
-    //        {
-    //            $this->used = true;
-    //
-    //            return $this->requestFactory->createRequest($method, $uri);
-    //        }
-    //    };
-    //
-    //    $client = new Client(null, $requestFactory);
-    //
-    //    $client->sendHit('v=1&tid=UA-23901888-1&cid=555');
-    //    self::assertTrue($requestFactory->used);
-    //}
-    //
-    ///**
-    // * @test
-    // */
-    //public function it_uses_custom_stream_factory(): void
-    //{
-    //    $streamFactory = new class(new Psr17Factory()) implements StreamFactoryInterface {
-    //        public bool $used = false;
-    //
-    //        private StreamFactoryInterface $streamFactory;
-    //
-    //        public function __construct(StreamFactoryInterface $streamFactory)
-    //        {
-    //            $this->streamFactory = $streamFactory;
-    //        }
-    //
-    //        public function createStream(string $content = ''): StreamInterface
-    //        {
-    //            $this->used = true;
-    //
-    //            return $this->streamFactory->createStream($content);
-    //        }
-    //
-    //        public function createStreamFromFile(string $filename, string $mode = 'r'): StreamInterface
-    //        {
-    //            $this->used = true;
-    //
-    //            return $this->streamFactory->createStreamFromFile($filename, $mode);
-    //        }
-    //
-    //        public function createStreamFromResource($resource): StreamInterface
-    //        {
-    //            $this->used = true;
-    //
-    //            return $this->streamFactory->createStreamFromResource($resource);
-    //        }
-    //    };
-    //
-    //    $client = new Client(null, null, $streamFactory);
-    //
-    //    $client->sendHit('v=1&tid=UA-23901888-1&cid=555');
-    //    self::assertTrue($streamFactory->used);
-    //}
+    /**
+     * @test
+     */
+    public function it_uses_custom_factories(): void
+    {
+        $requestFactory = $this->prophesize(RequestFactoryInterface::class);
+        $requestFactory
+            ->createRequest('POST', Argument::any())
+            ->willReturn(new PsrRequest('POST', 'https://example.com'))
+            ->shouldBeCalledOnce()
+        ;
+
+        $streamFactory = $this->prophesize(StreamFactoryInterface::class);
+        $streamFactory
+            ->createStream(Argument::any())
+            ->willReturn(Stream::create(''))
+            ->shouldBeCalledOnce()
+        ;
+
+        $client = new Client();
+        $client->setRequestFactory($requestFactory->reveal());
+        $client->setStreamFactory($streamFactory->reveal());
+
+        $request = Request::create(
+            'YOUR_SECRET',
+            'G-12341234',
+            Body::create('CLIENT_ID')
+                ->withEvent(
+                    AddToCartEvent::create('USD', 123.45)
+                        ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
+                ),
+        );
+
+        $client->sendRequest($request);
+    }
 }
