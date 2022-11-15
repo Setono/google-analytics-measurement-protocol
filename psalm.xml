@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <psalm
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    errorLevel="1"
-    resolveFromConfigFile="true"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    errorBaseline="psalm-baseline.xml"
+    errorLevel="1"
+    phpVersion="8.1"
 >
     <projectFiles>
         <directory name="src"/>
@@ -13,19 +12,4 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
-    <issueHandlers>
-        <InvalidReturnStatement>
-            <errorLevel type="suppress">
-                <file name="src/Hit/HitBuilder.php"/>
-            </errorLevel>
-        </InvalidReturnStatement>
-        <InvalidReturnType>
-            <errorLevel type="suppress">
-                <file name="src/Hit/HitBuilder.php"/>
-            </errorLevel>
-        </InvalidReturnType>
-    </issueHandlers>
-    <plugins>
-        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
-    </plugins>
 </psalm>
