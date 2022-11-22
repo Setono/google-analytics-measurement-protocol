@@ -20,13 +20,4 @@ class AddToCartEvent extends Event
     {
         return 'add_to_cart';
     }
-
-    protected function getData(): array
-    {
-        return [
-            'currency' => $this->currency,
-            'value' => $this->value,
-            'items' => $this->items,
-        ];
-    }
 }

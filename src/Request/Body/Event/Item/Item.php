@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item;
 
 use JsonSerializable;
+use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\CreatesEmpty;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasAffiliation;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListId;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListName;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\Serializable;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasWithers;
 
 class Item implements JsonSerializable
@@ -22,60 +24,53 @@ class Item implements JsonSerializable
     use HasCurrency;
     use HasListId;
     use HasListName;
+    use Serializable;
 
-    private ?string $id = null;
+    #[Serialize(name: 'item_id')]
+    protected ?string $id = null;
 
-    private ?string $name = null;
+    #[Serialize(name: 'item_name')]
+    protected ?string $name = null;
 
-    private ?float $discount = null;
+    #[Serialize]
+    protected ?float $discount = null;
 
-    private ?int $index = null;
+    #[Serialize]
+    protected ?int $index = null;
 
-    private ?string $brand = null;
+    #[Serialize(name: 'item_brand')]
+    protected ?string $brand = null;
 
-    private ?string $category = null;
+    #[Serialize(name: 'item_category')]
+    protected ?string $category = null;
 
-    private ?string $category2 = null;
+    #[Serialize(name: 'item_category2')]
+    protected ?string $category2 = null;
 
-    private ?string $category3 = null;
+    #[Serialize(name: 'item_category3')]
+    protected ?string $category3 = null;
 
-    private ?string $category4 = null;
+    #[Serialize(name: 'item_category4')]
+    protected ?string $category4 = null;
 
-    private ?string $category5 = null;
+    #[Serialize(name: 'item_category5')]
+    protected ?string $category5 = null;
 
-    private ?string $variant = null;
+    #[Serialize(name: 'item_variant')]
+    protected ?string $variant = null;
 
-    private ?string $locationId = null;
+    #[Serialize(name: 'location_id')]
+    protected ?string $locationId = null;
 
-    private ?float $price = null;
+    #[Serialize]
+    protected ?float $price = null;
 
-    private int $quantity = 1;
+    #[Serialize]
+    protected int $quantity = 1;
 
     public function jsonSerialize(): array
     {
-        $data = [
-            'item_id' => $this->id,
-            'item_name' => $this->name,
-            'affiliation' => $this->affiliation,
-            'coupon' => $this->coupon,
-            'currency' => $this->currency,
-            'discount' => $this->discount,
-            'index' => $this->index,
-            'item_brand' => $this->brand,
-            'item_category' => $this->category,
-            'item_category2' => $this->category2,
-            'item_category3' => $this->category3,
-            'item_category4' => $this->category4,
-            'item_category5' => $this->category5,
-            'item_list_id' => $this->listId,
-            'item_list_name' => $this->listName,
-            'item_variant' => $this->variant,
-            'location_id' => $this->locationId,
-            'price' => $this->price,
-            'quantity' => $this->quantity,
-        ];
-
-        return array_filter($data);
+        return $this->serialize();
     }
 
     public function getId(): ?string

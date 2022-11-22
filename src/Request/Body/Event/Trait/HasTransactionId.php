@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
 
+use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
 
 /**
@@ -11,6 +12,7 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
  */
 trait HasTransactionId
 {
+    #[Serialize(name: 'transaction_id')]
     protected string $transactionId;
 
     public function getTransactionId(): string

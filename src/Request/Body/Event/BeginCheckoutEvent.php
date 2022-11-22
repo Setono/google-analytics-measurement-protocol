@@ -22,14 +22,4 @@ class BeginCheckoutEvent extends Event
     {
         return 'begin_checkout';
     }
-
-    protected function getData(): array
-    {
-        return [
-            'currency' => $this->currency,
-            'value' => $this->value,
-            'coupon' => $this->coupon,
-            'items' => $this->items,
-        ];
-    }
 }

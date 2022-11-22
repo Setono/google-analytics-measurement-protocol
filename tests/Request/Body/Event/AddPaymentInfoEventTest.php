@@ -24,6 +24,6 @@ final class AddPaymentInfoEventTest extends AbstractEventTestCase
 
     protected function getExpectedJson(): string
     {
-        return '{"name":"add_payment_info","params":{"currency":"USD","value":123.45,"coupon":"WINTER_SALE","payment_type":"Credit card","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
+        return '{"name":"add_payment_info","params":{"payment_type":"Credit card","currency":"USD","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}],"value":123.45,"coupon":"WINTER_SALE"}}';
     }
 }

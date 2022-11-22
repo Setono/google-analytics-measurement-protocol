@@ -20,13 +20,4 @@ class ViewItemEvent extends Event
     {
         return 'view_item';
     }
-
-    protected function getData(): array
-    {
-        return [
-            'currency' => $this->currency,
-            'value' => $this->value,
-            'items' => $this->items,
-        ];
-    }
 }

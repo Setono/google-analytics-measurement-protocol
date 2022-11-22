@@ -20,13 +20,4 @@ class RemoveFromCartEvent extends Event
     {
         return 'remove_from_cart';
     }
-
-    protected function getData(): array
-    {
-        return [
-            'currency' => $this->currency,
-            'value' => $this->value,
-            'items' => $this->items,
-        ];
-    }
 }

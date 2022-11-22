@@ -22,6 +22,6 @@ final class AddToCartEventTest extends AbstractEventTestCase
 
     protected function getExpectedJson(): string
     {
-        return '{"name":"add_to_cart","params":{"currency":"USD","value":123.45,"items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
+        return '{"name":"add_to_cart","params":{"currency":"USD","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}],"value":123.45}}';
     }
 }
