@@ -27,8 +27,7 @@
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.18",
-        "setono/code-quality-pack": "^2.2",
-        "symfony/http-foundation": "^5.4 || ^6.0"
+        "setono/code-quality-pack": "^2.2"
     },
     "prefer-stable": true,
     "autoload": {
