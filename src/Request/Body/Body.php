@@ -105,11 +105,23 @@ final class Body implements \JsonSerializable
         return $this->userProperties;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function setUserProperty(string $property, $value): self
+    public function setUserProperty(string $property, mixed $value): self
     {
+        // See https://developers.google.com/analytics/devguides/collection/protocol/ga4/user-properties?client_type=gtag#reserved_names
+        if (in_array($property, ['first_open_time', 'first_visit_time', 'last_deep_link_referrer', 'user_id', 'first_open_after_install'], true)) {
+            throw new \InvalidArgumentException(sprintf('The user property "%s" is not allowed', $property));
+        }
+
+        foreach (['google_', 'ga_', 'firebase_'] as $prefix) {
+            if (str_starts_with($property, $prefix)) {
+                throw new \InvalidArgumentException(sprintf(
+                    'The user property "%s" starts with "%s" and this is not allowed',
+                    $property,
+                    $prefix,
+                ));
+            }
+        }
+
         $this->userProperties[$property] = $value;
 
         return $this;
