@@ -15,7 +15,7 @@ abstract class Event implements JsonSerializable
     /**
      * MUST return the event name, e.g. add_to_cart, purchase etc
      */
-    abstract protected function getName(): string;
+    abstract protected function getEventName(): string;
 
     /**
      * MUST return the data ready for serialization
@@ -27,7 +27,7 @@ abstract class Event implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'name' => $this->getName(),
+            'name' => $this->getEventName(),
             'params' => array_filter($this->getData()),
         ];
     }

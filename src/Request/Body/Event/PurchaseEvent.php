@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasAffiliation;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasItems;
@@ -17,8 +18,7 @@ class PurchaseEvent extends Event
     use HasValue;
     use HasCoupon;
     use HasTransactionId;
-
-    private ?string $affiliation = null;
+    use HasAffiliation;
 
     private ?float $shipping = null;
 
@@ -34,7 +34,7 @@ class PurchaseEvent extends Event
         return new self($transactionId);
     }
 
-    protected function getName(): string
+    protected function getEventName(): string
     {
         return 'purchase';
     }
@@ -51,16 +51,6 @@ class PurchaseEvent extends Event
             'tax' => $this->tax,
             'items' => $this->items,
         ];
-    }
-
-    public function getAffiliation(): ?string
-    {
-        return $this->affiliation;
-    }
-
-    public function withAffiliation(string $affiliation): self
-    {
-        return $this->with('affiliation', $affiliation);
     }
 
     public function getShipping(): ?float
