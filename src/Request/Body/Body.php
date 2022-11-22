@@ -59,9 +59,19 @@ final class Body implements \JsonSerializable
         return new self($clientId);
     }
 
+    public function getClientId(): string
+    {
+        return $this->clientId;
+    }
+
     public function withClientId(string $clientId): self
     {
         return $this->with('clientId', $clientId);
+    }
+
+    public function getUserId(): ?string
+    {
+        return $this->userId;
     }
 
     public function withUserId(?string $userId): self
@@ -69,9 +79,19 @@ final class Body implements \JsonSerializable
         return $this->with('userId', $userId);
     }
 
+    public function getTimestamp(): int
+    {
+        return $this->timestamp;
+    }
+
     public function withTimestamp(int $timestamp): self
     {
         return $this->with('timestamp', $timestamp);
+    }
+
+    public function getUserProperties(): array
+    {
+        return $this->userProperties;
     }
 
     public function withUserProperties(array $userProperties): self
@@ -79,9 +99,22 @@ final class Body implements \JsonSerializable
         return $this->with('userProperties', $userProperties);
     }
 
+    public function getPersonalizedAds(): ?bool
+    {
+        return $this->personalizedAds;
+    }
+
     public function withPersonalizedAds(?bool $personalizedAds): self
     {
         return $this->with('personalizedAds', $personalizedAds);
+    }
+
+    /**
+     * @return list<Event>
+     */
+    public function getEvents(): array
+    {
+        return $this->events;
     }
 
     public function withEvents(array $events): self

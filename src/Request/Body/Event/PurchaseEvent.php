@@ -48,9 +48,19 @@ class PurchaseEvent extends Event
         ];
     }
 
+    public function getTransactionId(): string
+    {
+        return $this->transactionId;
+    }
+
     public function withTransactionId(string $transactionId): self
     {
         return $this->with('transactionId', $transactionId);
+    }
+
+    public function getAffiliation(): ?string
+    {
+        return $this->affiliation;
     }
 
     public function withAffiliation(string $affiliation): self
@@ -58,9 +68,19 @@ class PurchaseEvent extends Event
         return $this->with('affiliation', $affiliation);
     }
 
+    public function getShipping(): ?float
+    {
+        return $this->shipping;
+    }
+
     public function withShipping(string $shipping): self
     {
         return $this->with('shipping', $shipping);
+    }
+
+    public function getTax(): ?float
+    {
+        return $this->tax;
     }
 
     public function withTax(string $tax): self

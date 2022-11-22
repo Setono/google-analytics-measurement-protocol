@@ -11,6 +11,11 @@ trait HasCurrency
 {
     protected ?string $currency = null;
 
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
     public function withCurrency(?string $currency): self
     {
         return $this->with('currency', $currency);

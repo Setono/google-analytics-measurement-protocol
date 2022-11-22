@@ -14,6 +14,14 @@ trait HasItems
     /** @var list<Item> */
     protected array $items = [];
 
+    /**
+     * @return list<Item>
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
     public function withItem(Item $item): self
     {
         $clone = clone $this;
