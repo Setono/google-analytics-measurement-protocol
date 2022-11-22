@@ -7,6 +7,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasItems;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasTransactionId;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasValue;
 
 class PurchaseEvent extends Event
@@ -15,8 +16,7 @@ class PurchaseEvent extends Event
     use HasItems;
     use HasValue;
     use HasCoupon;
-
-    private string $transactionId;
+    use HasTransactionId;
 
     private ?string $affiliation = null;
 
@@ -51,16 +51,6 @@ class PurchaseEvent extends Event
             'tax' => $this->tax,
             'items' => $this->items,
         ];
-    }
-
-    public function getTransactionId(): string
-    {
-        return $this->transactionId;
-    }
-
-    public function withTransactionId(string $transactionId): self
-    {
-        return $this->with('transactionId', $transactionId);
     }
 
     public function getAffiliation(): ?string

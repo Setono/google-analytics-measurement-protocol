@@ -11,14 +11,14 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
  */
 trait HasTransactionId
 {
-    protected ?string $transactionId = null;
+    protected string $transactionId;
 
-    public function getTransactionId(): ?string
+    public function getTransactionId(): string
     {
         return $this->transactionId;
     }
 
-    public function withTransactionId(?string $transactionId): self
+    public function withTransactionId(string $transactionId): self
     {
         return $this->with('transactionId', $transactionId);
     }
