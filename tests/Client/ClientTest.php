@@ -36,7 +36,7 @@ final class ClientTest extends TestCase
         $httpClient = new MockHttpClient();
         $client->setHttpClient($httpClient);
 
-        $request = Request::create(
+        $request = new Request(
             'YOUR_SECRET',
             'G-12341234',
             Body::create('CLIENT_ID')
@@ -68,7 +68,7 @@ final class ClientTest extends TestCase
     {
         $client = new Client();
 
-        $request = Request::create(
+        $request = new Request(
             'YOUR_SECRET',
             'G-12341234',
             Body::create('CLIENT_ID')
@@ -94,7 +94,7 @@ final class ClientTest extends TestCase
         $client = new Client();
         $client->setDebug();
 
-        $request = Request::create(
+        $request = new Request(
             'YOUR_SECRET',
             'G-12341234',
             Body::create('CLIENT_ID')
@@ -131,7 +131,7 @@ final class ClientTest extends TestCase
         $httpClient = new MockHttpClient();
         $client->setHttpClient($httpClient);
 
-        $request = Request::create('YOUR_SECRET', 'G-12341234', Body::create('CLIENT_ID'));
+        $request = new Request('YOUR_SECRET', 'G-12341234', Body::create('CLIENT_ID'));
 
         $client->sendRequest($request);
         self::assertNotNull($httpClient->lastRequest);
@@ -164,7 +164,7 @@ final class ClientTest extends TestCase
         $client->setRequestFactory($requestFactory->reveal());
         $client->setStreamFactory($streamFactory->reveal());
 
-        $request = Request::create(
+        $request = new Request(
             'YOUR_SECRET',
             'G-12341234',
             Body::create('CLIENT_ID')

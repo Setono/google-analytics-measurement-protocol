@@ -24,16 +24,11 @@ final class Request
 
     private Body $body;
 
-    private function __construct(string $apiSecret, string $measurementId, Body $body)
+    public function __construct(string $apiSecret, string $measurementId, Body $body)
     {
         $this->apiSecret = $apiSecret;
         $this->measurementId = $measurementId;
         $this->body = $body;
-    }
-
-    public static function create(string $apiSecret, string $measurementId, Body $body): self
-    {
-        return new self($apiSecret, $measurementId, $body);
     }
 
     public function getApiSecret(): string

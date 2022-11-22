@@ -30,7 +30,7 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 
 $client = new Client();
-$request = Request::create(
+$request = new Request(
     'YOUR_SECRET',
     'G-12341234',
     Body::create('CLIENT_ID')

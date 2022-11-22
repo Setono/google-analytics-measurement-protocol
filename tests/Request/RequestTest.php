@@ -19,7 +19,7 @@ final class RequestTest extends TestCase
     public function it_initializes(): void
     {
         $body = Body::create('CLIENT_ID');
-        $request = Request::create('API_SECRET', 'G-12341234', $body);
+        $request = new Request('API_SECRET', 'G-12341234', $body);
 
         self::assertSame('API_SECRET', $request->getApiSecret());
         self::assertSame('G-12341234', $request->getMeasurementId());
@@ -33,7 +33,7 @@ final class RequestTest extends TestCase
      */
     public function it_is_immutable(): void
     {
-        $request = Request::create('API_SECRET', 'G-12341234', Body::create('CLIENT_ID'));
+        $request = new Request('API_SECRET', 'G-12341234', Body::create('CLIENT_ID'));
 
         $newRequest = $request->setApiSecret('NEW_API_SECRET')
             ->setMeasurementId('G-56785678')
