@@ -10,13 +10,18 @@ use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 
-final class Client implements ClientInterface
+final class Client implements ClientInterface, LoggerAwareInterface
 {
     private string $host = 'www.google-analytics.com';
 
     private bool $debug = false;
+
+    private bool $throw = false;
 
     private ?HttpClientInterface $httpClient = null;
 
@@ -24,25 +29,40 @@ final class Client implements ClientInterface
 
     private ?StreamFactoryInterface $streamFactory = null;
 
+    private LoggerInterface $logger;
+
     private ?ResponseInterface $lastResponse = null;
+
+    public function __construct()
+    {
+        $this->logger = new NullLogger();
+    }
 
     public function sendRequest(Request $request): void
     {
-        $uri = sprintf(
-            'https://%s/%s?measurement_id=%s&api_secret=%s',
-            $this->host,
-            $this->debug ? 'debug/mp/collect' : 'mp/collect',
-            $request->getMeasurementId(),
-            $request->getApiSecret(),
-        );
+        try {
+            $uri = sprintf(
+                'https://%s/%s?measurement_id=%s&api_secret=%s',
+                $this->host,
+                $this->debug ? 'debug/mp/collect' : 'mp/collect',
+                $request->getMeasurementId(),
+                $request->getApiSecret(),
+            );
 
-        $this->lastResponse = $this->getHttpClient()->sendRequest(
-            $this->getRequestFactory()
-                ->createRequest('POST', $uri)
+            $this->lastResponse = $this->getHttpClient()->sendRequest(
+                $this->getRequestFactory()
+                    ->createRequest('POST', $uri)
                     ->withBody(
                         $this->getStreamFactory()->createStream(json_encode($request->getBody(), \JSON_THROW_ON_ERROR)),
                     ),
-        );
+            );
+        } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage());
+
+            if ($this->throw) {
+                throw $e;
+            }
+        }
     }
 
     public function getLastResponse(): ?ResponseInterface
@@ -58,6 +78,15 @@ final class Client implements ClientInterface
     public function setDebug(bool $debug = true): void
     {
         $this->debug = $debug;
+    }
+
+    /**
+     * Set to true if you want the client to throw exceptions.
+     * If throw is false it will only log errors to the specified logger.
+     */
+    public function setThrow(bool $throw = true): void
+    {
+        $this->throw = $throw;
     }
 
     public function setHttpClient(?HttpClientInterface $httpClient): void
@@ -100,5 +129,10 @@ final class Client implements ClientInterface
         }
 
         return $this->streamFactory;
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 }
