@@ -20,9 +20,9 @@ class PurchaseEvent extends Event
     use HasTransactionId;
     use HasAffiliation;
 
-    private ?float $shipping = null;
+    protected ?float $shipping = null;
 
-    private ?float $tax = null;
+    protected ?float $tax = null;
 
     private function __construct(string $transactionId)
     {
