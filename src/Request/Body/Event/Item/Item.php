@@ -6,22 +6,26 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item;
 
 use JsonSerializable;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\CreatesEmpty;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasAffiliation;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListId;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListName;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasWithers;
 
 class Item implements JsonSerializable
 {
     use CreatesEmpty;
     use HasWithers;
+    use HasAffiliation;
+    use HasCoupon;
+    use HasCurrency;
+    use HasListId;
+    use HasListName;
 
     private ?string $id = null;
 
     private ?string $name = null;
-
-    private ?string $affiliation = null;
-
-    private ?string $coupon = null;
-
-    private ?string $currency = null;
 
     private ?float $discount = null;
 
@@ -38,10 +42,6 @@ class Item implements JsonSerializable
     private ?string $category4 = null;
 
     private ?string $category5 = null;
-
-    private ?string $listId = null;
-
-    private ?string $listName = null;
 
     private ?string $variant = null;
 
@@ -78,6 +78,11 @@ class Item implements JsonSerializable
         return array_filter($data);
     }
 
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
     public function withId(?string $id): self
     {
         return $this->with('id', $id);
@@ -86,21 +91,6 @@ class Item implements JsonSerializable
     public function withName(?string $name): self
     {
         return $this->with('name', $name);
-    }
-
-    public function withAffiliation(?string $affiliation): self
-    {
-        return $this->with('affiliation', $affiliation);
-    }
-
-    public function withCoupon(?string $coupon): self
-    {
-        return $this->with('coupon', $coupon);
-    }
-
-    public function withCurrency(?string $currency): self
-    {
-        return $this->with('currency', $currency);
     }
 
     public function withDiscount(?float $discount): self
@@ -141,16 +131,6 @@ class Item implements JsonSerializable
     public function withCategory5(?string $category5): self
     {
         return $this->with('category5', $category5);
-    }
-
-    public function withListId(?string $listId): self
-    {
-        return $this->with('listId', $listId);
-    }
-
-    public function withListName(?string $listName): self
-    {
-        return $this->with('listName', $listName);
     }
 
     public function withVariant(?string $variant): self
