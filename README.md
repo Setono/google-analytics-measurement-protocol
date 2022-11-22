@@ -23,6 +23,7 @@ TODO
 ## References
 
 - https://developers.google.com/analytics/devguides/collection/protocol/ga4
+- https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events
 - https://support.google.com/analytics/answer/9234069
 - https://support.google.com/analytics/answer/9216061
 
