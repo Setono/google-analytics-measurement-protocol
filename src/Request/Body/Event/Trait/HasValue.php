@@ -20,8 +20,8 @@ trait HasValue
         return $this->value;
     }
 
-    public function withValue(?float $value): self
+    public function setValue(?float $value): static
     {
-        return $this->with('value', $value);
+        return $this->set('value', $value);
     }
 }

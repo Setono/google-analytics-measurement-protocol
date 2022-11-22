@@ -20,8 +20,8 @@ trait HasTransactionId
         return $this->transactionId;
     }
 
-    public function withTransactionId(string $transactionId): self
+    public function setTransactionId(string $transactionId): static
     {
-        return $this->with('transactionId', $transactionId);
+        return $this->set('transactionId', $transactionId);
     }
 }

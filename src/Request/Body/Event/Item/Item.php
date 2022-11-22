@@ -13,12 +13,12 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurren
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListId;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListName;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\Serializable;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasWithers;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasSetters;
 
 class Item implements JsonSerializable
 {
     use CreatesEmpty;
-    use HasWithers;
+    use HasSetters;
     use HasAffiliation;
     use HasCoupon;
     use HasCurrency;
@@ -78,9 +78,9 @@ class Item implements JsonSerializable
         return $this->id;
     }
 
-    public function withId(?string $id): self
+    public function setId(?string $id): self
     {
-        return $this->with('id', $id);
+        return $this->set('id', $id);
     }
 
     public function getName(): ?string
@@ -88,9 +88,9 @@ class Item implements JsonSerializable
         return $this->name;
     }
 
-    public function withName(?string $name): self
+    public function setName(?string $name): self
     {
-        return $this->with('name', $name);
+        return $this->set('name', $name);
     }
 
     public function getDiscount(): ?float
@@ -98,9 +98,9 @@ class Item implements JsonSerializable
         return $this->discount;
     }
 
-    public function withDiscount(?float $discount): self
+    public function setDiscount(?float $discount): self
     {
-        return $this->with('discount', $discount);
+        return $this->set('discount', $discount);
     }
 
     public function getIndex(): ?int
@@ -108,9 +108,9 @@ class Item implements JsonSerializable
         return $this->index;
     }
 
-    public function withIndex(?int $index): self
+    public function setIndex(?int $index): self
     {
-        return $this->with('index', $index);
+        return $this->set('index', $index);
     }
 
     public function getBrand(): ?string
@@ -118,9 +118,9 @@ class Item implements JsonSerializable
         return $this->brand;
     }
 
-    public function withBrand(?string $brand): self
+    public function setBrand(?string $brand): self
     {
-        return $this->with('brand', $brand);
+        return $this->set('brand', $brand);
     }
 
     public function getCategory(): ?string
@@ -128,9 +128,9 @@ class Item implements JsonSerializable
         return $this->category;
     }
 
-    public function withCategory(?string $category): self
+    public function setCategory(?string $category): self
     {
-        return $this->with('category', $category);
+        return $this->set('category', $category);
     }
 
     public function getCategory2(): ?string
@@ -138,9 +138,9 @@ class Item implements JsonSerializable
         return $this->category2;
     }
 
-    public function withCategory2(?string $category2): self
+    public function setCategory2(?string $category2): self
     {
-        return $this->with('category2', $category2);
+        return $this->set('category2', $category2);
     }
 
     public function getCategory3(): ?string
@@ -148,9 +148,9 @@ class Item implements JsonSerializable
         return $this->category3;
     }
 
-    public function withCategory3(?string $category3): self
+    public function setCategory3(?string $category3): self
     {
-        return $this->with('category3', $category3);
+        return $this->set('category3', $category3);
     }
 
     public function getCategory4(): ?string
@@ -158,9 +158,9 @@ class Item implements JsonSerializable
         return $this->category4;
     }
 
-    public function withCategory4(?string $category4): self
+    public function setCategory4(?string $category4): self
     {
-        return $this->with('category4', $category4);
+        return $this->set('category4', $category4);
     }
 
     public function getCategory5(): ?string
@@ -168,9 +168,9 @@ class Item implements JsonSerializable
         return $this->category5;
     }
 
-    public function withCategory5(?string $category5): self
+    public function setCategory5(?string $category5): self
     {
-        return $this->with('category5', $category5);
+        return $this->set('category5', $category5);
     }
 
     public function getVariant(): ?string
@@ -178,9 +178,9 @@ class Item implements JsonSerializable
         return $this->variant;
     }
 
-    public function withVariant(?string $variant): self
+    public function setVariant(?string $variant): self
     {
-        return $this->with('variant', $variant);
+        return $this->set('variant', $variant);
     }
 
     public function getLocationId(): ?string
@@ -188,9 +188,9 @@ class Item implements JsonSerializable
         return $this->locationId;
     }
 
-    public function withLocationId(?string $locationId): self
+    public function setLocationId(?string $locationId): self
     {
-        return $this->with('locationId', $locationId);
+        return $this->set('locationId', $locationId);
     }
 
     public function getPrice(): ?float
@@ -198,9 +198,9 @@ class Item implements JsonSerializable
         return $this->price;
     }
 
-    public function withPrice(?float $price): self
+    public function setPrice(?float $price): self
     {
-        return $this->with('price', $price);
+        return $this->set('price', $price);
     }
 
     public function getQuantity(): int
@@ -208,8 +208,8 @@ class Item implements JsonSerializable
         return $this->quantity;
     }
 
-    public function withQuantity(int $quantity): self
+    public function setQuantity(int $quantity): self
     {
-        return $this->with('quantity', $quantity);
+        return $this->set('quantity', $quantity);
     }
 }

@@ -18,7 +18,32 @@ composer require setono/google-analytics-measurement-protocol
 
 ## Usage
 
-TODO
+```php
+<?php
+
+require_once '../vendor/autoload.php';
+
+use Setono\GoogleAnalyticsMeasurementProtocol\Client\Client;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\AddToCartEvent;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
+
+$client = new Client();
+$request = Request::create(
+    'YOUR_SECRET',
+    'G-12341234',
+    Body::create('CLIENT_ID')
+        ->addEvent(
+            AddToCartEvent::create()
+                ->setCurrency('USD')
+                ->setValue(123.45)
+                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
+        )->setTimestamp(1668509674013800),
+);
+
+$client->sendRequest($request);
+```
 
 ## References
 

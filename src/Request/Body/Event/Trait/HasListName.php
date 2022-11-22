@@ -20,8 +20,8 @@ trait HasListName
         return $this->listName;
     }
 
-    public function withListName(?string $listName): self
+    public function setListName(?string $listName): static
     {
-        return $this->with('listName', $listName);
+        return $this->set('listName', $listName);
     }
 }

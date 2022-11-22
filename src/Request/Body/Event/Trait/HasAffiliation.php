@@ -20,8 +20,8 @@ trait HasAffiliation
         return $this->affiliation;
     }
 
-    public function withAffiliation(?string $affiliation): self
+    public function setAffiliation(?string $affiliation): static
     {
-        return $this->with('affiliation', $affiliation);
+        return $this->set('affiliation', $affiliation);
     }
 }

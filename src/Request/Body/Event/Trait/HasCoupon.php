@@ -20,8 +20,8 @@ trait HasCoupon
         return $this->coupon;
     }
 
-    public function withCoupon(?string $coupon): self
+    public function setCoupon(?string $coupon): static
     {
-        return $this->with('coupon', $coupon);
+        return $this->set('coupon', $coupon);
     }
 }

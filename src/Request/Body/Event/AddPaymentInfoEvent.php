@@ -32,8 +32,8 @@ class AddPaymentInfoEvent extends Event
         return $this->paymentType;
     }
 
-    public function withPaymentType(?string $paymentType): self
+    public function setPaymentType(?string $paymentType): self
     {
-        return $this->with('paymentType', $paymentType);
+        return $this->set('paymentType', $paymentType);
     }
 }

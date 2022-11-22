@@ -18,14 +18,14 @@ final class BodyTest extends TestCase
     public function it_serializes(): void
     {
         $body = Body::create('CLIENT_ID')
-            ->withUserId('USER_ID')
-            ->withEvent(
+            ->setUserId('USER_ID')
+            ->addEvent(
                 AddToCartEvent::create()
-                    ->withCurrency('USD')
-                    ->withValue(123.45),
+                    ->setCurrency('USD')
+                    ->setValue(123.45),
             )
-            ->withTimestamp(1_668_509_674_013_800)
-            ->withPersonalizedAds(true)
+            ->setTimestamp(1_668_509_674_013_800)
+            ->setPersonalizedAds(true)
         ;
 
         self::assertSame(

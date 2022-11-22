@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasWithers;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasSetters;
 
 final class Body implements \JsonSerializable
 {
-    use HasWithers;
+    use HasSetters;
 
     /**
      * Uniquely identifies a user instance of a web client
@@ -64,9 +64,9 @@ final class Body implements \JsonSerializable
         return $this->clientId;
     }
 
-    public function withClientId(string $clientId): self
+    public function setClientId(string $clientId): self
     {
-        return $this->with('clientId', $clientId);
+        return $this->set('clientId', $clientId);
     }
 
     public function getUserId(): ?string
@@ -74,9 +74,9 @@ final class Body implements \JsonSerializable
         return $this->userId;
     }
 
-    public function withUserId(?string $userId): self
+    public function setUserId(?string $userId): self
     {
-        return $this->with('userId', $userId);
+        return $this->set('userId', $userId);
     }
 
     public function getTimestamp(): int
@@ -84,9 +84,9 @@ final class Body implements \JsonSerializable
         return $this->timestamp;
     }
 
-    public function withTimestamp(int $timestamp): self
+    public function setTimestamp(int $timestamp): self
     {
-        return $this->with('timestamp', $timestamp);
+        return $this->set('timestamp', $timestamp);
     }
 
     public function getUserProperties(): array
@@ -94,9 +94,9 @@ final class Body implements \JsonSerializable
         return $this->userProperties;
     }
 
-    public function withUserProperties(array $userProperties): self
+    public function setUserProperties(array $userProperties): self
     {
-        return $this->with('userProperties', $userProperties);
+        return $this->set('userProperties', $userProperties);
     }
 
     public function getPersonalizedAds(): ?bool
@@ -104,9 +104,9 @@ final class Body implements \JsonSerializable
         return $this->personalizedAds;
     }
 
-    public function withPersonalizedAds(?bool $personalizedAds): self
+    public function setPersonalizedAds(?bool $personalizedAds): self
     {
-        return $this->with('personalizedAds', $personalizedAds);
+        return $this->set('personalizedAds', $personalizedAds);
     }
 
     /**
@@ -117,25 +117,24 @@ final class Body implements \JsonSerializable
         return $this->events;
     }
 
-    public function withEvents(array $events): self
+    public function setEvents(array $events): self
     {
         if (count($events) >= 25) {
             throw new \OutOfBoundsException('The number of events cannot exceed 25'); // todo better exception
         }
 
-        return $this->with('events', $events);
+        return $this->set('events', $events);
     }
 
-    public function withEvent(Event $event): self
+    public function addEvent(Event $event): self
     {
         if (count($this->events) >= 25) {
             throw new \OutOfBoundsException('The number of events cannot exceed 25'); // todo better exception
         }
 
-        $clone = clone $this;
-        $clone->events[] = $event;
+        $this->events[] = $event;
 
-        return $clone;
+        return $this;
     }
 
     public function jsonSerialize(): array

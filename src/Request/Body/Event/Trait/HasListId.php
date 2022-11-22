@@ -20,8 +20,8 @@ trait HasListId
         return $this->listId;
     }
 
-    public function withListId(?string $listId): self
+    public function setListId(?string $listId): static
     {
-        return $this->with('listId', $listId);
+        return $this->set('listId', $listId);
     }
 }
