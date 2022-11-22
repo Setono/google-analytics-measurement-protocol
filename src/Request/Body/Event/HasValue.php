@@ -9,7 +9,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
  */
 trait HasValue
 {
-    private ?float $value = null;
+    protected ?float $value = null;
 
     public function withValue(?float $value): self
     {

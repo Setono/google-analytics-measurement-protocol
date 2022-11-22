@@ -9,7 +9,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
  */
 trait HasCurrency
 {
-    private ?string $currency = null;
+    protected ?string $currency = null;
 
     public function withCurrency(?string $currency): self
     {

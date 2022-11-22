@@ -17,8 +17,13 @@ final class BodyTest extends TestCase
      */
     public function it_serializes(): void
     {
-        $body = Body::create('CLIENT_ID', 'USER_ID')
-            ->withEvent(AddToCartEvent::create('USD', 123.45))
+        $body = Body::create('CLIENT_ID')
+            ->withUserId('USER_ID')
+            ->withEvent(
+                AddToCartEvent::create()
+                    ->withCurrency('USD')
+                    ->withValue(123.45),
+            )
             ->withTimestamp(1_668_509_674_013_800)
             ->withPersonalizedAds(true)
         ;
@@ -34,10 +39,10 @@ final class BodyTest extends TestCase
      */
     public function it_handles_microtime(): void
     {
-        $body = Body::create('CLIENT_ID', 'USER_ID');
+        $body = Body::create('CLIENT_ID');
 
         self::assertSame(
-            '{"client_id":"CLIENT_ID","user_id":"USER_ID","timestamp_micros":1668509674013800}',
+            '{"client_id":"CLIENT_ID","timestamp_micros":1668509674013800}',
             json_encode($body),
         );
     }

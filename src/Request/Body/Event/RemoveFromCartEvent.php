@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-final class AddToCartEvent extends Event
+final class RemoveFromCartEvent extends Event
 {
     use CreatesEmpty;
     use HasCurrency;
@@ -13,7 +13,7 @@ final class AddToCartEvent extends Event
 
     protected function getName(): string
     {
-        return 'add_to_cart';
+        return 'remove_from_cart';
     }
 
     protected function getData(): array

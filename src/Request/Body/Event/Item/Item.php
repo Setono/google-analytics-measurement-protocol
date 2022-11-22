@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item;
 
 use JsonSerializable;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\CreatesEmpty;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasWithers;
 
 final class Item implements JsonSerializable
 {
+    use CreatesEmpty;
     use HasWithers;
 
     private ?string $id = null;
@@ -48,19 +50,6 @@ final class Item implements JsonSerializable
     private ?float $price = null;
 
     private int $quantity = 1;
-
-    public static function create(string $id = null, string $name = null): self
-    {
-        if (null === $id && null === $name) {
-            throw new \InvalidArgumentException('Either the id or name must be present');
-        }
-
-        $obj = new self();
-        $obj->id = $id;
-        $obj->name = $name;
-
-        return $obj;
-    }
 
     public function jsonSerialize(): array
     {

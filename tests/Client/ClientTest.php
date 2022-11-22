@@ -41,8 +41,10 @@ final class ClientTest extends TestCase
             'G-12341234',
             Body::create('CLIENT_ID')
                 ->withEvent(
-                    AddToCartEvent::create('USD', 123.45)
-                        ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
+                    AddToCartEvent::create()
+                        ->withCurrency('USD')
+                        ->withValue(123.45)
+                        ->withItem(Item::create()->withId('SKU1234')->withName('Blue t-shirt')),
                 )->withTimestamp(1668509674013800),
         );
 
@@ -54,7 +56,7 @@ final class ClientTest extends TestCase
             (string) $httpClient->lastRequest->getUri(),
         );
         self::assertSame(
-            '{"client_id":"CLIENT_ID","timestamp_micros":1668509674013800,"events":[{"name":"add_to_cart","params":{"currency":"USD","value":123.45,"items":[{"item_id":"SKU1234","item_name":"Blue T-shirt","quantity":1}]}}]}',
+            '{"client_id":"CLIENT_ID","timestamp_micros":1668509674013800,"events":[{"name":"add_to_cart","params":{"currency":"USD","value":123.45,"items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}]}',
             (string) $httpClient->lastRequest->getBody(),
         );
     }
@@ -71,8 +73,10 @@ final class ClientTest extends TestCase
             'G-12341234',
             Body::create('CLIENT_ID')
                 ->withEvent(
-                    AddToCartEvent::create('USD', 123.45)
-                        ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
+                    AddToCartEvent::create()
+                        ->withCurrency('USD')
+                        ->withValue(123.45)
+                        ->withItem(Item::create()->withId('SKU1234')->withName('Blue t-shirt')),
                 ),
         );
 
@@ -95,8 +99,10 @@ final class ClientTest extends TestCase
             'G-12341234',
             Body::create('CLIENT_ID')
                 ->withEvent(
-                    AddToCartEvent::create('USD', 123.45)
-                        ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
+                    AddToCartEvent::create()
+                        ->withCurrency('USD')
+                        ->withValue(123.45)
+                        ->withItem(Item::create()->withId('SKU1234')->withName('Blue t-shirt')),
                 ),
         );
 
@@ -163,8 +169,10 @@ final class ClientTest extends TestCase
             'G-12341234',
             Body::create('CLIENT_ID')
                 ->withEvent(
-                    AddToCartEvent::create('USD', 123.45)
-                        ->withItem(Item::create('SKU1234', 'Blue T-shirt')),
+                    AddToCartEvent::create()
+                        ->withCurrency('USD')
+                        ->withValue(123.45)
+                        ->withItem(Item::create()->withId('SKU1234')->withName('Blue t-shirt')),
                 ),
         );
 

@@ -19,7 +19,7 @@ final class Body implements \JsonSerializable
     /**
      * Optional. A unique identifier for a user. See https://support.google.com/analytics/answer/9213390 for more information on this identifier
      */
-    private ?string $userId;
+    private ?string $userId = null;
 
     /**
      * Optional. A Unix timestamp (in microseconds) for the time to associate with the event.
@@ -48,16 +48,15 @@ final class Body implements \JsonSerializable
      */
     private array $events = [];
 
-    private function __construct(string $clientId, ?string $userId)
+    private function __construct(string $clientId)
     {
         $this->clientId = $clientId;
-        $this->userId = $userId;
         $this->timestamp = (int) (microtime(true) * 1_000_000);
     }
 
-    public static function create(string $clientId, string $userId = null): self
+    public static function create(string $clientId): self
     {
-        return new self($clientId, $userId);
+        return new self($clientId);
     }
 
     public function withClientId(string $clientId): self

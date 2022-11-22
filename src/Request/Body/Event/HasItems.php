@@ -12,7 +12,7 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
 trait HasItems
 {
     /** @var list<Item> */
-    private array $items = [];
+    protected array $items = [];
 
     public function withItem(Item $item): self
     {

@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-final class AddToCartEvent extends Event
+final class BeginCheckoutEvent extends Event
 {
     use CreatesEmpty;
     use HasCurrency;
-    use HasItems;
     use HasValue;
+    use HasCoupon;
+    use HasItems;
 
     protected function getName(): string
     {
-        return 'add_to_cart';
+        return 'begin_checkout';
     }
 
     protected function getData(): array
@@ -21,6 +22,7 @@ final class AddToCartEvent extends Event
         return [
             'currency' => $this->currency,
             'value' => $this->value,
+            'coupon' => $this->coupon,
             'items' => $this->items,
         ];
     }
