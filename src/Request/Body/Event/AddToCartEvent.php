@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-final class AddToCartEvent extends Event
+class AddToCartEvent extends Event
 {
     use CreatesEmpty;
     use HasCurrency;

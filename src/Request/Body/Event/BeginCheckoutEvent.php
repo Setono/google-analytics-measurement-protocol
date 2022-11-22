@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-final class BeginCheckoutEvent extends Event
+class BeginCheckoutEvent extends Event
 {
     use CreatesEmpty;
     use HasCurrency;

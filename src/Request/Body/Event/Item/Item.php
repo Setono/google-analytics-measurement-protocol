@@ -8,7 +8,7 @@ use JsonSerializable;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\CreatesEmpty;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasWithers;
 
-final class Item implements JsonSerializable
+class Item implements JsonSerializable
 {
     use CreatesEmpty;
     use HasWithers;

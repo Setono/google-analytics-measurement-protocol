@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-final class PurchaseEvent extends Event
+class PurchaseEvent extends Event
 {
     use HasCurrency;
     use HasItems;
