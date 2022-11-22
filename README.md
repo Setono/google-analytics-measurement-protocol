@@ -13,7 +13,7 @@ Version ^1.0 of this library supports the GA4 measurement protocol while < 1.0 s
 ## Installation
 
 ```bash
-$ composer require setono/google-analytics-measurement-protocol
+composer require setono/google-analytics-measurement-protocol
 ```
 
 ## Usage
