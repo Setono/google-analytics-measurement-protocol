@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item;
 
 use JsonSerializable;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\CreatesEmpty;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\CreatesEmpty;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasWithers;
 
 class Item implements JsonSerializable

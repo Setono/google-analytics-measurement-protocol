@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasItems;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasValue;
+
 class PurchaseEvent extends Event
 {
     use HasCurrency;
