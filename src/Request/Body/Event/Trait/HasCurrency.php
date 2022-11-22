@@ -20,8 +20,8 @@ trait HasCurrency
         return $this->currency;
     }
 
-    public function withCurrency(?string $currency): self
+    public function setCurrency(?string $currency): static
     {
-        return $this->with('currency', $currency);
+        return $this->set('currency', $currency);
     }
 }

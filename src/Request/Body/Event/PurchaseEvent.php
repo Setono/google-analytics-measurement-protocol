@@ -47,9 +47,9 @@ class PurchaseEvent extends Event
         return $this->shipping;
     }
 
-    public function withShipping(string $shipping): self
+    public function setShipping(string $shipping): self
     {
-        return $this->with('shipping', $shipping);
+        return $this->set('shipping', $shipping);
     }
 
     public function getTax(): ?float
@@ -57,8 +57,8 @@ class PurchaseEvent extends Event
         return $this->tax;
     }
 
-    public function withTax(string $tax): self
+    public function setTax(string $tax): self
     {
-        return $this->with('tax', $tax);
+        return $this->set('tax', $tax);
     }
 }

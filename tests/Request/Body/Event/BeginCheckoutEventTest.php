@@ -14,10 +14,10 @@ final class BeginCheckoutEventTest extends AbstractEventTestCase
     protected function getEvent(): Event
     {
         return BeginCheckoutEvent::create()
-            ->withCurrency('USD')
-            ->withValue(123.45)
-            ->withCoupon('SUMMER_SALE')
-            ->withItem(Item::create()->withId('SKU1234')->withName('Blue t-shirt'))
+            ->setCurrency('USD')
+            ->setValue(123.45)
+            ->setCoupon('SUMMER_SALE')
+            ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt'))
         ;
     }
 

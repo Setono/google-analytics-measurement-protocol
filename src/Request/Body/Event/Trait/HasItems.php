@@ -25,19 +25,18 @@ trait HasItems
         return $this->items;
     }
 
-    public function withItem(Item $item): self
+    public function addItem(Item $item): static
     {
-        $clone = clone $this;
-        $clone->items[] = $item;
+        $this->items[] = $item;
 
-        return $clone;
+        return $this;
     }
 
     /**
      * @param list<Item> $items
      */
-    public function withItems(array $items): self
+    public function setItems(array $items): static
     {
-        return $this->with('items', $items);
+        return $this->set('items', $items);
     }
 }

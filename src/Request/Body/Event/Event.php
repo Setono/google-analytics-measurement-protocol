@@ -6,12 +6,12 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
 use JsonSerializable;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\Serializable;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasWithers;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasSetters;
 
 // todo add validate method
 abstract class Event implements JsonSerializable
 {
-    use HasWithers;
+    use HasSetters;
     use Serializable;
 
     /**

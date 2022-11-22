@@ -8,7 +8,7 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
 
 final class Request
 {
-    use HasWithers;
+    use HasSetters;
 
     /**
      * To create a new secret, navigate in the Google Analytics UI to:
@@ -41,9 +41,9 @@ final class Request
         return $this->apiSecret;
     }
 
-    public function withApiSecret(string $apiSecret): self
+    public function setApiSecret(string $apiSecret): self
     {
-        return $this->with('apiSecret', $apiSecret);
+        return $this->set('apiSecret', $apiSecret);
     }
 
     public function getMeasurementId(): string
@@ -51,9 +51,9 @@ final class Request
         return $this->measurementId;
     }
 
-    public function withMeasurementId(string $measurementId): self
+    public function setMeasurementId(string $measurementId): self
     {
-        return $this->with('measurementId', $measurementId);
+        return $this->set('measurementId', $measurementId);
     }
 
     public function getBody(): Body
@@ -61,8 +61,8 @@ final class Request
         return $this->body;
     }
 
-    public function withBody(Body $body): self
+    public function setBody(Body $body): self
     {
-        return $this->with('body', $body);
+        return $this->set('body', $body);
     }
 }
