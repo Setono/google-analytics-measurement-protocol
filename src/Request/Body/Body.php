@@ -158,13 +158,18 @@ final class Body implements \JsonSerializable
         return $this->events;
     }
 
+    /**
+     * @param list<Event> $events
+     */
     public function setEvents(array $events): self
     {
-        if (count($events) >= 25) {
-            throw new \OutOfBoundsException('The number of events cannot exceed 25'); // todo better exception
+        $this->events = [];
+
+        foreach ($events as $event) {
+            $this->addEvent($event);
         }
 
-        return $this->set('events', $events);
+        return $this;
     }
 
     public function addEvent(Event $event): self

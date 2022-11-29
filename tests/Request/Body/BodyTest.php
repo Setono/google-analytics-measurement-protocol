@@ -15,6 +15,72 @@ final class BodyTest extends TestCase
     /**
      * @test
      */
+    public function it_it_mutable(): void
+    {
+        // first create the initial Body object
+        $event = AddToCartEvent::create()
+            ->setCurrency('USD')
+            ->setValue(123.45)
+        ;
+
+        $body = Body::create('CLIENT_ID')
+            ->setUserId('USER_ID')
+            ->addEvent($event)
+            ->setUserProperty('prop', 'val')
+            ->setTimestamp(1_668_509_674_013_800)
+            ->setNonPersonalizedAds(true)
+        ;
+
+        // then assert its values
+        self::assertSame('CLIENT_ID', $body->getClientId());
+        self::assertSame('USER_ID', $body->getUserId());
+
+        $events = $body->getEvents();
+        self::assertCount(1, $events);
+        self::assertSame($event, $events[0]);
+
+        $userProperties = $body->getUserProperties();
+        self::assertCount(1, $userProperties);
+        self::assertArrayHasKey('prop', $userProperties);
+        self::assertSame('val', $userProperties['prop']);
+
+        self::assertSame(1_668_509_674_013_800, $body->getTimestamp());
+        self::assertTrue($body->getNonPersonalizedAds());
+
+        // then mutate the object
+        $newEvent = AddToCartEvent::create()
+            ->setCurrency('USD')
+            ->setValue(123.45)
+        ;
+
+        $body->setClientId('NEW_CLIENT_ID')
+            ->setUserId('NEW_USER_ID')
+            ->setTimestamp(1_668_509_674_013_900)
+            ->setNonPersonalizedAds(null)
+            ->setEvents([$newEvent])
+            ->setUserProperty('prop', 'new_val')
+        ;
+
+        // then assert its values again
+        self::assertSame('NEW_CLIENT_ID', $body->getClientId());
+        self::assertSame('NEW_USER_ID', $body->getUserId());
+
+        $events = $body->getEvents();
+        self::assertCount(1, $events);
+        self::assertSame($newEvent, $events[0]);
+
+        $userProperties = $body->getUserProperties();
+        self::assertCount(1, $userProperties);
+        self::assertArrayHasKey('prop', $userProperties);
+        self::assertSame('new_val', $userProperties['prop']);
+
+        self::assertSame(1_668_509_674_013_900, $body->getTimestamp());
+        self::assertNull($body->getNonPersonalizedAds());
+    }
+
+    /**
+     * @test
+     */
     public function it_serializes(): void
     {
         $body = Body::create('CLIENT_ID')
@@ -46,6 +112,41 @@ final class BodyTest extends TestCase
             '{"client_id":"CLIENT_ID","timestamp_micros":1668509674013800}',
             json_encode($body),
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_exception_if_number_of_events_is_exceeded(): void
+    {
+        $this->expectException(\OutOfBoundsException::class);
+        $body = Body::create('CLIENT_ID');
+
+        for ($i = 0; $i < 26; ++$i) {
+            $body->addEvent(
+                AddToCartEvent::create()
+                ->setCurrency('USD')
+                ->setValue(123.45),
+            );
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_throw_exception_if_number_of_events_hits_the_limit(): void
+    {
+        $body = Body::create('CLIENT_ID');
+
+        for ($i = 0; $i < 25; ++$i) {
+            $body->addEvent(
+                AddToCartEvent::create()
+                ->setCurrency('USD')
+                ->setValue(123.45),
+            );
+        }
+
+        self::assertTrue(true);
     }
 
     /**
