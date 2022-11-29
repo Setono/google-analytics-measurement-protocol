@@ -47,6 +47,37 @@ final class BodyTest extends TestCase
             json_encode($body),
         );
     }
+
+    /**
+     * @test
+     *
+     * @dataProvider getInvalidUserProperties
+     */
+    public function it_throws_exception_if_user_property_is_invalid(string $userProperty): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $body = Body::create('CLIENT_ID');
+        $body->setUserProperty($userProperty, 'value');
+    }
+
+    /**
+     * @return \Generator<array-key, array<array-key, string>>
+     */
+    public function getInvalidUserProperties(): \Generator
+    {
+        // these are illegal user property names
+        yield ['first_open_time'];
+        yield ['first_visit_time'];
+        yield ['last_deep_link_referrer'];
+        yield ['user_id'];
+        yield ['first_open_after_install'];
+
+        // these user properties are deemed illegal because of their prefixes
+        yield ['google_test'];
+        yield ['ga_test'];
+        yield ['firebase_test'];
+    }
 }
 
 /**
