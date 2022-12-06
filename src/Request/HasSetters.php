@@ -7,8 +7,8 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request;
 trait HasSetters
 {
     /**
-     * @param string $property The property to change on the new cloned object
-     * @param mixed $value The value for the property on the new cloned object
+     * @param string $property The property to change
+     * @param mixed $value The value for the property
      */
     protected function set(string $property, mixed $value): static
     {
