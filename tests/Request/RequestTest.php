@@ -18,10 +18,34 @@ final class RequestTest extends TestCase
     public function it_initializes(): void
     {
         $body = Body::create('CLIENT_ID');
-        $request = new Request('API_SECRET', 'G-12341234', $body);
+        $request = self::getRequest($body);
 
         self::assertSame('API_SECRET', $request->getApiSecret());
         self::assertSame('G-12341234', $request->getMeasurementId());
         self::assertSame($body, $request->getBody());
+    }
+
+    /**
+     * @test
+     */
+    public function it_is_mutable(): void
+    {
+        $newBody = Body::create('NEW_CLIENT_ID');
+        $request = self::getRequest();
+        $request->setApiSecret('NEW_API_SECRET')
+            ->setMeasurementId('G-987651')
+            ->setBody($newBody)
+        ;
+
+        self::assertSame('NEW_API_SECRET', $request->getApiSecret());
+        self::assertSame('G-987651', $request->getMeasurementId());
+        self::assertSame($newBody, $request->getBody());
+    }
+
+    private static function getRequest(Body $body = null): Request
+    {
+        $body = $body ?? Body::create('CLIENT_ID');
+
+        return new Request('API_SECRET', 'G-12341234', $body);
     }
 }
