@@ -26,8 +26,11 @@ final class HasItemsTest extends TestCase
         $items = [Item::create()];
 
         $obj = new ClassUsingHasItems();
-        $obj->setItems([Item::create()]);
+        $obj->setItems($items);
         self::assertSame($items, $obj->getItems());
+
+        $obj->addItem(Item::create());
+        self::assertCount(2, $obj->getItems());
     }
 }
 
