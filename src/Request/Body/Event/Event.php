@@ -16,6 +16,8 @@ abstract class Event implements JsonSerializable
 
     private bool $serverSide = true;
 
+    private ?string $clientId = null;
+
     /**
      * MUST return the event name, e.g. add_to_cart, purchase etc
      */
@@ -29,9 +31,23 @@ abstract class Event implements JsonSerializable
         return $this->serverSide;
     }
 
-    public function setServerSide(bool $serverSide): void
+    public function setServerSide(bool $serverSide): self
     {
         $this->serverSide = $serverSide;
+
+        return $this;
+    }
+
+    public function getClientId(): ?string
+    {
+        return $this->clientId;
+    }
+
+    public function setClientId(?string $clientId): self
+    {
+        $this->clientId = $clientId;
+
+        return $this;
     }
 
     public function jsonSerialize(): array

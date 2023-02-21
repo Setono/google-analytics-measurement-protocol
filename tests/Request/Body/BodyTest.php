@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body;
 
 use PHPUnit\Framework\TestCase;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\AddPaymentInfoEvent;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\AddToCartEvent;
 
 /**
@@ -147,6 +148,17 @@ final class BodyTest extends TestCase
         }
 
         self::assertTrue(true);
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_exception_if_client_id_on_event_does_not_match_the_client_id_on_the_body(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Body::create('CLIENT_ID')
+            ->addEvent(AddPaymentInfoEvent::create()->setClientId('ANOTHER_CLIENT_ID'))
+        ;
     }
 
     /**
