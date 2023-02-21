@@ -29,8 +29,6 @@ trait Serializable
             /** @var Serialize $serialize */
             $serialize = $attributes[0]->newInstance();
 
-            $property->setAccessible(true);
-
             /** @psalm-suppress MixedAssignment */
             $data[$serialize->name ?? $property->getName()] = $property->getValue($this);
         }
