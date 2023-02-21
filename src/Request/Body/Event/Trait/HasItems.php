@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
 
-/**
- * @mixin Event
- */
 trait HasItems
 {
     /** @var list<Item> */
