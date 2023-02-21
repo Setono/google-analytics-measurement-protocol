@@ -37,6 +37,8 @@ trait HasItems
      */
     public function setItems(array $items): static
     {
-        return $this->set('items', $items);
+        $this->items = $items;
+
+        return $this;
     }
 }

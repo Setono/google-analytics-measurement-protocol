@@ -13,15 +13,17 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
 trait HasTransactionId
 {
     #[Serialize(name: 'transaction_id')]
-    protected string $transactionId;
+    protected ?string $transactionId = null;
 
-    public function getTransactionId(): string
+    public function getTransactionId(): ?string
     {
         return $this->transactionId;
     }
 
-    public function setTransactionId(string $transactionId): static
+    public function setTransactionId(?string $transactionId): static
     {
-        return $this->set('transactionId', $transactionId);
+        $this->transactionId = $transactionId;
+
+        return $this;
     }
 }

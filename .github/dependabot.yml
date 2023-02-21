@@ -9,5 +9,5 @@ updates:
       directory: "/"
       package-ecosystem: "composer"
       schedule:
-          interval: "daily"
-      versioning-strategy: "widen"
+          interval: "weekly"
+      versioning-strategy: "increase-if-necessary"

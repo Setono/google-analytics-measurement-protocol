@@ -22,6 +22,8 @@ trait HasListName
 
     public function setListName(?string $listName): static
     {
-        return $this->set('listName', $listName);
+        $this->listName = $listName;
+
+        return $this;
     }
 }

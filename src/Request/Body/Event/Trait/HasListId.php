@@ -22,6 +22,8 @@ trait HasListId
 
     public function setListId(?string $listId): static
     {
-        return $this->set('listId', $listId);
+        $this->listId = $listId;
+
+        return $this;
     }
 }

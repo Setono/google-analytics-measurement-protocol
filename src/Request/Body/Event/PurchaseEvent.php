@@ -27,7 +27,7 @@ class PurchaseEvent extends Event
     #[Serialize]
     protected ?float $tax = null;
 
-    private function __construct(string $transactionId)
+    public function __construct(string $transactionId)
     {
         $this->transactionId = $transactionId;
     }
@@ -47,9 +47,11 @@ class PurchaseEvent extends Event
         return $this->shipping;
     }
 
-    public function setShipping(string $shipping): self
+    public function setShipping(?float $shipping): self
     {
-        return $this->set('shipping', $shipping);
+        $this->shipping = $shipping;
+
+        return $this;
     }
 
     public function getTax(): ?float
@@ -57,8 +59,10 @@ class PurchaseEvent extends Event
         return $this->tax;
     }
 
-    public function setTax(string $tax): self
+    public function setTax(?float $tax): self
     {
-        return $this->set('tax', $tax);
+        $this->tax = $tax;
+
+        return $this;
     }
 }

@@ -8,8 +8,6 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
 
 final class Request
 {
-    use HasSetters;
-
     /**
      * To create a new secret, navigate in the Google Analytics UI to:
      * Admin > Data Streams > choose your stream > Measurement Protocol > Create
@@ -38,7 +36,9 @@ final class Request
 
     public function setApiSecret(string $apiSecret): self
     {
-        return $this->set('apiSecret', $apiSecret);
+        $this->apiSecret = $apiSecret;
+
+        return $this;
     }
 
     public function getMeasurementId(): string
@@ -48,7 +48,9 @@ final class Request
 
     public function setMeasurementId(string $measurementId): self
     {
-        return $this->set('measurementId', $measurementId);
+        $this->measurementId = $measurementId;
+
+        return $this;
     }
 
     public function getBody(): Body
@@ -58,6 +60,8 @@ final class Request
 
     public function setBody(Body $body): self
     {
-        return $this->set('body', $body);
+        $this->body = $body;
+
+        return $this;
     }
 }

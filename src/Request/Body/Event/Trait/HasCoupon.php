@@ -22,6 +22,8 @@ trait HasCoupon
 
     public function setCoupon(?string $coupon): static
     {
-        return $this->set('coupon', $coupon);
+        $this->coupon = $coupon;
+
+        return $this;
     }
 }

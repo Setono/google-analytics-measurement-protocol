@@ -7,11 +7,9 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body;
 use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\Serializable;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasSetters;
 
 final class Body implements \JsonSerializable
 {
-    use HasSetters;
     use Serializable;
 
     /**
@@ -77,7 +75,9 @@ final class Body implements \JsonSerializable
 
     public function setClientId(string $clientId): self
     {
-        return $this->set('clientId', $clientId);
+        $this->clientId = $clientId;
+
+        return $this;
     }
 
     public function getUserId(): ?string
@@ -87,7 +87,9 @@ final class Body implements \JsonSerializable
 
     public function setUserId(?string $userId): self
     {
-        return $this->set('userId', $userId);
+        $this->userId = $userId;
+
+        return $this;
     }
 
     public function getTimestamp(): int
@@ -97,7 +99,9 @@ final class Body implements \JsonSerializable
 
     public function setTimestamp(int $timestamp): self
     {
-        return $this->set('timestamp', $timestamp);
+        $this->timestamp = $timestamp;
+
+        return $this;
     }
 
     public function getUserProperties(): array
@@ -147,7 +151,9 @@ final class Body implements \JsonSerializable
 
     public function setNonPersonalizedAds(?bool $nonPersonalizedAds): self
     {
-        return $this->set('nonPersonalizedAds', $nonPersonalizedAds);
+        $this->nonPersonalizedAds = $nonPersonalizedAds;
+
+        return $this;
     }
 
     /**

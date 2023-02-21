@@ -22,6 +22,8 @@ trait HasCurrency
 
     public function setCurrency(?string $currency): static
     {
-        return $this->set('currency', $currency);
+        $this->currency = $currency;
+
+        return $this;
     }
 }

@@ -13,12 +13,10 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurren
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListId;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListName;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\Serializable;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\HasSetters;
 
 class Item implements JsonSerializable
 {
     use CreatesEmpty;
-    use HasSetters;
     use HasAffiliation;
     use HasCoupon;
     use HasCurrency;
@@ -80,7 +78,9 @@ class Item implements JsonSerializable
 
     public function setId(?string $id): self
     {
-        return $this->set('id', $id);
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -90,7 +90,9 @@ class Item implements JsonSerializable
 
     public function setName(?string $name): self
     {
-        return $this->set('name', $name);
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getDiscount(): ?float
@@ -100,7 +102,9 @@ class Item implements JsonSerializable
 
     public function setDiscount(?float $discount): self
     {
-        return $this->set('discount', $discount);
+        $this->discount = $discount;
+
+        return $this;
     }
 
     public function getIndex(): ?int
@@ -110,7 +114,9 @@ class Item implements JsonSerializable
 
     public function setIndex(?int $index): self
     {
-        return $this->set('index', $index);
+        $this->index = $index;
+
+        return $this;
     }
 
     public function getBrand(): ?string
@@ -120,7 +126,9 @@ class Item implements JsonSerializable
 
     public function setBrand(?string $brand): self
     {
-        return $this->set('brand', $brand);
+        $this->brand = $brand;
+
+        return $this;
     }
 
     public function getCategory(): ?string
@@ -130,7 +138,9 @@ class Item implements JsonSerializable
 
     public function setCategory(?string $category): self
     {
-        return $this->set('category', $category);
+        $this->category = $category;
+
+        return $this;
     }
 
     public function getCategory2(): ?string
@@ -140,7 +150,9 @@ class Item implements JsonSerializable
 
     public function setCategory2(?string $category2): self
     {
-        return $this->set('category2', $category2);
+        $this->category2 = $category2;
+
+        return $this;
     }
 
     public function getCategory3(): ?string
@@ -150,7 +162,9 @@ class Item implements JsonSerializable
 
     public function setCategory3(?string $category3): self
     {
-        return $this->set('category3', $category3);
+        $this->category3 = $category3;
+
+        return $this;
     }
 
     public function getCategory4(): ?string
@@ -160,7 +174,9 @@ class Item implements JsonSerializable
 
     public function setCategory4(?string $category4): self
     {
-        return $this->set('category4', $category4);
+        $this->category4 = $category4;
+
+        return $this;
     }
 
     public function getCategory5(): ?string
@@ -170,7 +186,9 @@ class Item implements JsonSerializable
 
     public function setCategory5(?string $category5): self
     {
-        return $this->set('category5', $category5);
+        $this->category5 = $category5;
+
+        return $this;
     }
 
     public function getVariant(): ?string
@@ -180,7 +198,9 @@ class Item implements JsonSerializable
 
     public function setVariant(?string $variant): self
     {
-        return $this->set('variant', $variant);
+        $this->variant = $variant;
+
+        return $this;
     }
 
     public function getLocationId(): ?string
@@ -190,7 +210,9 @@ class Item implements JsonSerializable
 
     public function setLocationId(?string $locationId): self
     {
-        return $this->set('locationId', $locationId);
+        $this->locationId = $locationId;
+
+        return $this;
     }
 
     public function getPrice(): ?float
@@ -200,7 +222,9 @@ class Item implements JsonSerializable
 
     public function setPrice(?float $price): self
     {
-        return $this->set('price', $price);
+        $this->price = $price;
+
+        return $this;
     }
 
     public function getQuantity(): int
@@ -210,6 +234,8 @@ class Item implements JsonSerializable
 
     public function setQuantity(int $quantity): self
     {
-        return $this->set('quantity', $quantity);
+        $this->quantity = $quantity;
+
+        return $this;
     }
 }

@@ -22,6 +22,8 @@ trait HasAffiliation
 
     public function setAffiliation(?string $affiliation): static
     {
-        return $this->set('affiliation', $affiliation);
+        $this->affiliation = $affiliation;
+
+        return $this;
     }
 }

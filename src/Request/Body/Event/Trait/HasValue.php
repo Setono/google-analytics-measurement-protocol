@@ -22,6 +22,8 @@ trait HasValue
 
     public function setValue(?float $value): static
     {
-        return $this->set('value', $value);
+        $this->value = $value;
+
+        return $this;
     }
 }

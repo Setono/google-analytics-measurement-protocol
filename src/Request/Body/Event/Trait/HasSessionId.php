@@ -22,6 +22,8 @@ trait HasSessionId
 
     public function setSessionId(?string $sessionId): static
     {
-        return $this->set('sessionId', $sessionId);
+        $this->sessionId = $sessionId;
+
+        return $this;
     }
 }
