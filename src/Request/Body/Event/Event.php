@@ -14,29 +14,12 @@ abstract class Event implements JsonSerializable
     use HasSessionId;
     use Serializable;
 
-    private bool $serverSide = true;
-
     private ?string $clientId = null;
 
     /**
      * MUST return the event name, e.g. add_to_cart, purchase etc
      */
     abstract public function getEventName(): string;
-
-    /**
-     * Returns true if the event should be sent server or false if it should be rendered client side
-     */
-    public function isServerSide(): bool
-    {
-        return $this->serverSide;
-    }
-
-    public function setServerSide(bool $serverSide): self
-    {
-        $this->serverSide = $serverSide;
-
-        return $this;
-    }
 
     public function getClientId(): ?string
     {
