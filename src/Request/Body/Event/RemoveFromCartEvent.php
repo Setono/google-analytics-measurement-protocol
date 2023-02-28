@@ -16,7 +16,7 @@ class RemoveFromCartEvent extends Event
     use HasItems;
     use HasValue;
 
-    protected function getEventName(): string
+    public function getEventName(): string
     {
         return 'remove_from_cart';
     }

@@ -37,7 +37,7 @@ class PurchaseEvent extends Event
         return new self($transactionId);
     }
 
-    protected function getEventName(): string
+    public function getEventName(): string
     {
         return 'purchase';
     }

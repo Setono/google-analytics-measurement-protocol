@@ -18,7 +18,7 @@ class BeginCheckoutEvent extends Event
     use HasCoupon;
     use HasItems;
 
-    protected function getEventName(): string
+    public function getEventName(): string
     {
         return 'begin_checkout';
     }

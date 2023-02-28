@@ -22,7 +22,7 @@ class AddPaymentInfoEvent extends Event
     #[Serialize(name: 'payment_type')]
     protected ?string $paymentType = null;
 
-    protected function getEventName(): string
+    public function getEventName(): string
     {
         return 'add_payment_info';
     }

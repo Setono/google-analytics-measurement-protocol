@@ -16,7 +16,7 @@ class ViewItemEvent extends Event
     use HasItems;
     use HasValue;
 
-    protected function getEventName(): string
+    public function getEventName(): string
     {
         return 'view_item';
     }

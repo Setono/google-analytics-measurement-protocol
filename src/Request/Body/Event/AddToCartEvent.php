@@ -16,7 +16,7 @@ class AddToCartEvent extends Event
     use HasItems;
     use HasValue;
 
-    protected function getEventName(): string
+    public function getEventName(): string
     {
         return 'add_to_cart';
     }

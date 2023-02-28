@@ -21,7 +21,7 @@ abstract class Event implements JsonSerializable
     /**
      * MUST return the event name, e.g. add_to_cart, purchase etc
      */
-    abstract protected function getEventName(): string;
+    abstract public function getEventName(): string;
 
     /**
      * Returns true if the event should be sent server or false if it should be rendered client side
