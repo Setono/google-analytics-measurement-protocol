@@ -7,7 +7,6 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body;
 use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\Serializable;
-use Webmozart\Assert\Assert;
 
 final class Body implements \JsonSerializable
 {
@@ -67,20 +66,6 @@ final class Body implements \JsonSerializable
     public static function create(string $clientId): self
     {
         return new self($clientId);
-    }
-
-    /**
-     * @throws \InvalidArgumentException if the $event does not have a client id set
-     */
-    public static function fromEvent(Event $event): self
-    {
-        $clientId = $event->getClientId();
-        Assert::notNull($clientId);
-
-        $obj = new self($clientId);
-        $obj->addEvent($event);
-
-        return $obj;
     }
 
     public function getClientId(): string
@@ -194,15 +179,10 @@ final class Body implements \JsonSerializable
     }
 
     /**
-     * @throws \InvalidArgumentException if the $event defines a client id, but that client id does not match the client id defined on this object
      * @throws \OutOfBoundsException if you try to add more than 25 events
      */
     public function addEvent(Event $event): self
     {
-        if ($event->getClientId() !== null && $event->getClientId() !== $this->clientId) {
-            throw new \InvalidArgumentException('Your event defines another client id than the one defined on this body');
-        }
-
         if (count($this->events) >= 25) {
             throw new \OutOfBoundsException('The number of events cannot exceed 25');
         }
