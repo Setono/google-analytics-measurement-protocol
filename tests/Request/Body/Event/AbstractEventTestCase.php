@@ -17,6 +17,6 @@ abstract class AbstractEventTestCase extends TestCase
      */
     public function it_serializes(): void
     {
-        self::assertSame($this->getExpectedJson(), json_encode($this->getEvent()));
+        self::assertSame($this->getExpectedJson(), json_encode($this->getEvent()->getPayload()));
     }
 }

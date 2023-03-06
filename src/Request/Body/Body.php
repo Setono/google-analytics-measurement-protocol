@@ -4,24 +4,19 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\Serializable;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 
-final class Body implements \JsonSerializable
+final class Body
 {
-    use Serializable;
-
     /**
      * Uniquely identifies a user instance of a web client
      */
-    #[Serialize(name: 'client_id')]
     private string $clientId;
 
     /**
      * Optional. A unique identifier for a user. See https://support.google.com/analytics/answer/9213390 for more information on this identifier
      */
-    #[Serialize(name: 'user_id')]
     private ?string $userId = null;
 
     /**
@@ -30,7 +25,6 @@ final class Body implements \JsonSerializable
      * This value can be overridden via user_property or event timestamps.
      * Events can be backdated up to 3 calendar days based on the property's timezone.
      */
-    #[Serialize(name: 'timestamp_micros')]
     private int $timestamp;
 
     /**
@@ -39,13 +33,11 @@ final class Body implements \JsonSerializable
      *
      * @var array<string, mixed>
      */
-    #[Serialize(name: 'user_properties')]
     private array $userProperties = [];
 
     /**
      * Optional. Set to true to indicate these events should not be used for personalized ads.
      */
-    #[Serialize(name: 'non_personalized_ads')]
     private ?bool $nonPersonalizedAds = null;
 
     /**
@@ -54,7 +46,6 @@ final class Body implements \JsonSerializable
      *
      * @var list<Event>
      */
-    #[Serialize]
     private array $events = [];
 
     private function __construct(string $clientId)
@@ -192,10 +183,18 @@ final class Body implements \JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize(): array
+    /**
+     * @param string $trackingContext Indicates whether this event should be treated as a server side or client side event
+     */
+    public function getPayload(string $trackingContext = Request::TRACKING_CONTEXT_SERVER_SIDE): array
     {
-        return array_filter($this->serialize(), static function ($value): bool {
-            return $value !== null && [] !== $value;
-        });
+        return array_filter([
+            'client_id' => $this->clientId,
+            'user_id' => $this->userId,
+            'timestamp_micros' => $this->timestamp,
+            'user_properties' => $this->userProperties,
+            'non_personalized_ads' => $this->nonPersonalizedAds,
+            'events' => array_map(static fn (Event $event) => $event->getPayload($trackingContext), $this->events),
+        ]);
     }
 }

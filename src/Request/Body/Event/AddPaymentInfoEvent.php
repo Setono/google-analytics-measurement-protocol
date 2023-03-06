@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\CreatesEmpty;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
@@ -15,11 +15,10 @@ class AddPaymentInfoEvent extends Event
 {
     use CreatesEmpty;
     use HasCurrency;
-    use HasItems;
     use HasValue;
     use HasCoupon;
+    use HasItems;
 
-    #[Serialize(name: 'payment_type')]
     protected ?string $paymentType = null;
 
     public function getEventName(): string
@@ -37,5 +36,16 @@ class AddPaymentInfoEvent extends Event
         $this->paymentType = $paymentType;
 
         return $this;
+    }
+
+    protected function getParameters(): array
+    {
+        return [
+            'currency' => $this->currency,
+            'value' => $this->value,
+            'coupon' => $this->coupon,
+            'payment_type' => $this->paymentType,
+            'items' => array_map(static fn (Item $item) => $item->getParameters(), $this->items),
+        ];
     }
 }

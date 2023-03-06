@@ -17,8 +17,8 @@ final class ItemTest extends TestCase
     public function it_serializes(): void
     {
         self::assertSame(
-            '{"item_id":"SKU1234","item_name":"Blue t-shirt","discount":2.22,"item_brand":"Google","item_category":"Apparel","item_category2":"Adult","item_category3":"Shirts","item_category4":"Crew","item_category5":"Short sleeve","item_variant":"green","location_id":"ChIJIQBpAG2ahYAR_6128GcTUEo","price":9.99,"quantity":1,"affiliation":"Google Merchandise Store","coupon":"SUMMER_FUN","currency":"USD","item_list_id":"related_products","item_list_name":"Related Products"}',
-            json_encode($this->getItem()),
+            '{"item_id":"SKU1234","item_name":"Blue t-shirt","affiliation":"Google Merchandise Store","coupon":"SUMMER_FUN","currency":"USD","discount":2.22,"item_brand":"Google","item_category":"Apparel","item_category2":"Adult","item_category3":"Shirts","item_category4":"Crew","item_category5":"Short sleeve","item_list_id":"related_products","item_list_name":"Related Products","item_variant":"green","location_id":"ChIJIQBpAG2ahYAR_6128GcTUEo","price":9.99,"quantity":1}',
+            json_encode($this->getItem()->getParameters()),
         );
     }
 

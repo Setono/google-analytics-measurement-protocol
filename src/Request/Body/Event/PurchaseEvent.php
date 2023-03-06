@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasAffiliation;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
@@ -21,10 +21,8 @@ class PurchaseEvent extends Event
     use HasTransactionId;
     use HasAffiliation;
 
-    #[Serialize]
     protected ?float $shipping = null;
 
-    #[Serialize]
     protected ?float $tax = null;
 
     public function __construct(string $transactionId)
@@ -64,5 +62,18 @@ class PurchaseEvent extends Event
         $this->tax = $tax;
 
         return $this;
+    }
+
+    protected function getParameters(): array
+    {
+        return [
+            'currency' => $this->currency,
+            'transaction_id' => $this->transactionId,
+            'value' => $this->value,
+            'coupon' => $this->coupon,
+            'shipping' => $this->shipping,
+            'tax' => $this->tax,
+            'items' => array_map(static fn (Item $item) => $item->getParameters(), $this->items),
+        ];
     }
 }

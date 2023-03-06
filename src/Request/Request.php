@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
 
 final class Request
 {
+    public const TRACKING_CONTEXT_CLIENT_SIDE = 'client_side';
+
+    public const TRACKING_CONTEXT_SERVER_SIDE = 'server_side';
+
     /**
      * To create a new secret, navigate in the Google Analytics UI to:
      * Admin > Data Streams > choose your stream > Measurement Protocol > Create
@@ -63,5 +68,13 @@ final class Request
         $this->body = $body;
 
         return $this;
+    }
+
+    /**
+     * @param string $trackingContext Indicates whether this event should be treated as a server side or client side event
+     */
+    public function getPayload(string $trackingContext = self::TRACKING_CONTEXT_SERVER_SIDE): array
+    {
+        return $this->getBody()->getPayload($trackingContext);
     }
 }

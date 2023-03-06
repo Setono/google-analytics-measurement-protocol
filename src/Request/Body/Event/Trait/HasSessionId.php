@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
-
 trait HasSessionId
 {
-    #[Serialize(name: 'session_id')]
     protected ?string $sessionId = null;
 
     public function getSessionId(): ?string
