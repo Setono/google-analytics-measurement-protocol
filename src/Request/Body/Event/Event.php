@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-use JsonSerializable;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasSessionId;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\Serializable;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 
 // todo add validate method
-abstract class Event implements JsonSerializable
+abstract class Event
 {
     use HasSessionId;
-    use Serializable;
 
     /**
      * MUST return the event name, e.g. add_to_cart, purchase etc
@@ -20,11 +18,23 @@ abstract class Event implements JsonSerializable
      */
     abstract public function getEventName(): string;
 
-    public function jsonSerialize(): array
+    /**
+     * Returns the event parameters
+     */
+    abstract protected function getParameters(): array;
+
+    /**
+     * @param string $trackingContext Indicates whether this event should be treated as a server side or client side event
+     */
+    public function getPayload(string $trackingContext = Request::TRACKING_CONTEXT_SERVER_SIDE): array
     {
-        return [
-            'name' => $this->getEventName(),
-            'params' => array_filter($this->serialize()),
-        ];
+        if (Request::TRACKING_CONTEXT_SERVER_SIDE === $trackingContext) {
+            return [
+                'name' => $this->getEventName(),
+                'params' => array_filter($this->getParameters()),
+            ];
+        }
+
+        return array_filter($this->getParameters());
     }
 }

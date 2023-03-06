@@ -56,7 +56,7 @@ final class ClientTest extends TestCase
             (string) $httpClient->lastRequest->getUri(),
         );
         self::assertSame(
-            '{"client_id":"CLIENT_ID","timestamp_micros":1668509674013800,"events":[{"name":"add_to_cart","params":{"currency":"USD","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}],"value":123.45}}]}',
+            '{"client_id":"CLIENT_ID","timestamp_micros":1668509674013800,"events":[{"name":"add_to_cart","params":{"currency":"USD","value":123.45,"items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}]}',
             (string) $httpClient->lastRequest->getBody(),
         );
     }

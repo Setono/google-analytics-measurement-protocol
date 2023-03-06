@@ -22,6 +22,6 @@ final class ViewItemEventTest extends AbstractEventTestCase
 
     protected function getExpectedJson(): string
     {
-        return '{"name":"view_item","params":{"currency":"USD","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}],"value":123.45}}';
+        return '{"name":"view_item","params":{"currency":"USD","value":123.45,"items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
     }
 }

@@ -53,7 +53,7 @@ final class Client implements ClientInterface, LoggerAwareInterface
                 $this->getRequestFactory()
                     ->createRequest('POST', $uri)
                     ->withBody(
-                        $this->getStreamFactory()->createStream(json_encode($request->getBody(), \JSON_THROW_ON_ERROR)),
+                        $this->getStreamFactory()->createStream(json_encode($request->getPayload(), \JSON_THROW_ON_ERROR)),
                     ),
             );
         } catch (\Throwable $e) {

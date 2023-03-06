@@ -97,7 +97,7 @@ final class BodyTest extends TestCase
 
         self::assertSame(
             '{"client_id":"CLIENT_ID","user_id":"USER_ID","timestamp_micros":1668509674013800,"user_properties":{"prop":"val"},"non_personalized_ads":true,"events":[{"name":"add_to_cart","params":{"currency":"USD","value":123.45}}]}',
-            json_encode($body),
+            json_encode($body->getPayload()),
         );
     }
 
@@ -110,7 +110,7 @@ final class BodyTest extends TestCase
 
         self::assertSame(
             '{"client_id":"CLIENT_ID","timestamp_micros":1668509674013800}',
-            json_encode($body),
+            json_encode($body->getPayload()),
         );
     }
 

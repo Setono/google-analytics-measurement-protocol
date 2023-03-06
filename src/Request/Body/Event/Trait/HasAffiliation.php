@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Attribute\Serialize;
-
 trait HasAffiliation
 {
-    #[Serialize]
     protected ?string $affiliation = null;
 
     public function getAffiliation(): ?string
