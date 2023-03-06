@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Event;
 
 final class Request
 {
