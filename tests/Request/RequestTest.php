@@ -44,7 +44,7 @@ final class RequestTest extends TestCase
 
     private static function getRequest(Body $body = null): Request
     {
-        $body = $body ?? Body::create('CLIENT_ID');
+        $body ??= Body::create('CLIENT_ID');
 
         return new Request('API_SECRET', 'G-12341234', $body);
     }

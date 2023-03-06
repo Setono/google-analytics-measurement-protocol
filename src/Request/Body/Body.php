@@ -10,11 +10,6 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 final class Body
 {
     /**
-     * Uniquely identifies a user instance of a web client
-     */
-    private string $clientId;
-
-    /**
      * Optional. A unique identifier for a user. See https://support.google.com/analytics/answer/9213390 for more information on this identifier
      */
     private ?string $userId = null;
@@ -48,9 +43,12 @@ final class Body
      */
     private array $events = [];
 
-    private function __construct(string $clientId)
-    {
-        $this->clientId = $clientId;
+    private function __construct(
+        /**
+         * Uniquely identifies a user instance of a web client
+         */
+        private string $clientId,
+    ) {
         $this->timestamp = (int) (microtime(true) * 1_000_000);
     }
 

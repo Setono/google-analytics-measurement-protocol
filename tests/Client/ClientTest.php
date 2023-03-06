@@ -45,7 +45,7 @@ final class ClientTest extends TestCase
                         ->setCurrency('USD')
                         ->setValue(123.45)
                         ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
-                )->setTimestamp(1668509674013800),
+                )->setTimestamp(1_668_509_674_013_800),
         );
 
         $client->sendRequest($request);
