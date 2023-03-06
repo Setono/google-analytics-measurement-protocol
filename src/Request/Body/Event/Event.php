@@ -16,6 +16,7 @@ abstract class Event implements JsonSerializable
 
     /**
      * MUST return the event name, e.g. add_to_cart, purchase etc
+     * See https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events for an event reference
      */
     abstract public function getEventName(): string;
 
