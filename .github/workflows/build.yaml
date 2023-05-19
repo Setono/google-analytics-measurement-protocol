@@ -28,7 +28,6 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     php-version: "${{ matrix.php-version }}"
-                    extensions: "${{ env.PHP_EXTENSIONS }}"
                     coverage: "none"
 
             -   name: "Install composer dependencies"
@@ -68,7 +67,6 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     coverage: "none"
-                    extensions: "${{ env.PHP_EXTENSIONS }}"
                     php-version: "${{ matrix.php-version }}"
                     tools: "composer-require-checker, composer-unused"
 
@@ -106,7 +104,6 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     php-version: "${{ matrix.php-version }}"
-                    extensions: "${{ env.PHP_EXTENSIONS }}"
                     coverage: "none"
 
             -   name: "Install composer dependencies"
@@ -141,7 +138,6 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     php-version: "${{ matrix.php-version }}"
-                    extensions: "${{ env.PHP_EXTENSIONS }}"
                     coverage: "none"
 
             -   name: "Install composer dependencies"
@@ -173,7 +169,6 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     coverage: "pcov"
-                    extensions: "${{ env.PHP_EXTENSIONS }}"
                     php-version: "${{ matrix.php-version }}"
 
             -   name: "Set up problem matchers for phpunit/phpunit"
@@ -213,7 +208,6 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     coverage: "pcov"
-                    extensions: "${{ env.PHP_EXTENSIONS }}"
                     php-version: "${{ matrix.php-version }}"
 
             -   name: "Install composer dependencies"
