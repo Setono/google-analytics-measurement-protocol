@@ -13,11 +13,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 class ViewCartEvent extends Event
 {
     use CreatesEmpty;
-
     use HasCurrency;
-
     use HasValue;
-
     use HasItems;
 
     public function getEventName(): string

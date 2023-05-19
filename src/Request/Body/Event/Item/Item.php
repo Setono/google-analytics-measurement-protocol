@@ -14,15 +14,10 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasListN
 class Item
 {
     use CreatesEmpty;
-
     use HasAffiliation;
-
     use HasCoupon;
-
     use HasCurrency;
-
     use HasListId;
-
     use HasListName;
 
     protected ?string $id = null;

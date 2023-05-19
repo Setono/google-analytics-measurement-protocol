@@ -14,13 +14,9 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 class BeginCheckoutEvent extends Event
 {
     use CreatesEmpty;
-
     use HasCurrency;
-
     use HasValue;
-
     use HasCoupon;
-
     use HasItems;
 
     public function getEventName(): string

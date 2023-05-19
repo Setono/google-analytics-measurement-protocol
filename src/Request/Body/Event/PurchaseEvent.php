@@ -15,15 +15,10 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 class PurchaseEvent extends Event
 {
     use HasCurrency;
-
     use HasItems;
-
     use HasValue;
-
     use HasCoupon;
-
     use HasTransactionId;
-
     use HasAffiliation;
 
     protected ?float $shipping = null;

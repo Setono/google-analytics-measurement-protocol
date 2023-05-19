@@ -13,11 +13,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasListN
 class ViewItemListEvent extends Event
 {
     use CreatesEmpty;
-
     use HasListId;
-
     use HasListName;
-
     use HasItems;
 
     public function getEventName(): string

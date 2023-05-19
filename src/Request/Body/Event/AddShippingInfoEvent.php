@@ -14,13 +14,9 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 class AddShippingInfoEvent extends Event
 {
     use CreatesEmpty;
-
     use HasCurrency;
-
     use HasValue;
-
     use HasCoupon;
-
     use HasItems;
 
     protected ?string $shippingTier = null;

@@ -14,13 +14,9 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 class AddPaymentInfoEvent extends Event
 {
     use CreatesEmpty;
-
     use HasCurrency;
-
     use HasValue;
-
     use HasCoupon;
-
     use HasItems;
 
     protected ?string $paymentType = null;
