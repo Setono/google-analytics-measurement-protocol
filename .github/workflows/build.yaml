@@ -30,6 +30,7 @@ jobs:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
                     coverage: "none"
+                    tools: "parallel-lint"
 
             -   name: "Install composer dependencies"
                 uses: "ramsey/composer-install@v2"
@@ -41,6 +42,9 @@ jobs:
 
             -   name: "Check composer normalized"
                 run: "composer normalize --dry-run"
+
+            -   name: "Check source code for syntax errors"
+                run: "composer exec -- parallel-lint src/ tests/"
 
             -   name: "Check style"
                 run: "composer check-style"
