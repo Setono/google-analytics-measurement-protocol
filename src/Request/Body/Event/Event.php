@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasSessionId;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasSessionId;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 
 // todo add validate method

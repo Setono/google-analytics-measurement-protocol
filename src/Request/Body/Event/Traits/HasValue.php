@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits;
 
 trait HasValue
 {
@@ -13,7 +13,10 @@ trait HasValue
         return $this->value;
     }
 
-    public function setValue(?float $value): static
+    /**
+     * @return static
+     */
+    public function setValue(?float $value): self
     {
         $this->value = $value;
 

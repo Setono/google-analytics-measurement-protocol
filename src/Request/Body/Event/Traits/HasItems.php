@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
 
@@ -19,7 +19,10 @@ trait HasItems
         return $this->items;
     }
 
-    public function addItem(Item $item): static
+    /**
+     * @return static
+     */
+    public function addItem(Item $item): self
     {
         $this->items[] = $item;
 
@@ -28,8 +31,10 @@ trait HasItems
 
     /**
      * @param list<Item> $items
+     *
+     * @return static
      */
-    public function setItems(array $items): static
+    public function setItems(array $items): self
     {
         $this->items = $items;
 

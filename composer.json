@@ -10,25 +10,26 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=7.4",
         "ext-json": "*",
-        "php-http/discovery": "^1.15",
+        "php-http/discovery": "^1.18",
         "psr/http-client": "^1.0",
         "psr/http-client-implementation": "^1",
         "psr/http-factory": "^1.0",
         "psr/http-factory-implementation": "^1",
         "psr/http-message": "^1.0",
         "psr/log": "^1.1 || ^2.0 || ^3.0",
+        "symfony/polyfill-php80": "^1.27",
         "webmozart/assert": "^1.11"
     },
     "require-dev": {
         "infection/infection": "^0.26",
-        "kriswallsmith/buzz": "^1.2",
         "nyholm/psr7": "^1.5",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.18",
-        "setono/code-quality-pack": "^2.4"
+        "setono/code-quality-pack": "^2.4",
+        "symfony/http-client": "^5.4 || ^6.0"
     },
     "prefer-stable": true,
     "autoload": {
@@ -46,7 +47,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": false,
             "ergebnis/composer-normalize": true,
             "infection/extension-installer": true,
-            "php-http/discovery": true
+            "php-http/discovery": false
         },
         "sort-packages": true
     },

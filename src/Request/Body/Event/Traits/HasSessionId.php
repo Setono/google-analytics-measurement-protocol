@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits;
 
 trait HasSessionId
 {
@@ -13,7 +13,10 @@ trait HasSessionId
         return $this->sessionId;
     }
 
-    public function setSessionId(?string $sessionId): static
+    /**
+     * @return static
+     */
+    public function setSessionId(?string $sessionId): self
     {
         $this->sessionId = $sessionId;
 

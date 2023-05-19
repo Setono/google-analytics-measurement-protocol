@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits;
 
 trait HasTransactionId
 {
@@ -13,7 +13,10 @@ trait HasTransactionId
         return $this->transactionId;
     }
 
-    public function setTransactionId(?string $transactionId): static
+    /**
+     * @return static
+     */
+    public function setTransactionId(?string $transactionId): self
     {
         $this->transactionId = $transactionId;
 
