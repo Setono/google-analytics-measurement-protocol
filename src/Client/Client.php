@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Client;
 
 use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Discovery\Psr18ClientDiscovery;
+use Http\Discovery\Psr18Client;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -107,7 +107,7 @@ final class Client implements ClientInterface, LoggerAwareInterface
     private function getHttpClient(): HttpClientInterface
     {
         if (null === $this->httpClient) {
-            $this->httpClient = Psr18ClientDiscovery::find();
+            $this->httpClient = new Psr18Client();
         }
 
         return $this->httpClient;

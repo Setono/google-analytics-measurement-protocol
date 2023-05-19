@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item;
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\CreatesEmpty;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasAffiliation;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListId;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasListName;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\CreatesEmpty;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasAffiliation;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasCoupon;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasCurrency;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasListId;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasListName;
 
 class Item
 {
     use CreatesEmpty;
+
     use HasAffiliation;
+
     use HasCoupon;
+
     use HasCurrency;
+
     use HasListId;
+
     use HasListName;
 
     protected ?string $id = null;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits;
 
 trait HasCoupon
 {
@@ -13,7 +13,10 @@ trait HasCoupon
         return $this->coupon;
     }
 
-    public function setCoupon(?string $coupon): static
+    /**
+     * @return static
+     */
+    public function setCoupon(?string $coupon): self
     {
         $this->coupon = $coupon;
 

@@ -5,20 +5,25 @@ declare(strict_types=1);
 namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event;
 
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasAffiliation;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCoupon;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasCurrency;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasItems;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasTransactionId;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait\HasValue;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasAffiliation;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasCoupon;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasCurrency;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasItems;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasTransactionId;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue;
 
 class PurchaseEvent extends Event
 {
     use HasCurrency;
+
     use HasItems;
+
     use HasValue;
+
     use HasCoupon;
+
     use HasTransactionId;
+
     use HasAffiliation;
 
     protected ?float $shipping = null;

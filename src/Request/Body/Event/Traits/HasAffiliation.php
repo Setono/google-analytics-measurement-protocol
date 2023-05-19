@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits;
 
 trait HasAffiliation
 {
@@ -13,7 +13,10 @@ trait HasAffiliation
         return $this->affiliation;
     }
 
-    public function setAffiliation(?string $affiliation): static
+    /**
+     * @return static
+     */
+    public function setAffiliation(?string $affiliation): self
     {
         $this->affiliation = $affiliation;
 

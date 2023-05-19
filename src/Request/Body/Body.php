@@ -10,6 +10,11 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 final class Body
 {
     /**
+     * Uniquely identifies a user instance of a web client
+     */
+    private string $clientId;
+
+    /**
      * Optional. A unique identifier for a user. See https://support.google.com/analytics/answer/9213390 for more information on this identifier
      */
     private ?string $userId = null;
@@ -43,12 +48,9 @@ final class Body
      */
     private array $events = [];
 
-    private function __construct(
-        /**
-         * Uniquely identifies a user instance of a web client
-         */
-        private string $clientId,
-    ) {
+    private function __construct(string $clientId)
+    {
+        $this->clientId = $clientId;
         $this->timestamp = (int) (microtime(true) * 1_000_000);
     }
 
@@ -98,7 +100,10 @@ final class Body
         return $this->userProperties;
     }
 
-    public function setUserProperty(string $property, mixed $value): self
+    /**
+     * @param mixed $value
+     */
+    public function setUserProperty(string $property, $value): self
     {
         // See https://developers.google.com/analytics/devguides/collection/protocol/ga4/user-properties?client_type=gtag#reserved_names
         if (in_array($property, ['first_open_time', 'first_visit_time', 'last_deep_link_referrer', 'user_id', 'first_open_after_install'], true)) {

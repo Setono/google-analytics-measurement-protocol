@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits;
 
 trait HasCurrency
 {
@@ -13,7 +13,10 @@ trait HasCurrency
         return $this->currency;
     }
 
-    public function setCurrency(?string $currency): static
+    /**
+     * @return static
+     */
+    public function setCurrency(?string $currency): self
     {
         $this->currency = $currency;
 

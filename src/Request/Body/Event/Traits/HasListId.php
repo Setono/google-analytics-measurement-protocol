@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Trait;
+namespace Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits;
 
 trait HasListId
 {
@@ -13,7 +13,10 @@ trait HasListId
         return $this->listId;
     }
 
-    public function setListId(?string $listId): static
+    /**
+     * @return static
+     */
+    public function setListId(?string $listId): self
     {
         $this->listId = $listId;
 
