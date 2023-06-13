@@ -25,6 +25,24 @@ class Item
 
     use HasListName;
 
+    public const BUSINESS_VERTICAL_RETAIL = 'retail';
+
+    public const BUSINESS_VERTICAL_EDUCATION = 'education';
+
+    public const BUSINESS_VERTICAL_FLIGHTS = 'flights';
+
+    public const BUSINESS_VERTICAL_HOTEL_RENTAL = 'hotel_rental';
+
+    public const BUSINESS_VERTICAL_JOBS = 'jobs';
+
+    public const BUSINESS_VERTICAL_LOCAL = 'local';
+
+    public const BUSINESS_VERTICAL_REAL_ESTATE = 'real_estate';
+
+    public const BUSINESS_VERTICAL_TRAVEL = 'travel';
+
+    public const BUSINESS_VERTICAL_CUSTOM = 'custom';
+
     protected ?string $id = null;
 
     protected ?string $name = null;
@@ -52,6 +70,8 @@ class Item
     protected ?float $price = null;
 
     protected int $quantity = 1;
+
+    protected ?string $businessVertical = null;
 
     public function getId(): ?string
     {
@@ -221,6 +241,21 @@ class Item
         return $this;
     }
 
+    /**
+     * See https://support.google.com/google-ads/answer/7305793
+     */
+    public function getBusinessVertical(): ?string
+    {
+        return $this->businessVertical;
+    }
+
+    public function setBusinessVertical(?string $businessVertical): self
+    {
+        $this->businessVertical = $businessVertical;
+
+        return $this;
+    }
+
     public function getParameters(): array
     {
         return array_filter([
@@ -243,6 +278,7 @@ class Item
             'location_id' => $this->locationId,
             'price' => $this->price,
             'quantity' => $this->quantity,
+            'google_business_vertical' => $this->businessVertical,
         ]);
     }
 }
