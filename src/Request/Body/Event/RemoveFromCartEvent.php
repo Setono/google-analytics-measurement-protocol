@@ -12,6 +12,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 
 class RemoveFromCartEvent extends Event
 {
+    public const NAME = 'remove_from_cart';
+
     use CreatesEmpty;
 
     use HasCurrency;
@@ -22,7 +24,7 @@ class RemoveFromCartEvent extends Event
 
     public function getEventName(): string
     {
-        return 'remove_from_cart';
+        return self::NAME;
     }
 
     protected function getParameters(): array

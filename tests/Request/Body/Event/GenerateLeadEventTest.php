@@ -17,8 +17,18 @@ final class GenerateLeadEventTest extends AbstractEventTestCase
         ;
     }
 
-    protected function getExpectedJson(): string
+    protected function getExpectedServerSideJson(): string
     {
         return '{"name":"generate_lead","params":{"currency":"USD","value":123.45}}';
+    }
+
+    protected function getExpectedClientSideJson(): string
+    {
+        return '{"currency":"USD","value":123.45}';
+    }
+
+    protected function getExpectedClientSideTagManagerJson(): string
+    {
+        return '{"currency":"USD","value":123.45,"event":"generate_lead"}';
     }
 }

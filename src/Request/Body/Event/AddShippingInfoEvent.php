@@ -13,6 +13,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 
 class AddShippingInfoEvent extends Event
 {
+    public const NAME = 'add_shipping_info';
+
     use CreatesEmpty;
 
     use HasCurrency;
@@ -27,7 +29,7 @@ class AddShippingInfoEvent extends Event
 
     public function getEventName(): string
     {
-        return 'add_shipping_info';
+        return self::NAME;
     }
 
     public function getShippingTier(): ?string

@@ -21,8 +21,18 @@ final class BeginCheckoutEventTest extends AbstractEventTestCase
         ;
     }
 
-    protected function getExpectedJson(): string
+    protected function getExpectedServerSideJson(): string
     {
         return '{"name":"begin_checkout","params":{"currency":"USD","value":123.45,"coupon":"SUMMER_SALE","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
+    }
+
+    protected function getExpectedClientSideJson(): string
+    {
+        return '{"currency":"USD","value":123.45,"coupon":"SUMMER_SALE","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}';
+    }
+
+    protected function getExpectedClientSideTagManagerJson(): string
+    {
+        return '{"event":"begin_checkout","ecommerce":{"currency":"USD","value":123.45,"coupon":"SUMMER_SALE","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
     }
 }

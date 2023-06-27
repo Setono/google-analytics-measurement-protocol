@@ -14,6 +14,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 
 class PurchaseEvent extends Event
 {
+    public const NAME = 'purchase';
+
     use HasCurrency;
 
     use HasItems;
@@ -42,7 +44,7 @@ class PurchaseEvent extends Event
 
     public function getEventName(): string
     {
-        return 'purchase';
+        return self::NAME;
     }
 
     public function getShipping(): ?float

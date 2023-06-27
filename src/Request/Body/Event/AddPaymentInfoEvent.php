@@ -13,6 +13,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 
 class AddPaymentInfoEvent extends Event
 {
+    public const NAME = 'add_payment_info';
+
     use CreatesEmpty;
 
     use HasCurrency;
@@ -27,7 +29,7 @@ class AddPaymentInfoEvent extends Event
 
     public function getEventName(): string
     {
-        return 'add_payment_info';
+        return self::NAME;
     }
 
     public function getPaymentType(): ?string

@@ -20,8 +20,18 @@ final class RemoveFromCartEventTest extends AbstractEventTestCase
         ;
     }
 
-    protected function getExpectedJson(): string
+    protected function getExpectedServerSideJson(): string
     {
         return '{"name":"remove_from_cart","params":{"currency":"USD","value":123.45,"items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
+    }
+
+    protected function getExpectedClientSideJson(): string
+    {
+        return '{"currency":"USD","value":123.45,"items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}';
+    }
+
+    protected function getExpectedClientSideTagManagerJson(): string
+    {
+        return '{"event":"remove_from_cart","ecommerce":{"currency":"USD","value":123.45,"items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
     }
 }

@@ -10,6 +10,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 
 class GenerateLeadEvent extends Event
 {
+    public const NAME = 'generate_lead';
+
     use CreatesEmpty;
 
     use HasCurrency;
@@ -18,7 +20,7 @@ class GenerateLeadEvent extends Event
 
     public function getEventName(): string
     {
-        return 'generate_lead';
+        return self::NAME;
     }
 
     protected function getParameters(): array
