@@ -10,6 +10,8 @@ final class Request
 {
     public const TRACKING_CONTEXT_CLIENT_SIDE = 'client_side';
 
+    public const TRACKING_CONTEXT_CLIENT_SIDE_TAG_MANAGER = 'client_side_tag_manager';
+
     public const TRACKING_CONTEXT_SERVER_SIDE = 'server_side';
 
     /**

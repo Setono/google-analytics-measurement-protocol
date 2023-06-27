@@ -12,6 +12,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 
 class ViewCartEvent extends Event
 {
+    public const NAME = 'view_cart';
+
     use CreatesEmpty;
 
     use HasCurrency;
@@ -22,7 +24,7 @@ class ViewCartEvent extends Event
 
     public function getEventName(): string
     {
-        return 'view_cart';
+        return self::NAME;
     }
 
     protected function getParameters(): array

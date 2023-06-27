@@ -13,6 +13,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasValue
 
 class BeginCheckoutEvent extends Event
 {
+    public const NAME = 'begin_checkout';
+
     use CreatesEmpty;
 
     use HasCurrency;
@@ -25,7 +27,7 @@ class BeginCheckoutEvent extends Event
 
     public function getEventName(): string
     {
-        return 'begin_checkout';
+        return self::NAME;
     }
 
     protected function getParameters(): array

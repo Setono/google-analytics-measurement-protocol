@@ -22,8 +22,18 @@ final class AddPaymentInfoEventTest extends AbstractEventTestCase
         ;
     }
 
-    protected function getExpectedJson(): string
+    protected function getExpectedServerSideJson(): string
     {
         return '{"name":"add_payment_info","params":{"currency":"USD","value":123.45,"coupon":"WINTER_SALE","payment_type":"Credit card","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
+    }
+
+    protected function getExpectedClientSideJson(): string
+    {
+        return '{"currency":"USD","value":123.45,"coupon":"WINTER_SALE","payment_type":"Credit card","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}';
+    }
+
+    protected function getExpectedClientSideTagManagerJson(): string
+    {
+        return '{"event":"add_payment_info","ecommerce":{"currency":"USD","value":123.45,"coupon":"WINTER_SALE","payment_type":"Credit card","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
     }
 }

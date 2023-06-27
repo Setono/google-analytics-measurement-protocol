@@ -12,6 +12,8 @@ use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Traits\HasListN
 
 class ViewItemListEvent extends Event
 {
+    public const NAME = 'view_item_list';
+
     use CreatesEmpty;
 
     use HasListId;
@@ -22,7 +24,7 @@ class ViewItemListEvent extends Event
 
     public function getEventName(): string
     {
-        return 'view_item_list';
+        return self::NAME;
     }
 
     protected function getParameters(): array

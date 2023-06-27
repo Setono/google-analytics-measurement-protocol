@@ -20,8 +20,18 @@ final class ViewItemListEventTest extends AbstractEventTestCase
         ;
     }
 
-    protected function getExpectedJson(): string
+    protected function getExpectedServerSideJson(): string
     {
         return '{"name":"view_item_list","params":{"item_list_id":"LIST_ID","item_list_name":"List name","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
+    }
+
+    protected function getExpectedClientSideJson(): string
+    {
+        return '{"item_list_id":"LIST_ID","item_list_name":"List name","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}';
+    }
+
+    protected function getExpectedClientSideTagManagerJson(): string
+    {
+        return '{"event":"view_item_list","ecommerce":{"item_list_id":"LIST_ID","item_list_name":"List name","items":[{"item_id":"SKU1234","item_name":"Blue t-shirt","quantity":1}]}}';
     }
 }
