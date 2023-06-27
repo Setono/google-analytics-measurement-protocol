@@ -23,7 +23,7 @@
         "webmozart/assert": "^1.11"
     },
     "require-dev": {
-        "infection/infection": "^0.26",
+        "infection/infection": "^0.27",
         "nyholm/psr7": "^1.5",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
