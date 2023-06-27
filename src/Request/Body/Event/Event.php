@@ -36,14 +36,6 @@ abstract class Event
     abstract protected function getParameters(): array;
 
     /**
-     * Returns true if the event is an ecommerce event
-     */
-    public function isEcommerceEvent(): bool
-    {
-        return in_array($this->getEventName(), self::ECOMMERCE_EVENTS, true);
-    }
-
-    /**
      * @param string $trackingContext Indicates whether this event should be treated as a server side or client side event
      */
     public function getPayload(string $trackingContext = Request::TRACKING_CONTEXT_SERVER_SIDE): array
@@ -70,5 +62,13 @@ abstract class Event
         }
 
         return array_filter($this->getParameters());
+    }
+
+    /**
+     * Returns true if the event is an ecommerce event
+     */
+    protected function isEcommerceEvent(): bool
+    {
+        return in_array($this->getEventName(), self::ECOMMERCE_EVENTS, true);
     }
 }
