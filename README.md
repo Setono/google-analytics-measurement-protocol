@@ -6,7 +6,8 @@
 [![Code Coverage][ico-code-coverage]][link-code-coverage]
 [![Mutation testing][ico-infection]][link-infection]
 
-Easily build payloads for the [Google Analytics measurement protocol](https://developers.google.com/analytics/devguides/collection/protocol/ga4).
+Easily build payloads for the [Google Analytics measurement protocol](https://developers.google.com/analytics/devguides/collection/protocol/ga4),
+and also client side payloads both for the gtag and Google Tag Manager.
 
 Version ^1.0 of this library supports the GA4 measurement protocol while < 1.0 supports the Universal Analytics measurement protocol.
 
