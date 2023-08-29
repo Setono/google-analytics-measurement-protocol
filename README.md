@@ -6,10 +6,7 @@
 [![Code Coverage][ico-code-coverage]][link-code-coverage]
 [![Mutation testing][ico-infection]][link-infection]
 
-Easily build payloads for the [Google Analytics measurement protocol](https://developers.google.com/analytics/devguides/collection/protocol/ga4),
-and also client side payloads both for the gtag and Google Tag Manager.
-
-Version ^1.0 of this library supports the GA4 measurement protocol while < 1.0 supports the Universal Analytics measurement protocol.
+Easily build payloads for the [Google Analytics measurement protocol](https://developers.google.com/analytics/devguides/collection/protocol/ga4).
 
 ## Installation
 
@@ -24,24 +21,22 @@ composer require setono/google-analytics-measurement-protocol
 
 require_once '../vendor/autoload.php';
 
-use Setono\GoogleAnalyticsMeasurementProtocol\Client\Client;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\AddToCartEvent;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
+use Setono\GoogleAnalyticsEvents\Event\AddToCartEvent;use Setono\GoogleAnalyticsEvents\Event\Item\Item;use Setono\GoogleAnalyticsMeasurementProtocol\Client\Client;use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body;use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 
 $client = new Client();
-$request = new Request(
+$request = (new Request(
     'YOUR_SECRET',
     'G-12341234',
-    Body::create('CLIENT_ID')
-        ->addEvent(
-            AddToCartEvent::create()
-                ->setCurrency('USD')
-                ->setValue(123.45)
-                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
-        )->setTimestamp(1668509674013800),
-);
+    'CLIENT_ID'
+))
+    ->addEvent(
+        AddToCartEvent::create()
+            ->setCurrency('USD')
+            ->setValue(123.45)
+            ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
+    )
+    ->setTimestamp(1668509674013800)
+;
 
 $client->sendRequest($request);
 ```

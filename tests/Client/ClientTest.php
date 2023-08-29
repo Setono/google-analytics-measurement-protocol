@@ -15,9 +15,8 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Body;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\AddToCartEvent;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body\Event\Item\Item;
+use Setono\GoogleAnalyticsEvents\Event\AddToCartEvent;
+use Setono\GoogleAnalyticsEvents\Event\Item\Item;
 use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 
 /**
@@ -36,17 +35,16 @@ final class ClientTest extends TestCase
         $httpClient = new MockHttpClient();
         $client->setHttpClient($httpClient);
 
-        $request = new Request(
-            'YOUR_SECRET',
+        $request = (new Request(
             'G-12341234',
-            Body::create('CLIENT_ID')
-                ->addEvent(
-                    AddToCartEvent::create()
-                        ->setCurrency('USD')
-                        ->setValue(123.45)
-                        ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
-                )->setTimestamp(1_668_509_674_013_800),
-        );
+            'YOUR_SECRET',
+            'CLIENT_ID'
+        ))->addEvent(
+            AddToCartEvent::create()
+                ->setCurrency('USD')
+                ->setValue(123.45)
+                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
+        )->setTimestamp(1_668_509_674_013_800);
 
         $client->sendRequest($request);
         self::assertNotNull($httpClient->lastRequest);
@@ -68,16 +66,15 @@ final class ClientTest extends TestCase
     {
         $client = new Client();
 
-        $request = new Request(
-            'YOUR_SECRET',
+        $request = (new Request(
             'G-12341234',
-            Body::create('CLIENT_ID')
-                ->addEvent(
-                    AddToCartEvent::create()
-                        ->setCurrency('USD')
-                        ->setValue(123.45)
-                        ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
-                ),
+            'YOUR_SECRET',
+            'CLIENT_ID'
+        ))->addEvent(
+            AddToCartEvent::create()
+                ->setCurrency('USD')
+                ->setValue(123.45)
+                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
         );
 
         $client->sendRequest($request);
@@ -94,16 +91,15 @@ final class ClientTest extends TestCase
         $client = new Client();
         $client->setDebug();
 
-        $request = new Request(
+        $request = (new Request(
             'YOUR_SECRET',
             'G-12341234',
-            Body::create('CLIENT_ID')
-                ->addEvent(
-                    AddToCartEvent::create()
-                        ->setCurrency('USD')
-                        ->setValue(123.45)
-                        ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
-                ),
+            'CLIENT_ID'
+        ))->addEvent(
+            AddToCartEvent::create()
+                ->setCurrency('USD')
+                ->setValue(123.45)
+                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
         );
 
         $client->sendRequest($request);
@@ -131,7 +127,7 @@ final class ClientTest extends TestCase
         $httpClient = new MockHttpClient();
         $client->setHttpClient($httpClient);
 
-        $request = new Request('YOUR_SECRET', 'G-12341234', Body::create('CLIENT_ID'));
+        $request = new Request('G-12341234', 'YOUR_SECRET', 'CLIENT_ID');
 
         $client->sendRequest($request);
         self::assertNotNull($httpClient->lastRequest);
@@ -164,16 +160,15 @@ final class ClientTest extends TestCase
         $client->setRequestFactory($requestFactory->reveal());
         $client->setStreamFactory($streamFactory->reveal());
 
-        $request = new Request(
+        $request = (new Request(
             'YOUR_SECRET',
             'G-12341234',
-            Body::create('CLIENT_ID')
-                ->addEvent(
-                    AddToCartEvent::create()
-                        ->setCurrency('USD')
-                        ->setValue(123.45)
-                        ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
-                ),
+            'CLIENT_ID'
+        ))->addEvent(
+            AddToCartEvent::create()
+                ->setCurrency('USD')
+                ->setValue(123.45)
+                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
         );
 
         $client->sendRequest($request);
