@@ -6,7 +6,7 @@ namespace Setono\GoogleAnalyticsMeasurementProtocol\Request;
 
 use Setono\GoogleAnalyticsEvents\Event\Event;
 
-final class Request
+final class Request implements RequestInterface
 {
     /**
      * Measurement ID. The identifier for a Data Stream. Found in the Google Analytics UI under:

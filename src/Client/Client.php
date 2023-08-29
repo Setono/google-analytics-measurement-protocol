@@ -13,7 +13,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\RequestInterface;
 
 final class Client implements ClientInterface, LoggerAwareInterface
 {
@@ -38,7 +38,7 @@ final class Client implements ClientInterface, LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
-    public function sendRequest(Request $request): void
+    public function sendRequest(RequestInterface $request): void
     {
         try {
             $uri = sprintf(
