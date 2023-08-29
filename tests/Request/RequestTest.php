@@ -22,6 +22,7 @@ final class RequestTest extends TestCase
         self::assertSame('API_SECRET', $request->getApiSecret());
         self::assertSame('G-12341234', $request->getMeasurementId());
         self::assertSame('CLIENT_ID', $request->getClientId());
+        self::assertSame(1_668_509_674_013_800, $request->getTimestamp());
 
         $payload = $request->getPayload();
         self::assertArrayHasKey('client_id', $payload);
