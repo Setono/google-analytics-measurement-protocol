@@ -21,7 +21,11 @@ composer require setono/google-analytics-measurement-protocol
 
 require_once '../vendor/autoload.php';
 
-use Setono\GoogleAnalyticsEvents\Event\AddToCartEvent;use Setono\GoogleAnalyticsEvents\Event\Item\Item;use Setono\GoogleAnalyticsMeasurementProtocol\Client\Client;use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body;use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
+use Setono\GoogleAnalyticsEvents\Event\AddToCartEvent;
+use Setono\GoogleAnalyticsEvents\Event\Item\Item;
+use Setono\GoogleAnalyticsMeasurementProtocol\Client\Client;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Body;
+use Setono\GoogleAnalyticsMeasurementProtocol\Request\Request;
 
 $client = new Client();
 $request = (new Request(
