@@ -43,7 +43,7 @@ final class ClientTest extends TestCase
             AddToCartEvent::create()
                 ->setCurrency('USD')
                 ->setValue(123.45)
-                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
+                ->addItem(Item::create()->setItemId('SKU1234')->setItemName('Blue t-shirt')),
         )->setTimestamp(1_668_509_674_013_800);
 
         $client->sendRequest($request);
@@ -74,7 +74,7 @@ final class ClientTest extends TestCase
             AddToCartEvent::create()
                 ->setCurrency('USD')
                 ->setValue(123.45)
-                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
+                ->addItem(Item::create()->setItemId('SKU1234')->setItemName('Blue t-shirt')),
         );
 
         $client->sendRequest($request);
@@ -99,7 +99,7 @@ final class ClientTest extends TestCase
             AddToCartEvent::create()
                 ->setCurrency('USD')
                 ->setValue(123.45)
-                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
+                ->addItem(Item::create()->setItemId('SKU1234')->setItemName('Blue t-shirt')),
         );
 
         $client->sendRequest($request);
@@ -168,7 +168,7 @@ final class ClientTest extends TestCase
             AddToCartEvent::create()
                 ->setCurrency('USD')
                 ->setValue(123.45)
-                ->addItem(Item::create()->setId('SKU1234')->setName('Blue t-shirt')),
+                ->addItem(Item::create()->setItemId('SKU1234')->setItemName('Blue t-shirt')),
         );
 
         $client->sendRequest($request);
